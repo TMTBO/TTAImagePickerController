@@ -1,0 +1,6 @@
+framework module TTAImagePickerController {
+  umbrella header "TTAImagePickerController-umbrella.h"
+
+  export *
+  module * { export * }
+}
