@@ -76,7 +76,7 @@ extension TTAAssetPickerViewController {
         guard let path = Bundle(for: TTAImagePickerController.self).path(forResource: "TTAImagePickerController", ofType: "bundle"),
             let bundle = Bundle(path: path),
             let url = bundle.url(forResource: "iconfont", withExtension: ".ttf") else { return }
-        UIFont.registerFont(with: url)
+        UIFont.registerFont(with: url, fontName: "iconfont")
     }
 }
 
@@ -108,7 +108,6 @@ extension TTAAssetPickerViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: TTAAssetPickerViewController.AssetPickerViewControllerConst.assetCollectionViewCellIdentifer, for: indexPath) as! TTAAssetCollectionViewCell
         cell.asset = asset(at: indexPath)
-        cell.contentView.backgroundColor = .orange
         return cell
     }
 }

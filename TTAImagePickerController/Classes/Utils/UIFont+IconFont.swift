@@ -13,7 +13,7 @@ extension UIFont {
         static var iconfontName = "iconfontName"
     }
     
-    var iconfontName: String {
+    static var iconfontName: String {
         get {
             return objc_getAssociatedObject(self, &AssociatedKey.iconfontName) as! String
         }
@@ -22,14 +22,15 @@ extension UIFont {
         }
     }
     
-    static func registerFont(with url: URL) {
+    static func registerFont(with url: URL, fontName: String) {
         assert(FileManager.default.fileExists(atPath: url.path), "Font file doesn't exist")
         guard let fontDataProider = CGDataProvider(url: url as CFURL),
             let newFont = CGFont(fontDataProider) else { return }
         CTFontManagerRegisterGraphicsFont(newFont, nil)
+        iconfontName = fontName
     }
     
-    func iconfont(with fontSize: CGFloat) -> UIFont? {
-        return UIFont(name: iconfontName, size: fontSize)
+    static func iconfont(with fontSize: CGFloat) -> UIFont? {
+        return UIFont(name: UIFont.iconfontName, size: fontSize)
     }
 }
