@@ -8,8 +8,7 @@
 import Foundation
 
 extension CGSize {
-    
-    public func toPixel() -> CGSize {
+    func toPixel() -> CGSize {
         let scale = UIScreen.main.scale
         return CGSize(width: self.width * scale, height: self.height * scale)
     }
