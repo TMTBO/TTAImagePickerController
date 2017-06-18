@@ -126,11 +126,3 @@ extension TTAImagePickerManager {
         manager?.stopCachingImagesForAllAssets()
     }
 }
-
-public extension CGSize {
-    
-    public func toPixel() -> CGSize {
-        let scale = UIScreen.main.scale
-        return CGSize(width: self.width * scale, height: self.height * scale)
-    }
-}

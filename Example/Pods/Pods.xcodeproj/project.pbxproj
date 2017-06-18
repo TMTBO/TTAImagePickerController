@@ -14,6 +14,7 @@
 		4859757D5B866667C8FA9A537954AC72 /* TTAAssetCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A7D80F0EF817A38A1B0B218018A9185 /* TTAAssetCollectionViewCell.swift */; };
 		62AAC01FA8CD2B5A8ECF58B673BE3FB5 /* iconfont.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 0DBBC3228A5ECB104E09374E46DF9ED4 /* iconfont.ttf */; };
 		66DD4E9CF8047BABE2386E248F9D6296 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6604A7D69453B4569E4E4827FB9155A9 /* Foundation.framework */; };
+		7981E75B1EF62CAD00C8E478 /* CGSize+Pixel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7981E75A1EF62CAD00C8E478 /* CGSize+Pixel.swift */; };
 		79B802BD1EF5B20000D5EE94 /* UIFont+IconFont.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79B802BC1EF5B20000D5EE94 /* UIFont+IconFont.swift */; };
 		79B802BF1EF5B95700D5EE94 /* UIView+CornerRadios.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79B802BE1EF5B95700D5EE94 /* UIView+CornerRadios.swift */; };
 		7CBDB24C2774F603A36D943CA954A1D3 /* Pods-TTAImagePickerController_Example-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = 790F93FF0462602C4331E2327C355A7D /* Pods-TTAImagePickerController_Example-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -66,6 +67,7 @@
 		782FB4F42884924F0186716C36A22FF2 /* TTAAssetCollectionsTableViewCell.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = TTAAssetCollectionsTableViewCell.swift; sourceTree = "<group>"; };
 		78D79FD27B94272FE1AB61FBFE24F2C9 /* Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		790F93FF0462602C4331E2327C355A7D /* Pods-TTAImagePickerController_Example-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Pods-TTAImagePickerController_Example-umbrella.h"; sourceTree = "<group>"; };
+		7981E75A1EF62CAD00C8E478 /* CGSize+Pixel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CGSize+Pixel.swift"; sourceTree = "<group>"; };
 		79B802BC1EF5B20000D5EE94 /* UIFont+IconFont.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIFont+IconFont.swift"; sourceTree = "<group>"; };
 		79B802BE1EF5B95700D5EE94 /* UIView+CornerRadios.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+CornerRadios.swift"; sourceTree = "<group>"; };
 		7A7D80F0EF817A38A1B0B218018A9185 /* TTAAssetCollectionViewCell.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = TTAAssetCollectionViewCell.swift; sourceTree = "<group>"; };
@@ -180,6 +182,7 @@
 			children = (
 				79B802BC1EF5B20000D5EE94 /* UIFont+IconFont.swift */,
 				79B802BE1EF5B95700D5EE94 /* UIView+CornerRadios.swift */,
+				7981E75A1EF62CAD00C8E478 /* CGSize+Pixel.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -367,6 +370,11 @@
 			attributes = {
 				LastSwiftUpdateCheck = 0830;
 				LastUpgradeCheck = 0700;
+				TargetAttributes = {
+					F59468920F5E272CA5E74BB33F1EF08E = {
+						LastSwiftMigration = 0900;
+					};
+				};
 			};
 			buildConfigurationList = 2D8E8EC45A3A1A1D94AE762CB5028504 /* Build configuration list for PBXProject "Pods" */;
 			compatibilityVersion = "Xcode 3.2";
@@ -439,6 +447,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				B7E9628A785004D5400BC9C4F31AB489 /* Pods-TTAImagePickerController_Example-dummy.m in Sources */,
+				7981E75B1EF62CAD00C8E478 /* CGSize+Pixel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -481,6 +490,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = A094F9A798356033BF76C854272BD195 /* Pods-TTAImagePickerController_Example.release.xcconfig */;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "";
 				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
@@ -663,6 +673,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = F4F39D37F371D0291650D3067ABDA8DE /* Pods-TTAImagePickerController_Example.debug.xcconfig */;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "";
 				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
