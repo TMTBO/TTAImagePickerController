@@ -1,24 +1,7 @@
 PODS:
-  - FBSnapshotTestCase (2.1.4):
-    - FBSnapshotTestCase/SwiftSupport (= 2.1.4)
-  - FBSnapshotTestCase/Core (2.1.4)
-  - FBSnapshotTestCase/SwiftSupport (2.1.4):
-    - FBSnapshotTestCase/Core
-  - Nimble (5.1.1)
-  - Nimble-Snapshots (4.4.0):
-    - Nimble-Snapshots/Core (= 4.4.0)
-  - Nimble-Snapshots/Core (4.4.0):
-    - FBSnapshotTestCase (~> 2.0)
-    - Nimble
-    - Quick
-  - Quick (1.0.0)
   - TTAImagePickerController (0.1.0)
 
 DEPENDENCIES:
-  - FBSnapshotTestCase
-  - Nimble (~> 5.1.1)
-  - Nimble-Snapshots
-  - Quick (~> 1.0.0)
   - TTAImagePickerController (from `../`)
 
 EXTERNAL SOURCES:
@@ -26,12 +9,8 @@ EXTERNAL SOURCES:
     :path: "../"
 
 SPEC CHECKSUMS:
-  FBSnapshotTestCase: 094f9f314decbabe373b87cc339bea235a63e07a
-  Nimble: 415e3aa3267e7bc2c96b05fa814ddea7bb686a29
-  Nimble-Snapshots: e743439f26c2fa99d8f7e0d7c01c99bcb40aa6f2
-  Quick: 8024e4a47e6cc03a9d5245ef0948264fc6d27cff
-  TTAImagePickerController: 2b09dc758d46bc5285f988516145f89f9c2b4b4f
+  TTAImagePickerController: 4f8072b97485918ad5aeaa07fdc32b7f0de251c7
 
-PODFILE CHECKSUM: 30c29318dd1e395c6d39556f5c0e4300c4a02582
+PODFILE CHECKSUM: 4826815e9b1134dbb4427912a3b6c90151104bac
 
 COCOAPODS: 1.2.1

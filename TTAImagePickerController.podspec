@@ -32,9 +32,9 @@ TODO: Add long description of the pod here.
 
   s.source_files = 'TTAImagePickerController/Classes/**/*'
   
-  # s.resource_bundles = {
-  #   'TTAImagePickerController' => ['TTAImagePickerController/Assets/*.png']
-  # }
+  s.resource_bundles = {
+    'TTAImagePickerController' => ['TTAImagePickerController/Assets/*.png', 'TTAImagePickerController/Resources/*.ttf']
+  }
 
   # s.public_header_files = 'Pod/Classes/**/*.h'
   # s.frameworks = 'UIKit', 'MapKit'

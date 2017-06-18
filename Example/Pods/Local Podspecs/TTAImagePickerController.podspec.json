@@ -18,5 +18,11 @@
   "platforms": {
     "ios": "8.0"
   },
-  "source_files": "TTAImagePickerController/Classes/**/*"
+  "source_files": "TTAImagePickerController/Classes/**/*",
+  "resource_bundles": {
+    "TTAImagePickerController": [
+      "TTAImagePickerController/Assets/*.png",
+      "TTAImagePickerController/Resources/*.ttf"
+    ]
+  }
 }
