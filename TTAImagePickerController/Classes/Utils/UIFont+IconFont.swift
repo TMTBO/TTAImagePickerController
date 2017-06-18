@@ -30,7 +30,7 @@ extension UIFont {
         iconfontName = fontName
     }
     
-    static func iconfont(with fontSize: CGFloat) -> UIFont? {
-        return UIFont(name: UIFont.iconfontName, size: fontSize)
+    static func iconfont(size: CGFloat) -> UIFont? {
+        return UIFont(name: UIFont.iconfontName, size: size)
     }
 }

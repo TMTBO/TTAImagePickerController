@@ -97,7 +97,7 @@ extension TTASelectButton {
     
     func _unselectItem() {
         setTitle("\u{e70d}", for: .normal)
-        titleLabel?.font = UIFont.iconfont(with: 15) //UIFont(name: "iconfont", size: 15)
+        titleLabel?.font = UIFont.iconfont(size: 15)
         bgView.backgroundColor = UIColor.white.withAlphaComponent(0.5)
         circleLayer.isHidden = false
     }
