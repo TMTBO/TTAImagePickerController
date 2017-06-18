@@ -1,5 +1,5 @@
 //
-//  TTAAssetModel.swift
+//  TTAAsset.swift
 //  Pods
 //
 //  Created by TobyoTenma on 17/06/2017.
@@ -9,8 +9,8 @@
 import UIKit
 import Photos
 
-struct TTAAssetModel {
+struct TTAAsset {
     
-    var originalAsset: PHAsset?
+    var originalAsset: PHAsset!
 
 }

@@ -7,8 +7,12 @@
 //
 
 import UIKit
+import Photos
 
 struct TTAAssetCollection {
+    
+    var originalCollection: PHAssetCollection!
+    var assets: PHFetchResult<PHAsset>!
     
     var assetCollectionName: String!
     var assetCount: Int = 0

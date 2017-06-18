@@ -8,5 +8,26 @@
 import UIKit
 
 class TTAAssetCollectionViewLayout: UICollectionViewFlowLayout {
-
+    
+    struct TTAAssetCollectionViewLayoutConst {
+        static let margin: CGFloat = 5
+    }
+    
+    override func prepare() {
+        super.prepare()
+        
+        minimumLineSpacing = TTAAssetCollectionViewLayoutConst.margin
+        minimumInteritemSpacing = TTAAssetCollectionViewLayoutConst.margin
+        sectionInset = UIEdgeInsets(top: TTAAssetCollectionViewLayoutConst.margin, left: TTAAssetCollectionViewLayoutConst.margin, bottom: TTAAssetCollectionViewLayoutConst.margin, right: TTAAssetCollectionViewLayoutConst.margin)
+        
+        guard let collectionView = collectionView else { return }
+        
+        let columnNum = CGFloat(TTAImagePickerManager.shared.columnNum)
+        let width = (collectionView.bounds.width - TTAAssetCollectionViewLayoutConst.margin * (columnNum + 1)) / columnNum
+        let height = width
+        itemSize = CGSize(width: width, height: height)
+        
+        collectionView.backgroundColor = .white
+    }
+    
 }

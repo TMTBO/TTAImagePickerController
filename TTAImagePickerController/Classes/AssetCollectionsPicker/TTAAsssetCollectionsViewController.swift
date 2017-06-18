@@ -1,5 +1,5 @@
 //
-//  TTAAssetCollectionViewController.swift
+//  TTAAssetCollectionsViewController.swift
 //  Pods
 //
 //  Created by TobyoTenma on 17/06/2017.
@@ -8,11 +8,9 @@
 
 import UIKit
 
-class TTAAssetCollectionViewController: UIViewController {
+class TTAAssetCollectionsViewController: UIViewController {
     
     fileprivate let tableView = UITableView()
-    
-    
 
     init() {
         super.init(nibName: nil, bundle: nil)
@@ -26,10 +24,10 @@ class TTAAssetCollectionViewController: UIViewController {
 
 // MARK: - Life Cycle
 
-extension TTAAssetCollectionViewController {
+extension TTAAssetCollectionsViewController {
     
-    struct AssetCollectionViewControllerConst {
-        static let assetCollectionTableViewCellIdentifier = "assetCollectionTableViewCellIdentifier"
+    struct AssetCollectionsViewControllerConst {
+        static let assetCollectionsTableViewCellIdentifier = "assetCollectionTableViewCellIdentifier"
     }
     
     override func viewDidLoad() {
@@ -41,7 +39,7 @@ extension TTAAssetCollectionViewController {
 
 // MARK: - UI
 
-extension TTAAssetCollectionViewController {
+extension TTAAssetCollectionsViewController {
     
     func _setupUI() {
         _createViews()
@@ -70,7 +68,7 @@ extension TTAAssetCollectionViewController {
         tableView.tableHeaderView = UIView()
         tableView.tableFooterView = UIView()
         tableView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
-        tableView.register(TTAAssetCollectionTableViewCell.self, forCellReuseIdentifier: TTAAssetCollectionViewController.AssetCollectionViewControllerConst.assetCollectionTableViewCellIdentifier)
+        tableView.register(TTAAssetCollectionsTableViewCell.self, forCellReuseIdentifier: TTAAssetCollectionsViewController.AssetCollectionsViewControllerConst.assetCollectionsTableViewCellIdentifier)
     }
     
     func _prepareCancelItem() {
@@ -81,7 +79,7 @@ extension TTAAssetCollectionViewController {
 
 // MARK: - Data
 
-extension TTAAssetCollectionViewController {
+extension TTAAssetCollectionsViewController {
     
     func collectionCount() -> Int {
         return TTAImagePickerManager.shared.assetCollections.count
@@ -94,7 +92,7 @@ extension TTAAssetCollectionViewController {
 
 // MARK: - Action
 
-extension TTAAssetCollectionViewController {
+extension TTAAssetCollectionsViewController {
     
     func didClickCancelItem() {
         dismiss(animated: true, completion: nil)
@@ -103,7 +101,7 @@ extension TTAAssetCollectionViewController {
 
 // MARK: - UITableViewDataSource
 
-extension TTAAssetCollectionViewController: UITableViewDataSource {
+extension TTAAssetCollectionsViewController: UITableViewDataSource {
     
     func numberOfSections(in tableView: UITableView) -> Int {
         return 1
@@ -114,7 +112,7 @@ extension TTAAssetCollectionViewController: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: TTAAssetCollectionViewController.AssetCollectionViewControllerConst.assetCollectionTableViewCellIdentifier, for: indexPath) as! TTAAssetCollectionTableViewCell
+        let cell = tableView.dequeueReusableCell(withIdentifier: TTAAssetCollectionsViewController.AssetCollectionsViewControllerConst.assetCollectionsTableViewCellIdentifier, for: indexPath) as! TTAAssetCollectionsTableViewCell
         cell.collection = collection(at: indexPath)
         return cell
     }
@@ -122,11 +120,11 @@ extension TTAAssetCollectionViewController: UITableViewDataSource {
 
 // MARK: - UITableViewDelegate
 
-extension TTAAssetCollectionViewController: UITableViewDelegate {
+extension TTAAssetCollectionsViewController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
-        let assetPickerController = TTAAssetPickerViewController()
-        self.navigationController?.pushViewController(assetPickerController, animated: true);
+        let assetPickerController = TTAAssetPickerViewController(collection: collection(at: indexPath))
+        splitViewController?.showDetailViewController(assetPickerController, sender: nil)
     }
 }

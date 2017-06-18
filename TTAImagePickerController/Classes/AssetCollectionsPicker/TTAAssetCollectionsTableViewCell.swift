@@ -1,5 +1,5 @@
 //
-//  TTAAssetCollectionTableViewCell.swift
+//  TTAAssetCollectionsTableViewCell.swift
 //  Pods
 //
 //  Created by TobyoTenma on 17/06/2017.
@@ -8,9 +8,9 @@
 
 import UIKit
 
-class TTAAssetCollectionTableViewCell: UITableViewCell {
+class TTAAssetCollectionsTableViewCell: UITableViewCell {
     
-    struct AssetCollectionTableViewCellConst {
+    struct AssetCollectionsTableViewCellConst {
         static let imageViewLeftMargin: CGFloat = 16
         static let imageViewRightMargin: CGFloat = 10
         static let imageViewTopMargin: CGFloat = 10
@@ -51,7 +51,7 @@ class TTAAssetCollectionTableViewCell: UITableViewCell {
 
 // MARK: - UI
 
-extension TTAAssetCollectionTableViewCell {
+extension TTAAssetCollectionsTableViewCell {
     
     func _configViews() {
         contentView.addSubview(previewImageView)
@@ -61,12 +61,12 @@ extension TTAAssetCollectionTableViewCell {
     }
     
     func _layoutViews() {
-        let height = contentView.bounds.height - AssetCollectionTableViewCellConst.imageViewTopMargin - AssetCollectionTableViewCellConst.imageViewBottomMargin
+        let height = contentView.bounds.height - AssetCollectionsTableViewCellConst.imageViewTopMargin - AssetCollectionsTableViewCellConst.imageViewBottomMargin
         let width = height
-        previewImageView.frame = CGRect(x: AssetCollectionTableViewCellConst.imageViewLeftMargin, y: AssetCollectionTableViewCellConst.imageViewTopMargin, width: width, height: height)
+        previewImageView.frame = CGRect(x: AssetCollectionsTableViewCellConst.imageViewLeftMargin, y: AssetCollectionsTableViewCellConst.imageViewTopMargin, width: width, height: height)
         previewImageView.center.y = contentView.center.y
         
-        let textLabelX = previewImageView.frame.maxX + AssetCollectionTableViewCellConst.imageViewRightMargin
+        let textLabelX = previewImageView.frame.maxX + AssetCollectionsTableViewCellConst.imageViewRightMargin
         textLabel?.frame.origin.x = textLabelX
         detailTextLabel?.frame.origin.x = textLabelX
         detailTextLabel?.frame.origin.y += 5
