@@ -9,7 +9,7 @@
 import UIKit
 import Photos
 
-class TTAImagePickerManager: NSObject {
+class TTAImagePickerManager {
     
     static let shared = TTAImagePickerManager()
     
@@ -124,5 +124,15 @@ extension TTAImagePickerManager {
     static func stopCachingImagesForAllAssets() {
         let manager = PHCachingImageManager.default() as? PHCachingImageManager
         manager?.stopCachingImagesForAllAssets()
+    }
+}
+
+struct TTAIconFontManager {
+    enum IconFont: String {
+        case selectMark = "\u{e70d}"
+    }
+    
+    struct IconFontSize {
+        static let assetSelectMark: CGFloat = 15
     }
 }
