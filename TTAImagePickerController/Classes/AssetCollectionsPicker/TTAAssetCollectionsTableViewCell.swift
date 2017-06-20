@@ -24,10 +24,11 @@ class TTAAssetCollectionsTableViewCell: UITableViewCell {
             textLabel?.text = collection?.assetCollectionName
             detailTextLabel?.text = String(describing: (collection?.assetCount)!)
             guard let asset = collection?.thumbnailAsset?.originalAsset else { return }
-            _ = TTAImagePickerManager.fetchImage(for: asset,
-                                            size: TTAImagePickerManager.AssetCollectionManagerConst.assetCollectionSize,
-                                     contentMode: TTAImagePickerManager.AssetCollectionManagerConst.assetCollectionContentMode,
-                                         options: TTAImagePickerManager.AssetCollectionManagerConst.assetCollectionRequestOptions) { [weak self] (image, _) in
+            let size = TTAImagePickerManager.AssetCollectionManagerConst.assetCollectionSize
+            let contentMode = TTAImagePickerManager.AssetCollectionManagerConst.assetCollectionContentMode
+            let options = TTAImagePickerManager.AssetCollectionManagerConst.assetCollectionRequestOptions
+            _ = TTAImagePickerManager.fetchImage(for: asset, size: size, contentMode: contentMode, options: options) { [weak self] (image, info) in
+                guard let isDegraded = info?["PHImageResultIsDegradedKey"] as AnyObject?, !(image == nil && !isDegraded.boolValue) else { return }
                 self?.previewImageView.image = image;
             }
         }
@@ -58,6 +59,8 @@ extension TTAAssetCollectionsTableViewCell {
         
         detailTextLabel?.textColor = .lightGray
         accessoryType = .disclosureIndicator
+        previewImageView.contentMode = .scaleAspectFill
+        previewImageView.clipsToBounds = true
     }
     
     func _layoutViews() {

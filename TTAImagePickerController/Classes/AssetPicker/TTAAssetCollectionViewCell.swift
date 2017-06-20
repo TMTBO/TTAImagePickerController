@@ -20,9 +20,13 @@ class TTAAssetCollectionViewCell: UICollectionViewCell {
     
     var asset: TTAAsset! {
         didSet {
-            _ = TTAImagePickerManager.fetchImage(for: asset.originalAsset, size: contentView.bounds.size, contentMode: nil, options: nil) { [weak self] (image, _) in
+            imageView.image = nil
+            let requestID = TTAImagePickerManager.fetchImage(for: asset.originalAsset, size: contentView.bounds.size, contentMode: nil, options: nil) { [weak self] (image, info) in
+                guard let isDegraded = info?["PHImageResultIsDegradedKey"] as AnyObject?
+                    , !(image == nil && !isDegraded.boolValue) else { return }
                 self?.imageView.image = image
             }
+            asset.requestID = requestID
         }
     }
     
@@ -58,6 +62,8 @@ extension TTAAssetCollectionViewCell {
     
     func _configViews() {
         imageView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+        imageView.contentMode = .scaleAspectFill
+        imageView.clipsToBounds = true
         selectButton.autoresizingMask = [.flexibleTopMargin, .flexibleRightMargin]
         selectButton.addTarget(self, action: #selector(didClickSelectButton(_:)), for: .touchUpInside)
     }
