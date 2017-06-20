@@ -8,7 +8,17 @@
 
 import UIKit
 
-public class TTAImagePickerController: UISplitViewController {
+public protocol TTAImagePickerControllerDelegate { }
+
+public extension TTAImagePickerControllerDelegate {
+    public func imagePickerController(_ picker: TTAImagePickerController, didFinishPicking images: [UIImage], assets: [TTAAsset]) {
+        
+    }
+}
+
+public class TTAImagePickerController: UIViewController {
+    
+    var delegate: TTAImagePickerControllerDelegate?
     
     /// The number of the image picker pre row, default is 4
     var columnNum = 4 {
@@ -27,7 +37,7 @@ public class TTAImagePickerController: UISplitViewController {
     /// NavigationBar tintColor
     public var tintColor: UIColor = UIColor(colorLiteralRed: 0, green: 122.0 / 255.0, blue: 1, alpha: 1) {
         didSet {
-            _ = viewControllers.map { (viewController) in
+            _ = splitController.viewControllers.map { (viewController) in
                 let viewController = viewController as! UINavigationController
                 viewController.navigationBar.tintColor = tintColor
                 viewController.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName: tintColor]
@@ -38,7 +48,7 @@ public class TTAImagePickerController: UISplitViewController {
     /// NavigationBar barTintColor
     public var barTintColor: UIColor? {
         didSet {
-            _ = viewControllers.map { (viewController) in
+            _ = splitController.viewControllers.map { (viewController) in
                 let viewController = viewController as! UINavigationController
                 viewController.navigationBar.barTintColor = barTintColor
             }
@@ -52,14 +62,19 @@ public class TTAImagePickerController: UISplitViewController {
         }
     }
     
+    fileprivate let splitController = UISplitViewController()
+    
     public init() {
         super.init(nibName: nil, bundle: nil)
-        
         if let colletction = TTAImagePickerManager.shared.assetCollections.first {
             let assetCollectionController = UINavigationController(rootViewController: TTAAssetCollectionsViewController())
             let assetPickerController = UINavigationController(rootViewController: TTAAssetPickerViewController(collection: colletction))
-            viewControllers = [assetCollectionController, assetPickerController]
+            splitController.viewControllers = [assetCollectionController, assetPickerController]
         }
+        addChildViewController(splitController)
+        view.addSubview(splitController.view)
+        splitController.preferredDisplayMode = .allVisible
+        splitController.view.autoresizingMask = [.flexibleWidth, .flexibleHeight]
     }
     
     required public init?(coder aDecoder: NSCoder) {
@@ -77,4 +92,8 @@ extension TTAImagePickerController {
         
     }
     
+    public override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        splitController.view.frame = view.bounds
+    }
 }
