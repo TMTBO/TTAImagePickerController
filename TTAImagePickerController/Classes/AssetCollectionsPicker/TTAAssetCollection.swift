@@ -13,6 +13,7 @@ struct TTAAssetCollection {
     
     var originalCollection: PHAssetCollection!
     var assets: PHFetchResult<PHAsset>!
+    var assetCollectionID: String!
     
     var assetCollectionName: String!
     var assetCount: Int = 0
