@@ -16,7 +16,6 @@ class TTAAssetCollectionsViewController: UIViewController {
         super.init(nibName: nil, bundle: nil)
         self.navigationItem.title = "Library"
     }
-    
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
@@ -97,6 +96,7 @@ extension TTAAssetCollectionsViewController {
     func didClickCancelItem() {
         dismiss(animated: true, completion: nil)
     }
+    
 }
 
 // MARK: - UITableViewDataSource
@@ -124,7 +124,18 @@ extension TTAAssetCollectionsViewController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
-        let assetPickerController = TTAAssetPickerViewController(collection: collection(at: indexPath))
-        splitViewController?.showDetailViewController(assetPickerController, sender: nil)
+        guard let splitViewController = splitViewController else { return }
+        let assetPickerController: UIViewController
+        // on the iPhone (compact) the split view controller is collapsed
+        // therefore we need to create the navigation controller and its image view controllerfirst
+        if (splitViewController.isCollapsed) {
+            assetPickerController = TTAAssetPickerViewController(collection: collection(at: indexPath))
+        } else { // if the split view controller shows the detail view already there is no need to create the controllers, for ipad
+            guard let assetNavPickerController = splitViewController.viewControllers.last as? UINavigationController,
+                let pickerController = assetNavPickerController.topViewController as? TTAAssetPickerViewController else { return }
+            pickerController.collection = collection(at: indexPath)
+            assetPickerController = assetNavPickerController
+        }
+        splitViewController.showDetailViewController(assetPickerController, sender: nil)
     }
 }
