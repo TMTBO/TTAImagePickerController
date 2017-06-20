@@ -37,8 +37,8 @@ extension TTAImagePickerManager {
         
         private static func _defaultOptions() -> PHImageRequestOptions {
             let options = PHImageRequestOptions()
-            options.deliveryMode = .opportunistic
-            options.resizeMode = .exact
+            options.resizeMode = .fast
+            options.version = .current
             return options
         }
     }
@@ -49,21 +49,22 @@ extension TTAImagePickerManager {
         
         var assetCollections: [TTAAssetCollection] = []
         
-        fetchResult.enumerateObjects({ (assetCollection, _, _) in
+        fetchResult.enumerateObjects(options: .concurrent) { (assetCollection, _, _) in
             let assetResult = PHAsset.fetchAssets(in: assetCollection, options: nil)
             guard assetResult.count > 0 else { return }
             
             var assetCollectionModel = TTAAssetCollection()
             assetCollectionModel.originalCollection = assetCollection
             assetCollectionModel.assets = assetResult
+            assetCollectionModel.assetCollectionID = assetCollection.localIdentifier
             assetCollectionModel.assetCollectionName = assetCollection.localizedTitle
             assetCollectionModel.assetCount = assetResult.count
             
-            let thumbnailAsset = TTAAsset(originalAsset: assetResult.firstObject)
+            let thumbnailAsset = TTAAsset(originalAsset: assetResult.firstObject!)
             assetCollectionModel.thumbnailAsset = thumbnailAsset
             
             assetCollections.append(assetCollectionModel)
-        })
+        }
         assetCollections.sort { (collection1, collection2) -> Bool in
             return collection1.assetCollectionName < collection2.assetCollectionName
         }
@@ -82,8 +83,8 @@ extension TTAImagePickerManager {
         
         private static func _defaultOptions() -> PHImageRequestOptions {
             let options = PHImageRequestOptions()
-            options.deliveryMode = .opportunistic
-            options.resizeMode = .exact
+            options.resizeMode = .fast
+            options.version = .current
             return options
         }
     }
