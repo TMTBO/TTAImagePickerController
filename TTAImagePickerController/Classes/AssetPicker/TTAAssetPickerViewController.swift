@@ -90,7 +90,7 @@ extension TTAAssetPickerViewController {
             collectionView.prefetchDataSource = self
         }
         collectionView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
-        collectionView.register(TTAAssetCollectionViewCell.self, forCellWithReuseIdentifier: TTAAssetPickerViewController.AssetPickerViewControllerConst.assetCollectionViewCellIdentifer)
+        collectionView.register(TTAAssetCollectionViewCell.self, forCellWithReuseIdentifier: "\(TTAAssetCollectionViewCell.self)")
     }
     
     func _prepareIconFont() {
@@ -141,7 +141,7 @@ extension TTAAssetPickerViewController: UICollectionViewDataSource {
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: TTAAssetPickerViewController.AssetPickerViewControllerConst.assetCollectionViewCellIdentifer, for: indexPath)
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "\(TTAAssetCollectionViewCell.self)", for: indexPath)
         return cell
     }
 }

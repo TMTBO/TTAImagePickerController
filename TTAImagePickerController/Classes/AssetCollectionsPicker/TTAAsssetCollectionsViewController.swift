@@ -85,7 +85,7 @@ extension TTAAssetCollectionsViewController {
         tableView.tableHeaderView = UIView()
         tableView.tableFooterView = UIView()
         tableView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
-        tableView.register(TTAAssetCollectionsTableViewCell.self, forCellReuseIdentifier: TTAAssetCollectionsViewController.AssetCollectionsViewControllerConst.assetCollectionsTableViewCellIdentifier)
+        tableView.register(TTAAssetCollectionsTableViewCell.self, forCellReuseIdentifier: "\(TTAAssetCollectionsTableViewCell.self)")
     }
     
     func _prepareCancelItem() {
@@ -130,7 +130,7 @@ extension TTAAssetCollectionsViewController: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: TTAAssetCollectionsViewController.AssetCollectionsViewControllerConst.assetCollectionsTableViewCellIdentifier, for: indexPath) as! TTAAssetCollectionsTableViewCell
+        let cell = tableView.dequeueReusableCell(withIdentifier: "\(TTAAssetCollectionsTableViewCell.self)", for: indexPath) as! TTAAssetCollectionsTableViewCell
         cell.collection = collection(at: indexPath)
         return cell
     }
