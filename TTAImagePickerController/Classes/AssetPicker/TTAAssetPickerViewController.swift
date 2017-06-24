@@ -23,10 +23,6 @@ class TTAAssetPickerViewController: UIViewController {
         }
     }
     
-    // MARK: - Asset Caching
-    
-    var previousPreheatRect = CGRect.zero
-    
     init(collection: TTAAssetCollection) {
         self.collection = collection
         super.init(nibName: nil, bundle: nil)
@@ -51,7 +47,6 @@ extension TTAAssetPickerViewController {
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        _updateCachedAssets()
     }
     
 }
@@ -124,71 +119,7 @@ extension TTAAssetPickerViewController {
     }
     
     func asset(at indexPath: IndexPath) -> TTAAsset {
-        return TTAAsset(originalAsset: collection.assets[indexPath.item])
-    }
-}
-
-// MARK: - Asset Caching
-
-extension TTAAssetPickerViewController {
-    
-    fileprivate func resetCachedAssets() {
-        TTAImagePickerManager.stopCachingImagesForAllAssets()
-        self.previousPreheatRect = .zero
-    }
-    
-    func _updateCachedAssets() {
-        // Update only if the view is visible.
-        guard isViewLoaded && view.window != nil && collection != nil else { return }
-        
-        // The preheat window is twice the height of the visible rect.
-        let preheatRect = view!.bounds.insetBy(dx: 0, dy: -0.5 * view!.bounds.height)
-        
-        // Update only if the visible area is significantly different from the last preheated area.
-        let delta = abs(preheatRect.midY - previousPreheatRect.midY)
-        guard delta > view.bounds.height / 3 else { return }
-        
-        // Compute the assets to start caching and to stop caching.
-        let (addedRects, removedRects) = differencesBetweenRects(previousPreheatRect, preheatRect)
-        let addedAssets = addedRects
-            .flatMap { rect in collectionView.indexPathsForElements(in: rect, hidesCamera: false) }
-            .map { indexPath in collection.assets[collection.assets.count - indexPath.item - 1]}
-        let removedAssets = removedRects
-            .flatMap { rect in collectionView.indexPathsForElements(in: rect, hidesCamera: false) }
-            .map { indexPath in collection.assets[collection.assets.count - indexPath.item - 1] }
-        
-        // Update the assets the PHCachingImageManager is caching.
-        TTAImagePickerManager.startCachingImages(for: addedAssets, targetSize: TTAImagePickerManager.AssetCollectionManagerConst.assetCollectionSize, contentMode: TTAImagePickerManager.AssetCollectionManagerConst.assetCollectionContentMode, options: TTAImagePickerManager.AssetCollectionManagerConst.assetCollectionRequestOptions)
-        TTAImagePickerManager.stopCachingImages(for: removedAssets, targetSize: TTAImagePickerManager.AssetCollectionManagerConst.assetCollectionSize, contentMode: TTAImagePickerManager.AssetCollectionManagerConst.assetCollectionContentMode, options: TTAImagePickerManager.AssetCollectionManagerConst.assetCollectionRequestOptions)
-        
-        // Store the preheat rect to compare against in the future.
-        previousPreheatRect = preheatRect
-    }
-    
-    fileprivate func differencesBetweenRects(_ old: CGRect, _ new: CGRect) -> (added: [CGRect], removed: [CGRect]) {
-        if old.intersects(new) {
-            var added = [CGRect]()
-            if new.maxY > old.maxY {
-                added += [CGRect(x: new.origin.x, y: old.maxY,
-                                 width: new.width, height: new.maxY - old.maxY)]
-            }
-            if old.minY > new.minY {
-                added += [CGRect(x: new.origin.x, y: new.minY,
-                                 width: new.width, height: old.minY - new.minY)]
-            }
-            var removed = [CGRect]()
-            if new.maxY < old.maxY {
-                removed += [CGRect(x: new.origin.x, y: new.maxY,
-                                   width: new.width, height: old.maxY - new.maxY)]
-            }
-            if old.minY < new.minY {
-                removed += [CGRect(x: new.origin.x, y: old.minY,
-                                   width: new.width, height: new.minY - old.minY)]
-            }
-            return (added, removed)
-        } else {
-            return ([new], [old])
-        }
+        return collection.assets[indexPath.item]
     }
 }
 
@@ -225,13 +156,8 @@ extension TTAAssetPickerViewController: UICollectionViewDelegate {
     }
     
     func collectionView(_ collectionView: UICollectionView, didEndDisplaying cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
-        guard let cell = cell as? TTAAssetCollectionViewCell,
-            let requestID = cell.asset.requestID else { return }
-        TTAImagePickerManager.cancelImageRequest(requestID)
-    }
-    
-    func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        _updateCachedAssets()
+        guard let cell = cell as? TTAAssetCollectionViewCell else { return }
+        TTAImagePickerManager.cancelImageRequest(cell.imageRequestID)
     }
 }
 
