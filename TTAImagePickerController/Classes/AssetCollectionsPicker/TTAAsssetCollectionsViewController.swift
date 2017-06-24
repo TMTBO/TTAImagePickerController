@@ -11,23 +11,41 @@ import UIKit
 class TTAAssetCollectionsViewController: UIViewController {
     
     fileprivate let tableView = UITableView()
+    
+    /// The number of the image picker pre row, default is 4
+    var columnNum = 4
+    
+    /// The max num image of the image picker can pick, default is 9
+    var maxPickerNum = 9
+    
+    /// The tint color which item was selected, default is `UIColor(colorLiteralRed: 0, green: 122.0 / 255.0, blue: 1, alpha: 1)`
+    public var selectItemTintColor: UIColor?
+    
+    let collections: [TTAAssetCollection]
+    
+    let assetPickerController: UINavigationController
 
-    init() {
+    init(collections: [TTAAssetCollection], pickerController: UINavigationController) {
+        self.collections = collections
+        assetPickerController = pickerController
         super.init(nibName: nil, bundle: nil)
         self.navigationItem.title = "Library"
     }
+    
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    deinit {
+        #if DEBUG
+            print("TTAImagePickerController >>>>>> assec collection controller deinit")
+        #endif
     }
 }
 
 // MARK: - Life Cycle
 
 extension TTAAssetCollectionsViewController {
-    
-    struct AssetCollectionsViewControllerConst {
-        static let assetCollectionsTableViewCellIdentifier = "assetCollectionTableViewCellIdentifier"
-    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -125,17 +143,8 @@ extension TTAAssetCollectionsViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
         guard let splitViewController = splitViewController else { return }
-        let assetPickerController: UIViewController
-        // on the iPhone (compact) the split view controller is collapsed
-        // therefore we need to create the navigation controller and its image view controllerfirst
-        if (splitViewController.isCollapsed) {
-            assetPickerController = TTAAssetPickerViewController(collection: collection(at: indexPath))
-        } else { // if the split view controller shows the detail view already there is no need to create the controllers, for ipad
-            guard let assetNavPickerController = splitViewController.viewControllers.last as? UINavigationController,
-                let pickerController = assetNavPickerController.topViewController as? TTAAssetPickerViewController else { return }
-            pickerController.collection = collection(at: indexPath)
-            assetPickerController = assetNavPickerController
-        }
+        guard let pickerController = assetPickerController.topViewController as? TTAAssetPickerViewController else { return }
+        pickerController.collection = collection(at: indexPath)
         splitViewController.showDetailViewController(assetPickerController, sender: nil)
     }
 }

@@ -55,21 +55,15 @@ public class TTAImagePickerController: UIViewController {
         }
     }
     
-    /// The tint color which item was selected, default is `.green`
-    public var selectItemTintColor: UIColor? {
-        didSet {
-            TTAImagePickerManager.shared.selectItemTintColor = selectItemTintColor
-        }
-    }
-    
     fileprivate let splitController = UISplitViewController()
     
     public init() {
         super.init(nibName: nil, bundle: nil)
-        if let colletction = TTAImagePickerManager.shared.assetCollections.first {
-            let assetCollectionController = UINavigationController(rootViewController: TTAAssetCollectionsViewController())
-            let assetPickerController = UINavigationController(rootViewController: TTAAssetPickerViewController(collection: colletction))
-            splitController.viewControllers = [assetCollectionController, assetPickerController]
+        let collections = TTAImagePickerManager.fetchAssetCollections()
+        if let collection = collections.first {
+            let pickerController = _generateAssetController(with: collection)
+            let collectionController = _generateCollectionController(with: collections, pickerController: pickerController)
+            splitController.viewControllers = [collectionController, pickerController]
         }
         addChildViewController(splitController)
         view.addSubview(splitController.view)
@@ -95,5 +89,28 @@ extension TTAImagePickerController {
     public override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         splitController.view.frame = view.bounds
+    }
+}
+
+// MARK: - Generate Controllers
+
+extension TTAImagePickerController {
+    
+    func _generateCollectionController(with collections: [TTAAssetCollection], pickerController: UINavigationController) -> UINavigationController {
+        let assetCollectionController = TTAAssetCollectionsViewController(collections: collections, pickerController: pickerController)
+        assetCollectionController.columnNum = columnNum
+        assetCollectionController.maxPickerNum = maxPickerNum
+        assetCollectionController.selectItemTintColor = selectItemTintColor
+        let nav = UINavigationController(rootViewController: assetCollectionController)
+        return nav
+    }
+    
+    func _generateAssetController(with collection: TTAAssetCollection) -> UINavigationController {
+        let assetPickerController = TTAAssetPickerViewController(collection: collection)
+        assetPickerController.columnNum = columnNum
+        assetPickerController.maxPickerNum = maxPickerNum
+        assetPickerController.selectItemTintColor = selectItemTintColor
+        let nav = UINavigationController(rootViewController: assetPickerController)
+        return nav
     }
 }
