@@ -166,13 +166,15 @@ extension TTAAssetPickerViewController: UICollectionViewDelegate {
 extension TTAAssetPickerViewController: UICollectionViewDataSourcePrefetching {
     
     func collectionView(_ collectionView: UICollectionView, prefetchItemsAt indexPaths: [IndexPath]) {
-        _ = indexPaths.map { indexPath in
-        }
+        let assets = indexPaths.map { return asset(at: $0).originalAsset }
+        guard let layout = collectionView.collectionViewLayout as? UICollectionViewFlowLayout else { return }
+        TTAImagePickerManager.startCachingImages(for: assets, targetSize: layout.itemSize, contentMode: nil, options: nil)
     }
     
     func collectionView(_ collectionView: UICollectionView, cancelPrefetchingForItemsAt indexPaths: [IndexPath]) {
-        _ = indexPaths.map({ indexPath in
-        })
+        let assets = indexPaths.map { return asset(at: $0).originalAsset }
+        guard let layout = collectionView.collectionViewLayout as? UICollectionViewFlowLayout else { return }
+        TTAImagePickerManager.stopCachingImages(for: assets, targetSize: layout.itemSize, contentMode: nil, options: nil)
     }
 }
 
