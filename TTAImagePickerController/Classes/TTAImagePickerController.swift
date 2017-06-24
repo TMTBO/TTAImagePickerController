@@ -69,6 +69,12 @@ public class TTAImagePickerController: UIViewController {
     required public init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+    
+    deinit {
+        #if DEBUG
+            print("TTAImagePickerController >>>>>> deinit")
+        #endif
+    }
 
 }
 

@@ -38,6 +38,12 @@ class TTAAssetPickerViewController: UIViewController {
         fatalError("init(coder:) has not been implemented")
     }
     
+    deinit {
+        #if DEBUG
+            print("TTAImagePickerController >>>>>> asset picker controller deinit")
+        #endif
+    }
+    
 }
 
 // MARK: - Life Cycle
