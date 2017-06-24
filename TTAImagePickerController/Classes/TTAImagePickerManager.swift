@@ -96,19 +96,19 @@ extension TTAImagePickerManager {
 extension TTAImagePickerManager {
     
     static func startCachingImages(for assets: [PHAsset], targetSize: CGSize?, contentMode: PHImageContentMode?, options: PHImageRequestOptions?) {
-        let manager = PHCachingImageManager.default() as? PHCachingImageManager
+        guard let manager = PHCachingImageManager.default() as? PHCachingImageManager else { return }
         let options = options ?? AssetManagerConst.assetRequestOptions
         let contentMode = contentMode ?? AssetManagerConst.assetMode
         let targetSize = targetSize ?? AssetManagerConst.assetSize
-        manager?.startCachingImages(for: assets, targetSize: targetSize.toPixel(), contentMode: contentMode, options: options)
+        manager.startCachingImages(for: assets, targetSize: targetSize.toPixel(), contentMode: contentMode, options: options)
     }
     
     static func stopCachingImages(for assets: [PHAsset], targetSize: CGSize?, contentMode: PHImageContentMode?, options: PHImageRequestOptions?) {
-        let manager = PHCachingImageManager.default() as? PHCachingImageManager
+        guard let manager = PHCachingImageManager.default() as? PHCachingImageManager else { return }
         let options = options ?? AssetManagerConst.assetRequestOptions
         let contentMode = contentMode ?? AssetManagerConst.assetMode
         let targetSize = targetSize ?? AssetManagerConst.assetSize
-        manager?.stopCachingImages(for: assets, targetSize: targetSize.toPixel(), contentMode: contentMode, options: options)
+        manager.stopCachingImages(for: assets, targetSize: targetSize.toPixel(), contentMode: contentMode, options: options)
     }
 }
 
