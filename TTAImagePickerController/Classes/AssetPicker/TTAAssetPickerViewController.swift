@@ -159,11 +159,6 @@ extension TTAAssetPickerViewController: UICollectionViewDelegate {
         guard let cell = cell as? TTAAssetCollectionViewCell else { return }
         cell.asset = asset(at: indexPath)
     }
-    
-    func collectionView(_ collectionView: UICollectionView, didEndDisplaying cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
-        guard let cell = cell as? TTAAssetCollectionViewCell else { return }
-        TTAImagePickerManager.cancelImageRequest(cell.imageRequestID)
-    }
 }
 
 // MARK: - UICollectionViewDataSourcePrefetching

@@ -6,7 +6,7 @@
 //  Copyright (c) 2017 TMTBO. All rights reserved.
 //
 
-import UIKit
+import Photos
 
 class TTAAssetCollectionsTableViewCell: UITableViewCell {
     
@@ -17,19 +17,26 @@ class TTAAssetCollectionsTableViewCell: UITableViewCell {
         static let imageViewBottomMargin: CGFloat = 10
     }
     
+    var assetID = ""
+    var imageRequestID: PHImageRequestID = 0
+    
     fileprivate let previewImageView = UIImageView()
     
     var collection: TTAAssetCollection? {
         didSet {
             textLabel?.text = collection?.assetCollectionName
             detailTextLabel?.text = String(describing: (collection?.assetCount)!)
-            guard let asset = collection?.thumbnailAsset?.originalAsset else { return }
-            let size = TTAImagePickerManager.AssetCollectionManagerConst.assetCollectionSize
-            let contentMode = TTAImagePickerManager.AssetCollectionManagerConst.assetCollectionContentMode
-            let options = TTAImagePickerManager.AssetCollectionManagerConst.assetCollectionRequestOptions
-            _ = TTAImagePickerManager.fetchImage(for: asset, size: size, contentMode: contentMode, options: options) { [weak self] (image, info) in
-                guard let isDegraded = info?["PHImageResultIsDegradedKey"] as AnyObject?, !(image == nil && !isDegraded.boolValue) else { return }
-                self?.previewImageView.image = image;
+            previewImageView.image = nil
+            
+            guard let asset = collection?.thumbnailAsset else { return }
+            let identifier = asset.assetID
+            assetID = identifier
+            TTAImagePickerManager.fetchImage(for: asset, size: nil, contentMode: nil, options: nil) { [weak self] (image, _) in
+                
+                guard let `self` = self else { return }
+                if identifier == self.assetID {
+                    self.previewImageView.image = image;
+                }
             }
         }
     }

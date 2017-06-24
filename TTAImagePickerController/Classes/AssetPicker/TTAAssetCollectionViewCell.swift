@@ -5,7 +5,7 @@
 //  Created by TobyoTenma on 17/06/2017.
 //
 
-import UIKit
+import Photos
 
 class TTAAssetCollectionViewCell: UICollectionViewCell {
     
@@ -15,18 +15,25 @@ class TTAAssetCollectionViewCell: UICollectionViewCell {
         static let selectButtonWidth: CGFloat = selectButtonHeight
     }
     
+    var imageRequestID: PHImageRequestID = 0
+    var assetID: String = ""
+    
     fileprivate let imageView = UIImageView()
     fileprivate let selectButton = TTASelectButton()
     
     var asset: TTAAsset! {
         didSet {
             imageView.image = nil
-            let requestID = TTAImagePickerManager.fetchImage(for: asset.originalAsset, size: contentView.bounds.size, contentMode: nil, options: nil) { [weak self] (image, info) in
-                guard let isDegraded = info?["PHImageResultIsDegradedKey"] as AnyObject?
-                    , !(image == nil && !isDegraded.boolValue) else { return }
-                self?.imageView.image = image
+            
+            let identifier = asset.assetID
+            assetID = identifier
+            asset.requestThumbnail(for: contentView.bounds.size) { [weak self] (image) in
+                guard let `self` = self else { return }
+                // `identifier` and `self.asset.assetID` were captured at different time, so they may got different value, to avoid the cell load anther image when scroll too fast
+                if identifier == self.asset.assetID {
+                    self.imageView.image = image
+                }
             }
-            asset.requestID = requestID
         }
     }
     

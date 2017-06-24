@@ -22,7 +22,7 @@ class TTAAssetCollectionViewLayout: UICollectionViewFlowLayout {
         
         guard let collectionView = collectionView else { return }
         
-        let columnNum = CGFloat(TTAImagePickerManager.shared.columnNum)
+        let columnNum: CGFloat = 3
         let width = (collectionView.bounds.width - TTAAssetCollectionViewLayoutConst.margin * (columnNum + 1)) / columnNum
         let height = width
         itemSize = CGSize(width: width, height: height)

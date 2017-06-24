@@ -66,57 +66,113 @@ extension TTAImagePickerManager {
         
         private static func _defaultOptions() -> PHImageRequestOptions {
             let options = PHImageRequestOptions()
-            options.resizeMode = .fast
-            options.version = .current
+            options.resizeMode = .exact
             return options
         }
     }
     
-    static func fetchImage(for asset: PHAsset, size: CGSize, contentMode: PHImageContentMode? = AssetManagerConst.assetMode, options: PHImageRequestOptions?, resultHandler: @escaping (UIImage?, [AnyHashable : Any]?) -> Void) -> PHImageRequestID {
+    static func fetchImage(for asset: TTAAsset, size: CGSize?, contentMode: PHImageContentMode? = AssetManagerConst.assetMode, options: PHImageRequestOptions?, resultHandler: @escaping (UIImage?, [AnyHashable : Any]?) -> Void) {
         let options = options ?? AssetManagerConst.assetRequestOptions
-        return PHCachingImageManager.default().requestImage(for: asset,
-                                                     targetSize: size.toPixel(),
-                                                    contentMode: contentMode ?? AssetManagerConst.assetMode,
-                                                        options: options,
-                                                  resultHandler: { (image, info) in
-            if let isInCloud = info?[PHImageResultIsInCloudKey] as AnyObject?
-                , image == nil && isInCloud.boolValue {
+        let contentMode = contentMode ?? AssetManagerConst.assetMode
+        let size = size ?? AssetManagerConst.assetSize
+        
+        PHCachingImageManager.default().requestImage(for: asset.originalAsset, targetSize: size.toPixel(), contentMode: contentMode, options: options, resultHandler: { (image, info) in
+            if let isInCloud = info?[PHImageResultIsInCloudKey] as? Bool
+                , image == nil && isInCloud {
                 options.isNetworkAccessAllowed = true
-                _ = fetchImage(for: asset, size: size.toPixel(), contentMode: contentMode, options: options, resultHandler: resultHandler)
+                _ = fetchImage(for: asset, size: size, contentMode: contentMode, options: options, resultHandler: resultHandler)
             } else {
-                resultHandler(image, info)
+                if let cancelled = info?[PHImageCancelledKey] as? Bool, cancelled {
+                    return
+                }
+                resultHandler(fixOrientation(aImage: image), info)
             }
         })
     }
+}
+
+// MARK: - Caching
+
+extension TTAImagePickerManager {
     
-    static func cancelImageRequest(_ requestID: PHImageRequestID) {
-        PHCachingImageManager.default().cancelImageRequest(requestID)
-    }
-    
-    static func startCachingImages(for assets: [PHAsset], targetSize: CGSize, contentMode: PHImageContentMode, options: PHImageRequestOptions?) {
+    static func startCachingImages(for assets: [PHAsset], targetSize: CGSize?, contentMode: PHImageContentMode?, options: PHImageRequestOptions?) {
         let manager = PHCachingImageManager.default() as? PHCachingImageManager
         let options = options ?? AssetManagerConst.assetRequestOptions
+        let contentMode = contentMode ?? AssetManagerConst.assetMode
+        let targetSize = targetSize ?? AssetManagerConst.assetSize
         manager?.startCachingImages(for: assets, targetSize: targetSize.toPixel(), contentMode: contentMode, options: options)
     }
     
-    static func stopCachingImages(for assets: [PHAsset], targetSize: CGSize, contentMode: PHImageContentMode, options: PHImageRequestOptions?) {
+    static func stopCachingImages(for assets: [PHAsset], targetSize: CGSize?, contentMode: PHImageContentMode?, options: PHImageRequestOptions?) {
         let manager = PHCachingImageManager.default() as? PHCachingImageManager
         let options = options ?? AssetManagerConst.assetRequestOptions
+        let contentMode = contentMode ?? AssetManagerConst.assetMode
+        let targetSize = targetSize ?? AssetManagerConst.assetSize
         manager?.stopCachingImages(for: assets, targetSize: targetSize.toPixel(), contentMode: contentMode, options: options)
-    }
-    
-    static func stopCachingImagesForAllAssets() {
-        let manager = PHCachingImageManager.default() as? PHCachingImageManager
-        manager?.stopCachingImagesForAllAssets()
     }
 }
 
-struct TTAIconFontManager {
-    enum IconFont: String {
-        case selectMark = "\u{e70d}"
+// MARK: - Image Fix
+
+extension TTAImagePickerManager {
+    
+    static func scaleImage(image: UIImage, to size: CGSize) -> UIImage? {
+        if image.size.width > size.width {
+            UIGraphicsBeginImageContext(size)
+            image.draw(in: CGRect(x: 0, y: 0, width: size.width, height: size.height))
+            let newImage = UIGraphicsGetImageFromCurrentImageContext()
+            UIGraphicsEndImageContext()
+            return newImage
+        } else {
+            return image
+        }
     }
     
-    struct IconFontSize {
-        static let assetSelectMark: CGFloat = 15
+    static func fixOrientation(aImage: UIImage?) -> UIImage? {
+        guard let aImage = aImage else { return nil}
+        if aImage.imageOrientation == .up { return aImage }
+        
+        var transform = CGAffineTransform.identity
+        
+        switch aImage.imageOrientation {
+        case .down, .downMirrored:
+            transform = transform.translatedBy(x: aImage.size.width, y: aImage.size.height)
+            transform = transform.rotated(by: CGFloat.pi)
+        case .left, .leftMirrored:
+            transform = transform.translatedBy(x: aImage.size.width, y: 0)
+            transform = transform.rotated(by: CGFloat.pi / 2)
+        case .right, .rightMirrored:
+            transform = transform.translatedBy(x: 0, y: aImage.size.height)
+            transform = transform.rotated(by: -CGFloat.pi / 2)
+        default:
+            break
+        }
+        
+        switch aImage.imageOrientation {
+        case .upMirrored, .downMirrored:
+            transform = transform.translatedBy(x: aImage.size.width, y: 0)
+            transform = transform.scaledBy(x: -1, y: -1)
+        case .leftMirrored, .rightMirrored:
+            transform = transform.translatedBy(x: aImage.size.height, y: 0)
+            transform = transform.scaledBy(x: -1, y: -1)
+        default:
+            break
+        }
+        
+        guard let cgImage = aImage.cgImage,
+            let colorSpace = cgImage.colorSpace,
+            let ctx = CGContext(data: nil, width: Int(aImage.size.width), height: Int(aImage.size.height), bitsPerComponent: cgImage.bitsPerComponent, bytesPerRow: 0, space: colorSpace, bitmapInfo: cgImage.bitmapInfo.rawValue) else { return aImage }
+        
+        ctx.concatenate(transform)
+        switch aImage.imageOrientation {
+        case .left, .leftMirrored, .right, .rightMirrored:
+            ctx.draw(cgImage, in: CGRect(x: 0, y: 0, width: aImage.size.height, height: aImage.size.width))
+        default:
+            ctx.draw(cgImage, in: CGRect(x: 0, y: 0, width: aImage.size.width, height: aImage.size.height))
+        }
+        
+        guard let cgImg = ctx.makeImage() else { return aImage}
+        let resultImage = UIImage(cgImage: cgImg)
+        return resultImage
     }
 }

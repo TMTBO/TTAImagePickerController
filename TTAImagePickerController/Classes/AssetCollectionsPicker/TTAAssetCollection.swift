@@ -12,7 +12,7 @@ import Photos
 struct TTAAssetCollection {
     
     var originalCollection: PHAssetCollection!
-    var assets: PHFetchResult<PHAsset>!
+    var assets: [TTAAsset] = []
     var assetCollectionID: String!
     
     var assetCollectionName: String!
