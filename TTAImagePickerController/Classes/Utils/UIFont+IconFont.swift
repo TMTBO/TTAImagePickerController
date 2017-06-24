@@ -34,3 +34,17 @@ extension UIFont {
         return UIFont(name: UIFont.iconfontName, size: size)
     }
 }
+
+
+// MARK: - IconFont
+
+extension UIFont {
+    
+    enum IconFont: String {
+        case selectMark = "\u{e70d}"
+    }
+    
+    struct IconFontSize {
+        static let assetSelectMark: CGFloat = 15
+    }
+}
