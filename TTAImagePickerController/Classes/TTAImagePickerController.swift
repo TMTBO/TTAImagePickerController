@@ -21,18 +21,13 @@ public class TTAImagePickerController: UIViewController {
     var delegate: TTAImagePickerControllerDelegate?
     
     /// The number of the image picker pre row, default is 4
-    var columnNum = 4 {
-        didSet {
-            TTAImagePickerManager.shared.columnNum = columnNum
-        }
-    }
+    var columnNum = 4
     
     /// The max num image of the image picker can pick, default is 9
-    var maxPickerNum = 9 {
-        didSet {
-            TTAImagePickerManager.shared.maxPickerNum = maxPickerNum
-        }
-    }
+    var maxPickerNum = 9
+    
+    /// The tint color which item was selected, default is `UIColor(colorLiteralRed: 0, green: 122.0 / 255.0, blue: 1, alpha: 1)`
+    public var selectItemTintColor: UIColor?
     
     /// NavigationBar tintColor
     public var tintColor: UIColor = UIColor(colorLiteralRed: 0, green: 122.0 / 255.0, blue: 1, alpha: 1) {

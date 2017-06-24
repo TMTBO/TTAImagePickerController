@@ -10,11 +10,16 @@ import UIKit
 
 class TTAAssetPickerViewController: UIViewController {
     
-    struct AssetPickerViewControllerConst {
-        static let assetCollectionViewCellIdentifer = "assetCollectionViewCellIdentifer"
-    }
-    
     fileprivate let collectionView = UICollectionView(frame: .zero, collectionViewLayout: TTAAssetCollectionViewLayout())
+    
+    /// The number of the image picker pre row, default is 4
+    var columnNum = 4
+    
+    /// The max num image of the image picker can pick, default is 9
+    var maxPickerNum = 9
+    
+    /// The tint color which item was selected, default is `UIColor(colorLiteralRed: 0, green: 122.0 / 255.0, blue: 1, alpha: 1)`
+    public var selectItemTintColor: UIColor?
     
     var collection: TTAAssetCollection! {
         didSet {
@@ -98,7 +103,7 @@ extension TTAAssetPickerViewController {
     func _scrollToBottom() {
         DispatchQueue.main.async { [weak self] in
             guard let `self` = self else { return }
-            if self.assetCount() <= TTAImagePickerManager.shared.columnNum { return }
+            if self.assetCount() <= self.columnNum { return }
             let contentSize = self.collectionView.collectionViewLayout.collectionViewContentSize
             let bounds = self.collectionView.bounds
             let offsetY = contentSize.height - bounds.height

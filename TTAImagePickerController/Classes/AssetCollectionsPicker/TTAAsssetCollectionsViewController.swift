@@ -99,11 +99,11 @@ extension TTAAssetCollectionsViewController {
 extension TTAAssetCollectionsViewController {
     
     func collectionCount() -> Int {
-        return TTAImagePickerManager.shared.assetCollections.count
+        return collections.count
     }
     
     func collection(at indexPath: IndexPath) -> TTAAssetCollection {
-        return TTAImagePickerManager.shared.assetCollections[indexPath.row]
+        return collections[indexPath.row]
     }
 }
 

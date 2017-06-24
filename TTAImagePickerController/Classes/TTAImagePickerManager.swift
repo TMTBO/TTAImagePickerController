@@ -10,38 +10,11 @@ import UIKit
 import Photos
 
 class TTAImagePickerManager {
-    
-    static let shared = TTAImagePickerManager()
-    
-    /// All asset collections
-    let assetCollections = TTAImagePickerManager.fetchAssetCollections()
-    
-    /// The number of the image picker pre row, default is 4
-    var columnNum = 4
-    
-    /// The max num image of the image picker can pick, default is 9
-    var maxPickerNum = 9
-    
-    /// The tint color which item was selected, default is `.green`
-    var selectItemTintColor: UIColor?
 }
 
 // MARK: - TTAAssetCollection
 
 extension TTAImagePickerManager {
-    
-    struct AssetCollectionManagerConst {
-        static let assetCollectionSize = CGSize(width: 80, height: 80)
-        static let assetCollectionContentMode = PHImageContentMode.aspectFill
-        static let assetCollectionRequestOptions = _defaultOptions()
-        
-        private static func _defaultOptions() -> PHImageRequestOptions {
-            let options = PHImageRequestOptions()
-            options.resizeMode = .fast
-            options.version = .current
-            return options
-        }
-    }
     
     static func fetchAssetCollections() -> [TTAAssetCollection] {
         let fetchResult = PHAssetCollection.fetchAssetCollections(with: .smartAlbum, subtype: .any, options: nil)
@@ -49,19 +22,29 @@ extension TTAImagePickerManager {
         
         var assetCollections: [TTAAssetCollection] = []
         
+        let options = PHFetchOptions()
+        options.predicate = NSPredicate(format: "mediaType == %d", PHAssetMediaType.image.rawValue)
+        options.sortDescriptors = [NSSortDescriptor(key: "creationDate", ascending: false)]
+        
         fetchResult.enumerateObjects(options: .concurrent) { (assetCollection, _, _) in
             let assetResult = PHAsset.fetchAssets(in: assetCollection, options: nil)
             guard assetResult.count > 0 else { return }
+            guard assetCollection.localizedTitle != "Videos" else { return }
             
             var assetCollectionModel = TTAAssetCollection()
             assetCollectionModel.originalCollection = assetCollection
-            assetCollectionModel.assets = assetResult
             assetCollectionModel.assetCollectionID = assetCollection.localIdentifier
             assetCollectionModel.assetCollectionName = assetCollection.localizedTitle
             assetCollectionModel.assetCount = assetResult.count
             
-            let thumbnailAsset = TTAAsset(originalAsset: assetResult.firstObject!)
-            assetCollectionModel.thumbnailAsset = thumbnailAsset
+            var assets: [TTAAsset] = []
+            assetResult.enumerateObjects({ (asset, _, _) in
+                let ttaAsset = TTAAsset(originalAsset: asset)
+                assets.append(ttaAsset)
+            })
+            
+            assetCollectionModel.assets = assets
+            assetCollectionModel.thumbnailAsset = assets.first
             
             assetCollections.append(assetCollectionModel)
         }

@@ -15,6 +15,10 @@ class TTASelectButton: UIButton {
     }
     
     let bgView = UIView()
+    
+    /// The tint color which item was selected, default is `UIColor(colorLiteralRed: 0, green: 122.0 / 255.0, blue: 1, alpha: 1)`
+    public var selectItemTintColor: UIColor?
+    
     var selectState: TTASelectButtonState = .default {
         didSet {
             switch selectState {
@@ -91,13 +95,13 @@ extension TTASelectButton {
     
     func _selectItem() {
         circleLayer.isHidden = true
-        bgView.backgroundColor = TTAImagePickerManager.shared.selectItemTintColor ?? UIColor(colorLiteralRed: 0, green: 122.0 / 255.0, blue: 1, alpha: 1)
+        bgView.backgroundColor = selectItemTintColor ?? UIColor(colorLiteralRed: 0, green: 122.0 / 255.0, blue: 1, alpha: 1)
         _selectAnimation()
     }
     
     func _unselectItem() {
-        setTitle(TTAIconFontManager.IconFont.selectMark.rawValue, for: .normal)
-        titleLabel?.font = UIFont.iconfont(size: TTAIconFontManager.IconFontSize.assetSelectMark)
+        setTitle(UIFont.IconFont.selectMark.rawValue, for: .normal)
+        titleLabel?.font = UIFont.iconfont(size: UIFont.IconFontSize.assetSelectMark)
         bgView.backgroundColor = UIColor.white.withAlphaComponent(0.5)
         circleLayer.isHidden = false
     }
