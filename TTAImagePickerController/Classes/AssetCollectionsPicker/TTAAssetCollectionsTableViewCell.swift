@@ -24,11 +24,12 @@ class TTAAssetCollectionsTableViewCell: UITableViewCell {
     
     var collection: TTAAssetCollection? {
         didSet {
-            textLabel?.text = collection?.assetCollectionName
-            detailTextLabel?.text = String(describing: (collection?.assetCount)!)
+            guard let collection = collection else { return }
+            textLabel?.text = collection.assetCollectionName
+            detailTextLabel?.text = String(describing: collection.assetCount)
             previewImageView.image = nil
             
-            guard let asset = collection?.thumbnailAsset else { return }
+            guard let asset = collection.thumbnailAsset else { return }
             let identifier = asset.assetID
             assetID = identifier
             TTAImagePickerManager.fetchImage(for: asset, size: nil, contentMode: nil, options: nil) { [weak self] (image, _) in
