@@ -46,7 +46,6 @@ class TTASelectButton: UIButton {
         _layoutViews()
         bgView.corner(roundedRect: bounds, cornerRadius: bounds.width / 2)
     }
-    
 }
 
 // MARK: - UI
@@ -66,6 +65,7 @@ extension TTASelectButton {
     func _configViews() {
         titleLabel?.textAlignment = .center
         adjustsImageWhenHighlighted = false
+        backgroundColor = .clear
         
         bgView.isUserInteractionEnabled = false
         bgView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
@@ -102,7 +102,7 @@ extension TTASelectButton {
     func _unselectItem() {
         setTitle(UIFont.IconFont.selectMark.rawValue, for: .normal)
         titleLabel?.font = UIFont.iconfont(size: UIFont.IconFontSize.assetSelectMark)
-        bgView.backgroundColor = UIColor.white.withAlphaComponent(0.5)
+        bgView.backgroundColor = .clear
         circleLayer.isHidden = false
     }
     
