@@ -12,9 +12,6 @@ class TTAAssetPickerViewController: UIViewController {
     
     fileprivate let collectionView = UICollectionView(frame: .zero, collectionViewLayout: TTAAssetCollectionViewLayout())
     
-    /// The number of the image picker pre row, default is 4
-    var columnNum = 4
-    
     /// The max num image of the image picker can pick, default is 9
     var maxPickerNum = 9
     
@@ -114,7 +111,7 @@ extension TTAAssetPickerViewController {
     func _scrollToBottom() {
         DispatchQueue.main.async { [weak self] in
             guard let `self` = self else { return }
-            if self.assetCount() <= self.columnNum { return }
+            if self.assetCount() <= Int(TTAAssetCollectionViewLayout.TTAAssetCollectionViewLayoutConst.correctColumNum) { return }
             let contentSize = self.collectionView.collectionViewLayout.collectionViewContentSize
             let bounds = self.collectionView.bounds
             let offsetY = contentSize.height - bounds.height

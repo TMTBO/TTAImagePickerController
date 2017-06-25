@@ -12,9 +12,6 @@ class TTAAssetCollectionsViewController: UIViewController {
     
     fileprivate let tableView = UITableView()
     
-    /// The number of the image picker pre row, default is 4
-    var columnNum = 4
-    
     /// The max num image of the image picker can pick, default is 9
     var maxPickerNum = 9
     

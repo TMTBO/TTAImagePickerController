@@ -20,9 +20,6 @@ public class TTAImagePickerController: UIViewController {
     
     var delegate: TTAImagePickerControllerDelegate?
     
-    /// The number of the image picker pre row, default is 4
-    var columnNum = 4
-    
     /// The max num image of the image picker can pick, default is 9
     var maxPickerNum = 9
     
@@ -99,7 +96,6 @@ extension TTAImagePickerController {
     
     func _generateCollectionController(with collections: [TTAAssetCollection], pickerController: UINavigationController) -> UINavigationController {
         let assetCollectionController = TTAAssetCollectionsViewController(collections: collections, pickerController: pickerController)
-        assetCollectionController.columnNum = columnNum
         assetCollectionController.maxPickerNum = maxPickerNum
         assetCollectionController.selectItemTintColor = selectItemTintColor
         let nav = UINavigationController(rootViewController: assetCollectionController)
@@ -108,7 +104,6 @@ extension TTAImagePickerController {
     
     func _generateAssetController(with collection: TTAAssetCollection) -> UINavigationController {
         let assetPickerController = TTAAssetPickerViewController(collection: collection)
-        assetPickerController.columnNum = columnNum
         assetPickerController.maxPickerNum = maxPickerNum
         assetPickerController.selectItemTintColor = selectItemTintColor
         let nav = UINavigationController(rootViewController: assetPickerController)

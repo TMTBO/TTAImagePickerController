@@ -11,7 +11,8 @@ class TTAAssetCollectionViewLayout: UICollectionViewFlowLayout {
     
     struct TTAAssetCollectionViewLayoutConst {
         static let margin: CGFloat = 5
-        static var defaultColumNum: CGFloat = 3
+        static let defaultColumNum: CGFloat = 3
+        static var correctColumNum: CGFloat = 3
         static let minimumWithAndHeight: CGFloat = 104
     }
     
@@ -37,6 +38,7 @@ class TTAAssetCollectionViewLayout: UICollectionViewFlowLayout {
             count += 1
         } while (width > TTAAssetCollectionViewLayoutConst.minimumWithAndHeight)
         let height = width
+        TTAAssetCollectionViewLayoutConst.correctColumNum = count - 1
         return CGSize(width: width, height: height)
     }
     
