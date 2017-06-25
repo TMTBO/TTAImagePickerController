@@ -23,7 +23,7 @@ class TTAAssetCollectionViewCell: UICollectionViewCell {
     
     var asset: TTAAsset! {
         didSet {
-            imageView.image = nil
+            config()
             
             let identifier = asset.assetID
             assetID = identifier
@@ -31,7 +31,7 @@ class TTAAssetCollectionViewCell: UICollectionViewCell {
                 guard let `self` = self else { return }
                 // `identifier` and `self.asset.assetID` were captured at different time, so they may got different value, to avoid the cell load anther image when scroll too fast
                 if identifier == self.asset.assetID {
-                    self.imageView.image = image
+                    self.config(with: image, hiddenSelectButton: false)
                 }
             }
         }
@@ -50,12 +50,11 @@ class TTAAssetCollectionViewCell: UICollectionViewCell {
         super.layoutSubviews()
         _layoutViews()
     }
-    
 }
 
 // MARK: - UI
 
-extension TTAAssetCollectionViewCell {
+fileprivate extension TTAAssetCollectionViewCell {
     func _setupUI() {
         _createViews()
         _configViews()
@@ -68,6 +67,10 @@ extension TTAAssetCollectionViewCell {
     }
     
     func _configViews() {
+        layer.shouldRasterize = true
+        layer.rasterizationScale = UIScreen.main.scale
+        layer.drawsAsynchronously = true
+        layer.contents = UIImage.image(with: .defaultAssetImage, size: min(contentView.bounds.width, contentView.bounds.height)).cgImage
         imageView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         imageView.contentMode = .scaleAspectFill
         imageView.clipsToBounds = true
@@ -81,6 +84,16 @@ extension TTAAssetCollectionViewCell {
                                     y: AssetCollectionViewCellConst.selectButtonMargin,
                                 width: AssetCollectionViewCellConst.selectButtonWidth,
                                height: AssetCollectionViewCellConst.selectButtonHeight)
+    }
+}
+
+// MARK: - Data
+
+fileprivate extension TTAAssetCollectionViewCell {
+    
+    func config(with image: UIImage? = nil, hiddenSelectButton: Bool = true) {
+        imageView.image = image
+        selectButton.isHidden = hiddenSelectButton
     }
 }
 
