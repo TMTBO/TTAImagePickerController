@@ -30,8 +30,9 @@ extension UIFont {
         iconfontName = fontName
     }
     
-    static func iconfont(size: CGFloat) -> UIFont? {
-        return UIFont(name: UIFont.iconfontName, size: size)
+    static func iconfont(size: CGFloat) -> UIFont {
+        guard let font = UIFont(name: UIFont.iconfontName, size: size) else { fatalError("Can NOT load the font,maybe the IconFont Name NOT registe") }
+        return font
     }
 }
 
@@ -42,9 +43,11 @@ extension UIFont {
     
     enum IconFont: String {
         case selectMark = "\u{e70d}"
+        case defaultAssetImage = "\u{e6aa}"
     }
     
     struct IconFontSize {
         static let assetSelectMark: CGFloat = 15
+        static let defaultAssetImage: CGFloat = 25
     }
 }
