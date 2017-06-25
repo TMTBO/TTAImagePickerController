@@ -62,12 +62,17 @@ class TTAAssetCollectionsTableViewCell: UITableViewCell {
 extension TTAAssetCollectionsTableViewCell {
     
     func _configViews() {
+        layer.shouldRasterize = true
+        layer.rasterizationScale = UIScreen.main.scale
+        layer.drawsAsynchronously = true
+        
         contentView.addSubview(previewImageView)
         
         detailTextLabel?.textColor = .lightGray
         accessoryType = .disclosureIndicator
         previewImageView.contentMode = .scaleAspectFill
         previewImageView.clipsToBounds = true
+        previewImageView.layer.contents = UIImage.image(with: .defaultAssetImage, size: min(contentView.bounds.width, contentView.bounds.height)).cgImage
     }
     
     func _layoutViews() {
