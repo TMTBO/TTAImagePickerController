@@ -171,3 +171,45 @@ extension TTAImagePickerManager {
         return resultImage
     }
 }
+
+// MARK: - Caching
+
+struct TTACachingImageManager {
+    
+    static var shared:TTACachingImageManager? = TTACachingImageManager()
+    let manager = PHCachingImageManager()
+    
+    func startCachingImages(for assets: [TTAAsset], targetSize: CGSize?, contentMode: PHImageContentMode?, options: PHImageRequestOptions?) {
+        DispatchQueue.global().async {
+            let originalAssets = assets.map { return $0.originalAsset }
+            let options = options ?? TTAImagePickerManager.AssetManagerConst.assetRequestOptions
+            let contentMode = contentMode ?? TTAImagePickerManager.AssetManagerConst.assetMode
+            let targetSize = targetSize ?? TTAImagePickerManager.AssetManagerConst.assetSize
+            self.manager.startCachingImages(for: originalAssets, targetSize: targetSize.toPixel(), contentMode: contentMode, options: options)
+        }
+    }
+    
+    func stopCachingImages(for assets: [TTAAsset], targetSize: CGSize?, contentMode: PHImageContentMode?, options: PHImageRequestOptions?) {
+        DispatchQueue.global().async {
+            let originalAssets = assets.map { return $0.originalAsset }
+            let options = options ?? TTAImagePickerManager.AssetManagerConst.assetRequestOptions
+            let contentMode = contentMode ?? TTAImagePickerManager.AssetManagerConst.assetMode
+            let targetSize = targetSize ?? TTAImagePickerManager.AssetManagerConst.assetSize
+            self.manager.stopCachingImages(for: originalAssets, targetSize: targetSize.toPixel(), contentMode: contentMode, options: options)
+        }
+    }
+    
+    func stopCachingImagesForAllAssets() {
+        manager.stopCachingImagesForAllAssets()
+    }
+    
+    static func prepareCachingManager() {
+        if shared != nil { return }
+        shared = TTACachingImageManager()
+    }
+    
+    static func destoryCachingManager() {
+        shared?.manager.stopCachingImagesForAllAssets()
+        shared = nil
+    }
+}

@@ -6,7 +6,7 @@
 //  Copyright (c) 2017 TMTBO. All rights reserved.
 //
 
-import UIKit
+import Photos
 
 class TTAAssetPickerViewController: UIViewController {
     
@@ -22,9 +22,14 @@ class TTAAssetPickerViewController: UIViewController {
     public var selectItemTintColor: UIColor?
     
     var collection: TTAAssetCollection! {
+        willSet {
+            TTACachingImageManager.shared?.stopCachingImagesForAllAssets()
+        }
         didSet {
             navigationItem.title = collection.assetCollectionName
             collectionView.reloadData()
+            _scrollToBottom()
+            _startCaching()
         }
     }
     
@@ -32,6 +37,7 @@ class TTAAssetPickerViewController: UIViewController {
         self.collection = collection
         super.init(nibName: nil, bundle: nil)
         _prepareIconFont()
+        TTACachingImageManager.prepareCachingManager()
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -39,6 +45,7 @@ class TTAAssetPickerViewController: UIViewController {
     }
     
     deinit {
+        TTACachingImageManager.destoryCachingManager()
         #if DEBUG
             print("TTAImagePickerController >>>>>> asset picker controller deinit")
         #endif
@@ -70,6 +77,7 @@ extension TTAAssetPickerViewController {
         _createViews()
         _configViews()
         _layoutViews()
+        _startCaching()
     }
     
     func _createViews() {
@@ -131,6 +139,11 @@ extension TTAAssetPickerViewController {
     
     func asset(at indexPath: IndexPath) -> TTAAsset {
         return collection.assets[indexPath.item]
+    }
+    
+    func _startCaching() {
+        guard let layout = collectionView.collectionViewLayout as? UICollectionViewFlowLayout else { return }
+        TTACachingImageManager.shared?.startCachingImages(for: collection.assets, targetSize: layout.itemSize, contentMode: nil, options: nil)
     }
 }
 
