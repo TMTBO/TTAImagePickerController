@@ -66,7 +66,7 @@ extension TTAImagePickerManager {
         
         private static func _defaultOptions() -> PHImageRequestOptions {
             let options = PHImageRequestOptions()
-            options.resizeMode = .exact
+            options.resizeMode = .fast
             return options
         }
     }
@@ -76,7 +76,7 @@ extension TTAImagePickerManager {
         let contentMode = contentMode ?? AssetManagerConst.assetMode
         let size = size ?? AssetManagerConst.assetSize
         
-        PHCachingImageManager.default().requestImage(for: asset.originalAsset, targetSize: size.toPixel(), contentMode: contentMode, options: options, resultHandler: { (image, info) in
+        TTACachingImageManager.shared?.manager.requestImage(for: asset.originalAsset, targetSize: size.toPixel(), contentMode: contentMode, options: options, resultHandler: { (image, info) in
             if let isInCloud = info?[PHImageResultIsInCloudKey] as? Bool
                 , image == nil && isInCloud {
                 options.isNetworkAccessAllowed = true
@@ -85,30 +85,25 @@ extension TTAImagePickerManager {
                 if let cancelled = info?[PHImageCancelledKey] as? Bool, cancelled {
                     return
                 }
-                resultHandler(fixOrientation(aImage: image), info)
+                DispatchQueue.global().async {
+                    guard let fixedImage = fixOrientation(aImage: image) else {
+                        DispatchQueue.main.async {
+                            resultHandler(image, info)
+                        }
+                        return
+                    }
+                    guard let scaledImage = scaleImage(image: fixedImage, to: size.toPixel()) else {
+                        DispatchQueue.main.async {
+                            resultHandler(fixedImage, info)
+                        }
+                        return
+                    }
+                    DispatchQueue.main.async {
+                        resultHandler(scaledImage, info)
+                    }
+                }
             }
         })
-    }
-}
-
-// MARK: - Caching
-
-extension TTAImagePickerManager {
-    
-    static func startCachingImages(for assets: [PHAsset], targetSize: CGSize?, contentMode: PHImageContentMode?, options: PHImageRequestOptions?) {
-        guard let manager = PHCachingImageManager.default() as? PHCachingImageManager else { return }
-        let options = options ?? AssetManagerConst.assetRequestOptions
-        let contentMode = contentMode ?? AssetManagerConst.assetMode
-        let targetSize = targetSize ?? AssetManagerConst.assetSize
-        manager.startCachingImages(for: assets, targetSize: targetSize.toPixel(), contentMode: contentMode, options: options)
-    }
-    
-    static func stopCachingImages(for assets: [PHAsset], targetSize: CGSize?, contentMode: PHImageContentMode?, options: PHImageRequestOptions?) {
-        guard let manager = PHCachingImageManager.default() as? PHCachingImageManager else { return }
-        let options = options ?? AssetManagerConst.assetRequestOptions
-        let contentMode = contentMode ?? AssetManagerConst.assetMode
-        let targetSize = targetSize ?? AssetManagerConst.assetSize
-        manager.stopCachingImages(for: assets, targetSize: targetSize.toPixel(), contentMode: contentMode, options: options)
     }
 }
 
