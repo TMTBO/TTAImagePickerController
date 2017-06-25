@@ -74,7 +74,7 @@ fileprivate extension TTAAssetCollectionViewCell {
         imageView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         imageView.contentMode = .scaleAspectFill
         imageView.clipsToBounds = true
-        imageView.layer.contents = UIImage.image(with: .defaultAssetImage, size: min(contentView.bounds.width, contentView.bounds.height)).cgImage
+//        imageView.layer.contents = UIImage.image(with: .defaultAssetImage, size: min(contentView.bounds.width, contentView.bounds.height)).cgImage
         selectButton.autoresizingMask = [.flexibleTopMargin, .flexibleRightMargin]
         selectButton.addTarget(self, action: #selector(didClickSelectButton(_:)), for: .touchUpInside)
     }

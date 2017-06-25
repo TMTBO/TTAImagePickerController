@@ -72,7 +72,7 @@ extension TTAAssetCollectionsTableViewCell {
         accessoryType = .disclosureIndicator
         previewImageView.contentMode = .scaleAspectFill
         previewImageView.clipsToBounds = true
-        previewImageView.layer.contents = UIImage.image(with: .defaultAssetImage, size: min(contentView.bounds.width, contentView.bounds.height)).cgImage
+//        previewImageView.layer.contents = UIImage.image(with: .defaultAssetImage, size: min(contentView.bounds.width, contentView.bounds.height)).cgImage
     }
     
     func _layoutViews() {
