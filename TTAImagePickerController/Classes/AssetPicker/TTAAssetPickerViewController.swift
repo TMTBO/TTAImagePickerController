@@ -100,9 +100,6 @@ extension TTAAssetPickerViewController {
     func _prepareCollectionView() {
         collectionView.dataSource = self
         collectionView.delegate = self
-        if #available(iOS 10.0, *) {
-            collectionView.prefetchDataSource = self
-        }
         collectionView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         collectionView.register(TTAAssetCollectionViewCell.self, forCellWithReuseIdentifier: "\(TTAAssetCollectionViewCell.self)")
     }
@@ -177,23 +174,6 @@ extension TTAAssetPickerViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
         guard let cell = cell as? TTAAssetCollectionViewCell else { return }
         cell.asset = asset(at: indexPath)
-    }
-}
-
-// MARK: - UICollectionViewDataSourcePrefetching
-
-extension TTAAssetPickerViewController: UICollectionViewDataSourcePrefetching {
-    
-    func collectionView(_ collectionView: UICollectionView, prefetchItemsAt indexPaths: [IndexPath]) {
-        let assets = indexPaths.map { return asset(at: $0).originalAsset }
-        guard let layout = collectionView.collectionViewLayout as? UICollectionViewFlowLayout else { return }
-        TTAImagePickerManager.startCachingImages(for: assets, targetSize: layout.itemSize, contentMode: nil, options: nil)
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, cancelPrefetchingForItemsAt indexPaths: [IndexPath]) {
-        let assets = indexPaths.map { return asset(at: $0).originalAsset }
-        guard let layout = collectionView.collectionViewLayout as? UICollectionViewFlowLayout else { return }
-        TTAImagePickerManager.stopCachingImages(for: assets, targetSize: layout.itemSize, contentMode: nil, options: nil)
     }
 }
 
