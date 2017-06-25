@@ -11,6 +11,8 @@ class TTAAssetCollectionViewLayout: UICollectionViewFlowLayout {
     
     struct TTAAssetCollectionViewLayoutConst {
         static let margin: CGFloat = 5
+        static var defaultColumNum: CGFloat = 3
+        static let minimumWithAndHeight: CGFloat = 104
     }
     
     override func prepare() {
@@ -22,12 +24,20 @@ class TTAAssetCollectionViewLayout: UICollectionViewFlowLayout {
         
         guard let collectionView = collectionView else { return }
         
-        let columnNum: CGFloat = 3
-        let width = (collectionView.bounds.width - TTAAssetCollectionViewLayoutConst.margin * (columnNum + 1)) / columnNum
+        itemSize = itemSize(with: collectionView)
+        collectionView.backgroundColor = collectionView.superview?.backgroundColor
+    }
+    
+    func itemSize(with collectionView: UICollectionView) -> CGSize {
+        let margin = TTAAssetCollectionViewLayoutConst.margin
+        var count = TTAAssetCollectionViewLayoutConst.defaultColumNum
+        var width: CGFloat = 0
+        repeat {
+            width = floor((collectionView.bounds.width - (count + 1) * margin) / count)
+            count += 1
+        } while (width > TTAAssetCollectionViewLayoutConst.minimumWithAndHeight)
         let height = width
-        itemSize = CGSize(width: width, height: height)
-        
-        collectionView.backgroundColor = .white
+        return CGSize(width: width, height: height)
     }
     
 }
