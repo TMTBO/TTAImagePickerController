@@ -43,7 +43,7 @@ extension UIFont {
     
     enum IconFont: String {
         case selectMark = "\u{e70d}"
-        case defaultAssetImage = "\u{e6aa}"
+        case defaultAssetImage = "\u{e623}"
     }
     
     struct IconFontSize {
