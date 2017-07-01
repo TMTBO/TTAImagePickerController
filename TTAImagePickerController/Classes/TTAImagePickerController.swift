@@ -21,16 +21,40 @@ public class TTAImagePickerController: UIViewController {
     public var delegate: TTAImagePickerControllerDelegate?
     
     /// The max num image of the image picker can pick, default is 9
-    public var maxPickerNum = 9
+    public var maxPickerNum = 9 {
+        didSet {
+            _ = splitController.viewControllers.map { (vc) in
+                guard let nav = vc as? UINavigationController,
+                    let rootVc = nav.topViewController else { return }
+                if let albumVc = rootVc as? TTAAlbumPickerViewController {
+                    albumVc.selectItemTintColor = selectItemTintColor
+                } else if let assetVc = rootVc as? TTAAssetPickerViewController {
+                    assetVc.selectItemTintColor = selectItemTintColor
+                }
+            }
+        }
+    }
     
     /// The tint color which item was selected, default is `UIColor(colorLiteralRed: 0, green: 122.0 / 255.0, blue: 1, alpha: 1)`
-    public var selectItemTintColor: UIColor?
+    public var selectItemTintColor: UIColor? = UIColor(colorLiteralRed: 0, green: 122.0 / 255.0, blue: 1, alpha: 1) {
+        didSet {
+            _ = splitController.viewControllers.map { (vc) in
+                guard let nav = vc as? UINavigationController,
+                    let rootVc = nav.topViewController else { return }
+                if let albumVc = rootVc as? TTAAlbumPickerViewController {
+                    albumVc.selectItemTintColor = selectItemTintColor
+                } else if let assetVc = rootVc as? TTAAssetPickerViewController {
+                    assetVc.selectItemTintColor = selectItemTintColor
+                }
+            }
+        }
+    }
     
     /// NavigationBar tintColor
     public var tintColor: UIColor = UIColor(colorLiteralRed: 0, green: 122.0 / 255.0, blue: 1, alpha: 1) {
         didSet {
             _ = splitController.viewControllers.map { (viewController) in
-                let viewController = viewController as! UINavigationController
+                guard let viewController = viewController as? UINavigationController else { return }
                 viewController.navigationBar.tintColor = tintColor
                 viewController.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName: tintColor]
             }
@@ -78,11 +102,6 @@ public class TTAImagePickerController: UIViewController {
 // MARK: - Life Cycle
 
 extension TTAImagePickerController {
-    
-    override public func viewDidLoad() {
-        super.viewDidLoad()
-        
-    }
     
     public override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()

@@ -22,6 +22,13 @@ class TTAAssetCollectionViewCell: UICollectionViewCell {
     
     var delegate: TTAAssetCollectionViewCellDelegate?
     
+    /// The tint color which item was selected, default is `UIColor(colorLiteralRed: 0, green: 122.0 / 255.0, blue: 1, alpha: 1)`
+    public var selectItemTintColor: UIColor? {
+        didSet {
+            selectButton.selectItemTintColor = selectItemTintColor
+        }
+    }
+    
     fileprivate let imageView = UIImageView()
     fileprivate let selectButton = TTASelectButton()
     
@@ -64,6 +71,7 @@ fileprivate extension TTAAssetCollectionViewCell {
         imageView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         imageView.contentMode = .scaleAspectFill
         imageView.clipsToBounds = true
+        selectButton.selectItemTintColor = selectItemTintColor
         selectButton.autoresizingMask = [.flexibleTopMargin, .flexibleRightMargin]
         selectButton.addTarget(self, action: #selector(didClickSelectButton(_:)), for: .touchUpInside)
     }

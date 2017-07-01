@@ -17,6 +17,7 @@ class ViewController: UIViewController {
 
     @IBAction func didClickShowImagePickerButton(_ sender: UIButton) {
         let imagePicker = TTAImagePickerController(selectedAsset: [TTAAsset]())
+        imagePicker.selectItemTintColor = .red
         present(imagePicker, animated: true, completion: nil)
     }
     

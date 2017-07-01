@@ -17,7 +17,11 @@ class TTASelectButton: UIButton {
     let bgView = UIView()
     
     /// The tint color which item was selected, default is `UIColor(colorLiteralRed: 0, green: 122.0 / 255.0, blue: 1, alpha: 1)`
-    public var selectItemTintColor: UIColor?
+    public var selectItemTintColor: UIColor? {
+        didSet {
+            bgView.backgroundColor = bgView.backgroundColor == .clear ? .clear : selectItemTintColor
+        }
+    }
     
     var selectState: TTASelectButtonState = .default {
         didSet {

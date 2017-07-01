@@ -129,6 +129,7 @@ fileprivate extension TTAAssetPickerViewController {
     
     func setup(assetCell cell: TTAAssetCollectionViewCell, indexPath: IndexPath) {
         cell.delegate = self
+        cell.selectItemTintColor = selectItemTintColor
         cell.configImage()
         let tag = indexPath.item + 1
         cell.tag = tag
