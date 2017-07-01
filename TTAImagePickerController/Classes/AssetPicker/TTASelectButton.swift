@@ -107,18 +107,10 @@ extension TTASelectButton {
     }
     
     func _selectAnimation() {
-        bgView.transform = .identity
         bgView.transform = CGAffineTransform(scaleX: 0.3, y: 0.3)
-        UIView.animate(withDuration: 0.25, animations: { [weak self] in
-            self?.bgView.transform = CGAffineTransform(scaleX: 1.2, y: 1.2)
-        }) { (isFinished) in
-            UIView.animate(withDuration: 0.1, animations: { [weak self] in
-                self?.bgView.transform = CGAffineTransform(scaleX: 0.9, y: 0.9)
-            }, completion: { (isFinished) in
-                UIView.animate(withDuration: 0.05, animations: { [weak self] in
-                    self?.bgView.transform = .identity
-                })
-            })
-        }
+        UIView.animate(withDuration: 0.3, delay: 0, usingSpringWithDamping: 0.5, initialSpringVelocity: 0, options: .curveEaseIn, animations: { [weak self] in
+            guard let `self` = self else { return }
+            self.bgView.transform = .identity
+        }, completion: nil)
     }
 }
