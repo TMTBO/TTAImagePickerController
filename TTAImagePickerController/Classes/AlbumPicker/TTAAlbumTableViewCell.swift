@@ -24,20 +24,16 @@ class TTAAlbumTableViewCell: UITableViewCell {
     
     var album: TTAAlbum? {
         didSet {
-            guard let album = album else { return }
-            textLabel?.text = album.name
-            detailTextLabel?.text = String(describing: album.assetCount)
             previewImageView.image = nil
             
-            guard let asset = album.thumbnailAsset else { return }
-            let identifier = asset.assetID
-            assetID = identifier
+            guard let album = album else { return }
+            textLabel?.text = album.name()
+            detailTextLabel?.text = String(describing: album.assetCount())
+            
+            guard let asset = album.thumbnailAsset() else { return }
             TTAImagePickerManager.fetchImage(for: asset, size: nil, contentMode: nil, options: nil) { [weak self] (image, _) in
-                
                 guard let `self` = self else { return }
-                if identifier == self.assetID {
-                    self.previewImageView.image = image;
-                }
+                self.previewImageView.image = image;
             }
         }
     }

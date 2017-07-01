@@ -23,7 +23,7 @@ class TTAAssetPickerViewController: UIViewController {
             TTACachingImageManager.shared?.stopCachingImagesForAllAssets()
         }
         didSet {
-            navigationItem.title = album.name
+            navigationItem.title = album.name()
             collectionView.reloadData()
             _scrollToBottom()
             _startCaching()
@@ -83,7 +83,7 @@ extension TTAAssetPickerViewController {
     
     func _configViews() {
         view.backgroundColor = .white
-        navigationItem.title = album.name
+        navigationItem.title = album.name()
         navigationItem.leftBarButtonItem = splitViewController?.displayModeButtonItem
         navigationItem.leftItemsSupplementBackButton = true
         
@@ -131,7 +131,7 @@ extension TTAAssetPickerViewController {
         return album.assets.count
     }
     
-    func asset(at indexPath: IndexPath) -> TTAAsset {
+    func asset(at indexPath: IndexPath) -> PHAsset {
         return album.assets[indexPath.item]
     }
     
@@ -170,7 +170,13 @@ extension TTAAssetPickerViewController: UICollectionViewDelegate {
     
     func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
         guard let cell = cell as? TTAAssetCollectionViewCell else { return }
-        cell.asset = asset(at: indexPath)
+        cell.config()
+        let tag = indexPath.row + 1
+        cell.tag = tag
+        album.requestThumbnail(with: indexPath.item, size: cell.bounds.size) { (image) in
+            if cell.tag != tag { return }
+            cell.config(with: image, hiddenSelectButton: false)
+        }
     }
 }
 

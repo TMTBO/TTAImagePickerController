@@ -15,27 +15,8 @@ class TTAAssetCollectionViewCell: UICollectionViewCell {
         static let selectButtonWidth: CGFloat = selectButtonHeight
     }
     
-    var imageRequestID: PHImageRequestID = 0
-    var assetID: String = ""
-    
     fileprivate let imageView = UIImageView()
     fileprivate let selectButton = TTASelectButton()
-    
-    var asset: TTAAsset! {
-        didSet {
-            config()
-            
-            let identifier = asset.assetID
-            assetID = identifier
-            asset.requestThumbnail(for: contentView.bounds.size) { [weak self] (image) in
-                guard let `self` = self else { return }
-                // `identifier` and `self.asset.assetID` were captured at different time, so they may got different value, to avoid the cell load anther image when scroll too fast
-                if identifier == self.asset.assetID {
-                    self.config(with: image, hiddenSelectButton: false)
-                }
-            }
-        }
-    }
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -89,7 +70,7 @@ fileprivate extension TTAAssetCollectionViewCell {
 
 // MARK: - Data
 
-fileprivate extension TTAAssetCollectionViewCell {
+extension TTAAssetCollectionViewCell {
     
     func config(with image: UIImage? = nil, hiddenSelectButton: Bool = true) {
         imageView.image = image
