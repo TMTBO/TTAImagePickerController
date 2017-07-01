@@ -36,7 +36,7 @@ extension TTAImagePickerManager {
         
         let options = PHFetchOptions()
         options.predicate = NSPredicate(format: "mediaType == %d", PHAssetMediaType.image.rawValue)
-        options.sortDescriptors = [NSSortDescriptor(key: "creationDate", ascending: false)]
+        options.sortDescriptors = [NSSortDescriptor(key: "creationDate", ascending: true)]
         
         fetchResult.enumerateObjects(options: .concurrent) { (assetCollection, _, _) in
             let assetResult = PHAsset.fetchAssets(in: assetCollection, options: options)
