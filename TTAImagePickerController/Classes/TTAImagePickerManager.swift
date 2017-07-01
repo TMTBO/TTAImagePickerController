@@ -29,10 +29,7 @@ class TTAImagePickerManager {
 extension TTAImagePickerManager {
     
     static func fetchAssetCollections() -> [TTAAlbum] {
-        let collectionOptions = PHFetchOptions()
-        collectionOptions.sortDescriptors = [NSSortDescriptor(key: "localizedTitle", ascending: true)]
-        
-        let fetchResult = PHAssetCollection.fetchAssetCollections(with: .smartAlbum, subtype: .any, options: collectionOptions)
+        let fetchResult = PHAssetCollection.fetchAssetCollections(with: .smartAlbum, subtype: .any, options: nil)
         guard fetchResult.count > 0 else { return [TTAAlbum]() }
         
         var assetCollections: [TTAAlbum] = []
@@ -79,9 +76,10 @@ extension TTAImagePickerManager {
                 if let cancelled = info?[PHImageCancelledKey] as? Bool, cancelled {
                     return
                 }
-                DispatchQueue.global().async {
-                    resultHandler(image, info)
+                resultHandler(image, info)
+                
 /*
+                DispatchQueue.global().async {
                     guard let fixedImage = fixOrientation(aImage: image) else {
                         DispatchQueue.main.async {
                             resultHandler(image, info)
@@ -97,8 +95,8 @@ extension TTAImagePickerManager {
                     DispatchQueue.main.async {
                         resultHandler(scaledImage, info)
                     }
- */
                 }
+ */
             }
         })
     }
