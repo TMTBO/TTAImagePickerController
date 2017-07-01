@@ -16,11 +16,11 @@ class TTAImagePickerManager {
 
 extension TTAImagePickerManager {
     
-    static func fetchAssetCollections() -> [TTAAssetCollection] {
+    static func fetchAssetCollections() -> [TTAAlbum] {
         let fetchResult = PHAssetCollection.fetchAssetCollections(with: .smartAlbum, subtype: .any, options: nil)
-        guard fetchResult.count > 0 else { return [TTAAssetCollection]() }
+        guard fetchResult.count > 0 else { return [TTAAlbum]() }
         
-        var assetCollections: [TTAAssetCollection] = []
+        var assetCollections: [TTAAlbum] = []
         
         let options = PHFetchOptions()
         options.predicate = NSPredicate(format: "mediaType == %d", PHAssetMediaType.image.rawValue)
@@ -31,10 +31,10 @@ extension TTAImagePickerManager {
             guard assetResult.count > 0 else { return }
             guard assetCollection.localizedTitle != "Videos" else { return }
             
-            var assetCollectionModel = TTAAssetCollection()
-            assetCollectionModel.originalCollection = assetCollection
-            assetCollectionModel.assetCollectionID = assetCollection.localIdentifier
-            assetCollectionModel.assetCollectionName = assetCollection.localizedTitle
+            var assetCollectionModel = TTAAlbum()
+            assetCollectionModel.originalAlbum = assetCollection
+            assetCollectionModel.albumID = assetCollection.localIdentifier
+            assetCollectionModel.albumName = assetCollection.localizedTitle
             assetCollectionModel.assetCount = assetResult.count
             
             var assets: [TTAAsset] = []
@@ -49,7 +49,7 @@ extension TTAImagePickerManager {
             assetCollections.append(assetCollectionModel)
         }
         assetCollections.sort { (collection1, collection2) -> Bool in
-            return collection1.assetCollectionName < collection2.assetCollectionName
+            return collection1.albumName < collection2.albumName
         }
         return assetCollections
     }

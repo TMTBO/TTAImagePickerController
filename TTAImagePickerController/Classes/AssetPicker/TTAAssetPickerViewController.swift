@@ -18,20 +18,20 @@ class TTAAssetPickerViewController: UIViewController {
     /// The tint color which item was selected, default is `UIColor(colorLiteralRed: 0, green: 122.0 / 255.0, blue: 1, alpha: 1)`
     public var selectItemTintColor: UIColor?
     
-    var collection: TTAAssetCollection! {
+    var album: TTAAlbum! {
         willSet {
             TTACachingImageManager.shared?.stopCachingImagesForAllAssets()
         }
         didSet {
-            navigationItem.title = collection.assetCollectionName
+            navigationItem.title = album.albumName
             collectionView.reloadData()
             _scrollToBottom()
             _startCaching()
         }
     }
     
-    init(collection: TTAAssetCollection) {
-        self.collection = collection
+    init(album: TTAAlbum) {
+        self.album = album
         super.init(nibName: nil, bundle: nil)
         _prepareIconFont()
         TTACachingImageManager.prepareCachingManager()
@@ -83,7 +83,7 @@ extension TTAAssetPickerViewController {
     
     func _configViews() {
         view.backgroundColor = .white
-        navigationItem.title = collection.assetCollectionName
+        navigationItem.title = album.albumName
         navigationItem.leftBarButtonItem = splitViewController?.displayModeButtonItem
         navigationItem.leftItemsSupplementBackButton = true
         
@@ -128,16 +128,16 @@ extension TTAAssetPickerViewController {
 extension TTAAssetPickerViewController {
     
     func assetCount() -> Int {
-        return collection.assets.count
+        return album.assets.count
     }
     
     func asset(at indexPath: IndexPath) -> TTAAsset {
-        return collection.assets[indexPath.item]
+        return album.assets[indexPath.item]
     }
     
     func _startCaching() {
         guard let layout = collectionView.collectionViewLayout as? UICollectionViewFlowLayout else { return }
-        TTACachingImageManager.shared?.startCachingImages(for: collection.assets, targetSize: layout.itemSize, contentMode: nil, options: nil)
+        TTACachingImageManager.shared?.startCachingImages(for: album.assets, targetSize: layout.itemSize, contentMode: nil, options: nil)
     }
 }
 

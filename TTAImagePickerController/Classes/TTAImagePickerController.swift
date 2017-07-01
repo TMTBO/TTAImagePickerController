@@ -94,16 +94,16 @@ extension TTAImagePickerController {
 
 extension TTAImagePickerController {
     
-    func _generateCollectionController(with collections: [TTAAssetCollection], pickerController: UINavigationController) -> UINavigationController {
-        let assetCollectionController = TTAAssetCollectionsViewController(collections: collections, pickerController: pickerController)
+    func _generateCollectionController(with collections: [TTAAlbum], pickerController: UINavigationController) -> UINavigationController {
+        let assetCollectionController = TTAAlbumPickerViewController(albums: collections, pickerController: pickerController)
         assetCollectionController.maxPickerNum = maxPickerNum
         assetCollectionController.selectItemTintColor = selectItemTintColor
         let nav = UINavigationController(rootViewController: assetCollectionController)
         return nav
     }
     
-    func _generateAssetController(with collection: TTAAssetCollection) -> UINavigationController {
-        let assetPickerController = TTAAssetPickerViewController(collection: collection)
+    func _generateAssetController(with collection: TTAAlbum) -> UINavigationController {
+        let assetPickerController = TTAAssetPickerViewController(album: collection)
         assetPickerController.maxPickerNum = maxPickerNum
         assetPickerController.selectItemTintColor = selectItemTintColor
         let nav = UINavigationController(rootViewController: assetPickerController)

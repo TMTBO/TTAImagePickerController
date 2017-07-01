@@ -1,5 +1,5 @@
 //
-//  TTAAssetCollection.swift
+//  TTAAlbum.swift
 //  Pods
 //
 //  Created by TobyoTenma on 17/06/2017.
@@ -9,13 +9,13 @@
 import UIKit
 import Photos
 
-struct TTAAssetCollection {
+struct TTAAlbum {
     
-    var originalCollection: PHAssetCollection!
+    var originalAlbum: PHAssetCollection!
     var assets: [TTAAsset] = []
-    var assetCollectionID: String!
+    var albumID: String!
     
-    var assetCollectionName: String!
+    var albumName: String!
     var assetCount: Int = 0
     var thumbnailAsset: TTAAsset?
 }
