@@ -11,16 +11,18 @@ import Photos
 class TTAAlbumTableViewCell: UITableViewCell {
     
     struct AlbumTableViewCellConst {
-        static let imageViewLeftMargin: CGFloat = 16
-        static let imageViewRightMargin: CGFloat = 10
-        static let imageViewTopMargin: CGFloat = 10
-        static let imageViewBottomMargin: CGFloat = 10
+        let imageViewLeftMargin: CGFloat = 16
+        let imageViewRightMargin: CGFloat = 10
+        let imageViewTopMargin: CGFloat = 10
+        let imageViewBottomMargin: CGFloat = 10
     }
     
     var assetID = ""
     var imageRequestID: PHImageRequestID = 0
     
     fileprivate let previewImageView = UIImageView()
+    
+    fileprivate let const = AlbumTableViewCellConst()
     
     var album: TTAAlbum? {
         didSet {
@@ -72,12 +74,12 @@ extension TTAAlbumTableViewCell {
     }
     
     func _layoutViews() {
-        let height = contentView.bounds.height - AlbumTableViewCellConst.imageViewTopMargin - AlbumTableViewCellConst.imageViewBottomMargin
+        let height = contentView.bounds.height - const.imageViewTopMargin - const.imageViewBottomMargin
         let width = height
-        previewImageView.frame = CGRect(x: AlbumTableViewCellConst.imageViewLeftMargin, y: AlbumTableViewCellConst.imageViewTopMargin, width: width, height: height)
+        previewImageView.frame = CGRect(x: const.imageViewLeftMargin, y: const.imageViewTopMargin, width: width, height: height)
         previewImageView.center.y = contentView.center.y
         
-        let textLabelX = previewImageView.frame.maxX + AlbumTableViewCellConst.imageViewRightMargin
+        let textLabelX = previewImageView.frame.maxX + const.imageViewRightMargin
         textLabel?.frame.origin.x = textLabelX
         detailTextLabel?.frame.origin.x = textLabelX
         detailTextLabel?.frame.origin.y += 5

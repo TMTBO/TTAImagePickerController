@@ -6,7 +6,6 @@
 //
 //
 
-import UIKit
 import Photos
 
 class TTAImagePickerManager {
@@ -33,7 +32,7 @@ extension TTAImagePickerManager {
         let collectionOptions = PHFetchOptions()
         collectionOptions.sortDescriptors = [NSSortDescriptor(key: "localizedTitle", ascending: true)]
         
-        let fetchResult = PHAssetCollection.fetchAssetCollections(with: .smartAlbum, subtype: .any, options: nil)
+        let fetchResult = PHAssetCollection.fetchAssetCollections(with: .smartAlbum, subtype: .any, options: collectionOptions)
         guard fetchResult.count > 0 else { return [TTAAlbum]() }
         
         var assetCollections: [TTAAlbum] = []
@@ -43,7 +42,7 @@ extension TTAImagePickerManager {
         options.sortDescriptors = [NSSortDescriptor(key: "creationDate", ascending: false)]
         
         fetchResult.enumerateObjects(options: .concurrent) { (assetCollection, _, _) in
-            let assetResult = PHAsset.fetchAssets(in: assetCollection, options: nil)
+            let assetResult = PHAsset.fetchAssets(in: assetCollection, options: options)
             guard assetResult.count > 0 else { return }
             guard assetCollection.localizedTitle != "Videos" else { return }
             
@@ -81,6 +80,8 @@ extension TTAImagePickerManager {
                     return
                 }
                 DispatchQueue.global().async {
+                    resultHandler(image, info)
+/*
                     guard let fixedImage = fixOrientation(aImage: image) else {
                         DispatchQueue.main.async {
                             resultHandler(image, info)
@@ -96,6 +97,7 @@ extension TTAImagePickerManager {
                     DispatchQueue.main.async {
                         resultHandler(scaledImage, info)
                     }
+ */
                 }
             }
         })

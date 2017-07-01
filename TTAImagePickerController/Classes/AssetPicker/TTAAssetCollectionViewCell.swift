@@ -10,13 +10,15 @@ import Photos
 class TTAAssetCollectionViewCell: UICollectionViewCell {
     
     struct AssetCollectionViewCellConst {
-        static let selectButtonMargin: CGFloat = 3
-        static let selectButtonHeight: CGFloat = 26
-        static let selectButtonWidth: CGFloat = selectButtonHeight
+        let selectButtonMargin: CGFloat = 3
+        let selectButtonHeight: CGFloat = 26
+        let selectButtonWidth: CGFloat = 26
     }
     
     fileprivate let imageView = UIImageView()
     fileprivate let selectButton = TTASelectButton()
+    
+    fileprivate let const = AssetCollectionViewCellConst()
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -61,10 +63,10 @@ fileprivate extension TTAAssetCollectionViewCell {
     
     func _layoutViews() {
         imageView.frame = contentView.bounds
-        selectButton.frame = CGRect(x: bounds.maxX - AssetCollectionViewCellConst.selectButtonWidth - AssetCollectionViewCellConst.selectButtonMargin,
-                                    y: AssetCollectionViewCellConst.selectButtonMargin,
-                                width: AssetCollectionViewCellConst.selectButtonWidth,
-                               height: AssetCollectionViewCellConst.selectButtonHeight)
+        selectButton.frame = CGRect(x: bounds.maxX - const.selectButtonWidth - const.selectButtonMargin,
+                                    y: const.selectButtonMargin,
+                                width: const.selectButtonWidth,
+                               height: const.selectButtonHeight)
     }
 }
 
