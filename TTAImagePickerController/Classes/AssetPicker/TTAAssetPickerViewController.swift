@@ -23,7 +23,7 @@ class TTAAssetPickerViewController: UIViewController {
             TTACachingImageManager.shared?.stopCachingImagesForAllAssets()
         }
         didSet {
-            navigationItem.title = album.albumName
+            navigationItem.title = album.name
             collectionView.reloadData()
             _scrollToBottom()
             _startCaching()
@@ -83,7 +83,7 @@ extension TTAAssetPickerViewController {
     
     func _configViews() {
         view.backgroundColor = .white
-        navigationItem.title = album.albumName
+        navigationItem.title = album.name
         navigationItem.leftBarButtonItem = splitViewController?.displayModeButtonItem
         navigationItem.leftItemsSupplementBackButton = true
         

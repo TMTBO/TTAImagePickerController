@@ -11,11 +11,11 @@ import Photos
 
 struct TTAAlbum {
     
-    var originalAlbum: PHAssetCollection!
+    var original: PHAssetCollection!
     var assets: [TTAAsset] = []
     var albumID: String!
     
-    var albumName: String!
+    var name: String!
     var assetCount: Int = 0
     var thumbnailAsset: TTAAsset?
 }

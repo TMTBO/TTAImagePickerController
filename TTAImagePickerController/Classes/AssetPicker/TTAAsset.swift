@@ -11,16 +11,16 @@ import Photos
 
 public class TTAAsset {
     
-    var originalAsset: PHAsset
+    var original: PHAsset
     var assetID: String {
-        return originalAsset.localIdentifier
+        return original.localIdentifier
     }
     
     var thumbnail: UIImage?
     var originalImage: UIImage?
     
     init(originalAsset: PHAsset) {
-        self.originalAsset = originalAsset
+        self.original = originalAsset
     }
 }
 
@@ -30,7 +30,7 @@ extension TTAAsset {
     
     func requestThumbnail(for size: CGSize, resultHandler: ((UIImage?) -> Void)?) {
         if thumbnail != nil { resultHandler?(thumbnail); return }
-        return request(for: originalAsset, size: size, options: nil) { [weak self] (image, _) in
+        return request(for: original, size: size, options: nil) { [weak self] (image, _) in
             self?.thumbnail = image
             resultHandler?(image)
         }
@@ -44,7 +44,7 @@ extension TTAAsset {
         options.resizeMode = .exact
         options.isSynchronous = isSync
         
-        request(for: originalAsset, size: UIScreen.main.bounds.size, options: options) { [weak self] (image, _) in
+        request(for: original, size: UIScreen.main.bounds.size, options: options) { [weak self] (image, _) in
             self?.originalImage = image
             resultHandler?(image)
         }

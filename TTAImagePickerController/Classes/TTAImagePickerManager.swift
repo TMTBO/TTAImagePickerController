@@ -32,9 +32,9 @@ extension TTAImagePickerManager {
             guard assetCollection.localizedTitle != "Videos" else { return }
             
             var assetCollectionModel = TTAAlbum()
-            assetCollectionModel.originalAlbum = assetCollection
+            assetCollectionModel.original = assetCollection
             assetCollectionModel.albumID = assetCollection.localIdentifier
-            assetCollectionModel.albumName = assetCollection.localizedTitle
+            assetCollectionModel.name = assetCollection.localizedTitle
             assetCollectionModel.assetCount = assetResult.count
             
             var assets: [TTAAsset] = []
@@ -49,7 +49,7 @@ extension TTAImagePickerManager {
             assetCollections.append(assetCollectionModel)
         }
         assetCollections.sort { (collection1, collection2) -> Bool in
-            return collection1.albumName < collection2.albumName
+            return collection1.name < collection2.name
         }
         return assetCollections
     }
@@ -76,7 +76,7 @@ extension TTAImagePickerManager {
         let contentMode = contentMode ?? AssetManagerConst.assetMode
         let size = size ?? AssetManagerConst.assetSize
         
-        TTACachingImageManager.shared?.manager.requestImage(for: asset.originalAsset, targetSize: size.toPixel(), contentMode: contentMode, options: options, resultHandler: { (image, info) in
+        TTACachingImageManager.shared?.manager.requestImage(for: asset.original, targetSize: size.toPixel(), contentMode: contentMode, options: options, resultHandler: { (image, info) in
             if let isInCloud = info?[PHImageResultIsInCloudKey] as? Bool
                 , image == nil && isInCloud {
                 options.isNetworkAccessAllowed = true
@@ -181,7 +181,7 @@ struct TTACachingImageManager {
     
     func startCachingImages(for assets: [TTAAsset], targetSize: CGSize?, contentMode: PHImageContentMode?, options: PHImageRequestOptions?) {
         DispatchQueue.global().async {
-            let originalAssets = assets.map { return $0.originalAsset }
+            let originalAssets = assets.map { return $0.original }
             let options = options ?? TTAImagePickerManager.AssetManagerConst.assetRequestOptions
             let contentMode = contentMode ?? TTAImagePickerManager.AssetManagerConst.assetMode
             let targetSize = targetSize ?? TTAImagePickerManager.AssetManagerConst.assetSize
@@ -191,7 +191,7 @@ struct TTACachingImageManager {
     
     func stopCachingImages(for assets: [TTAAsset], targetSize: CGSize?, contentMode: PHImageContentMode?, options: PHImageRequestOptions?) {
         DispatchQueue.global().async {
-            let originalAssets = assets.map { return $0.originalAsset }
+            let originalAssets = assets.map { return $0.original }
             let options = options ?? TTAImagePickerManager.AssetManagerConst.assetRequestOptions
             let contentMode = contentMode ?? TTAImagePickerManager.AssetManagerConst.assetMode
             let targetSize = targetSize ?? TTAImagePickerManager.AssetManagerConst.assetSize

@@ -25,7 +25,7 @@ class TTAAlbumTableViewCell: UITableViewCell {
     var album: TTAAlbum? {
         didSet {
             guard let album = album else { return }
-            textLabel?.text = album.albumName
+            textLabel?.text = album.name
             detailTextLabel?.text = String(describing: album.assetCount)
             previewImageView.image = nil
             
