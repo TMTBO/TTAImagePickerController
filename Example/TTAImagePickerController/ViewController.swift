@@ -16,7 +16,7 @@ class ViewController: UIViewController {
     }
 
     @IBAction func didClickShowImagePickerButton(_ sender: UIButton) {
-        let imagePicker = TTAImagePickerController()
+        let imagePicker = TTAImagePickerController(selectedAsset: [TTAAsset]())
         present(imagePicker, animated: true, completion: nil)
     }
     

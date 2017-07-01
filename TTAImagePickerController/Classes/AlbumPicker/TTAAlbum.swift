@@ -34,6 +34,7 @@ extension TTAAlbum {
 }
 
 extension TTAAlbum {
+    
     func asset(at index: Int) -> PHAsset? {
         if index > assets.count || index < 0 { return nil }
         return assets[index]
@@ -41,6 +42,10 @@ extension TTAAlbum {
     
     func index(for asset: PHAsset) -> Int {
         return assets.index(of: asset)
+    }
+    
+    func isContain(_ asset: PHAsset) -> Bool {
+        return assets.contains(asset)
     }
 }
 

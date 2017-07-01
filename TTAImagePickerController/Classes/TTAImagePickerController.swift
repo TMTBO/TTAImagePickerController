@@ -18,10 +18,10 @@ public extension TTAImagePickerControllerDelegate {
 
 public class TTAImagePickerController: UIViewController {
     
-    var delegate: TTAImagePickerControllerDelegate?
+    public var delegate: TTAImagePickerControllerDelegate?
     
     /// The max num image of the image picker can pick, default is 9
-    var maxPickerNum = 9
+    public var maxPickerNum = 9
     
     /// The tint color which item was selected, default is `UIColor(colorLiteralRed: 0, green: 122.0 / 255.0, blue: 1, alpha: 1)`
     public var selectItemTintColor: UIColor?
@@ -49,12 +49,12 @@ public class TTAImagePickerController: UIViewController {
     
     fileprivate let splitController = UISplitViewController()
     
-    public init() {
+    public init(selectedAsset: [TTAAsset]) {
         super.init(nibName: nil, bundle: nil)
-        let collections = TTAImagePickerManager.fetchAssetCollections()
-        if let collection = collections.first {
-            let pickerController = _generateAssetController(with: collection)
-            let collectionController = _generateCollectionController(with: collections, pickerController: pickerController)
+        let albums = TTAImagePickerManager.fetchAssetCollections()
+        if let album = albums.first {
+            let pickerController = _generateAssetController(with: album, selectedAsset: selectedAsset)
+            let collectionController = _generateCollectionController(with: albums, pickerController: pickerController)
             splitController.viewControllers = [collectionController, pickerController]
         }
         addChildViewController(splitController)
@@ -102,8 +102,8 @@ extension TTAImagePickerController {
         return nav
     }
     
-    func _generateAssetController(with collection: TTAAlbum) -> UINavigationController {
-        let assetPickerController = TTAAssetPickerViewController(album: collection)
+    func _generateAssetController(with album: TTAAlbum, selectedAsset: [TTAAsset]) -> UINavigationController {
+        let assetPickerController = TTAAssetPickerViewController(album: album, selectedAsset: selectedAsset.map({ $0.original }))
         assetPickerController.maxPickerNum = maxPickerNum
         assetPickerController.selectItemTintColor = selectItemTintColor
         let nav = UINavigationController(rootViewController: assetPickerController)

@@ -7,6 +7,11 @@
 
 import Photos
 
+protocol TTAAssetCollectionViewCellDelegate {
+    func canOperateCell(cell: TTAAssetCollectionViewCell) -> Bool
+    func assetCell(_ cell: TTAAssetCollectionViewCell, isSelected: Bool)
+}
+
 class TTAAssetCollectionViewCell: UICollectionViewCell {
     
     struct AssetCollectionViewCellConst {
@@ -14,6 +19,8 @@ class TTAAssetCollectionViewCell: UICollectionViewCell {
         let selectButtonHeight: CGFloat = 26
         let selectButtonWidth: CGFloat = 26
     }
+    
+    var delegate: TTAAssetCollectionViewCellDelegate?
     
     fileprivate let imageView = UIImageView()
     fileprivate let selectButton = TTASelectButton()
@@ -74,9 +81,12 @@ fileprivate extension TTAAssetCollectionViewCell {
 
 extension TTAAssetCollectionViewCell {
     
-    func config(with image: UIImage? = nil, hiddenSelectButton: Bool = true) {
+    func configState(isSelected: Bool) {
+        selectButton.selectState = isSelected ? .selected : .default
+    }
+    
+    func configImage(with image: UIImage? = nil) {
         imageView.image = image
-        selectButton.isHidden = hiddenSelectButton
     }
 }
 
@@ -84,6 +94,8 @@ extension TTAAssetCollectionViewCell {
 
 extension TTAAssetCollectionViewCell {
     func didClickSelectButton(_ button: TTASelectButton) {
-        button.selectState = button.selectState == .default ? .selected : .default
+        guard let canOperate = delegate?.canOperateCell(cell: self), canOperate == true else { return }
+        button.selectState = button.selectState == .selected ? .default : .selected
+        delegate?.assetCell(self, isSelected: button.selectState == .selected ? true : false)
     }
 }
