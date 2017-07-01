@@ -123,13 +123,7 @@ fileprivate extension TTAAssetPickerViewController {
         DispatchQueue.main.async { [weak self] in
             guard let `self` = self else { return }
             if self.assetCount() <= Int(TTAAssetCollectionViewLayout.TTAAssetCollectionViewLayoutConst.correctColumNum) { return }
-            let contentSize = self.collectionView.collectionViewLayout.collectionViewContentSize
-            let bounds = self.collectionView.bounds
-            let offsetY = contentSize.height - bounds.height
-            
-            // Because of the NavigationBar, the `offsetY` should less or equal to -64
-            if offsetY <= -64 { return }
-            self.collectionView.contentOffset = CGPoint(x: 0, y: offsetY)
+            self.collectionView.scrollToItem(at: IndexPath(item: self.assetCount() - 1, section: 0), at: .bottom, animated: false)
         }
     }
     
