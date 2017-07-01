@@ -18,20 +18,20 @@ class TTAAssetPickerViewController: UIViewController {
     /// The tint color which item was selected, default is `UIColor(colorLiteralRed: 0, green: 122.0 / 255.0, blue: 1, alpha: 1)`
     public var selectItemTintColor: UIColor?
     
-    var collection: TTAAssetCollection! {
+    var album: TTAAlbum! {
         willSet {
             TTACachingImageManager.shared?.stopCachingImagesForAllAssets()
         }
         didSet {
-            navigationItem.title = collection.assetCollectionName
+            navigationItem.title = album.name()
             collectionView.reloadData()
             _scrollToBottom()
             _startCaching()
         }
     }
     
-    init(collection: TTAAssetCollection) {
-        self.collection = collection
+    init(album: TTAAlbum) {
+        self.album = album
         super.init(nibName: nil, bundle: nil)
         _prepareIconFont()
         TTACachingImageManager.prepareCachingManager()
@@ -74,6 +74,7 @@ extension TTAAssetPickerViewController {
         _createViews()
         _configViews()
         _layoutViews()
+        _prepareCancelItem()
         _startCaching()
     }
     
@@ -83,7 +84,7 @@ extension TTAAssetPickerViewController {
     
     func _configViews() {
         view.backgroundColor = .white
-        navigationItem.title = collection.assetCollectionName
+        navigationItem.title = album.name()
         navigationItem.leftBarButtonItem = splitViewController?.displayModeButtonItem
         navigationItem.leftItemsSupplementBackButton = true
         
@@ -99,6 +100,12 @@ extension TTAAssetPickerViewController {
         collectionView.delegate = self
         collectionView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         collectionView.register(TTAAssetCollectionViewCell.self, forCellWithReuseIdentifier: "\(TTAAssetCollectionViewCell.self)")
+    }
+    
+    func _prepareCancelItem() {
+        if UIDevice.current.userInterfaceIdiom == .pad { return }
+        let cancelItem = UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(didClickCancelItem))
+        self.navigationItem.rightBarButtonItem = cancelItem
     }
     
     func _prepareIconFont() {
@@ -128,16 +135,24 @@ extension TTAAssetPickerViewController {
 extension TTAAssetPickerViewController {
     
     func assetCount() -> Int {
-        return collection.assets.count
+        return album.assets.count
     }
     
-    func asset(at indexPath: IndexPath) -> TTAAsset {
-        return collection.assets[indexPath.item]
+    func asset(at indexPath: IndexPath) -> PHAsset {
+        return album.assets[indexPath.item]
     }
     
     func _startCaching() {
         guard let layout = collectionView.collectionViewLayout as? UICollectionViewFlowLayout else { return }
-        TTACachingImageManager.shared?.startCachingImages(for: collection.assets, targetSize: layout.itemSize, contentMode: nil, options: nil)
+        TTACachingImageManager.shared?.startCachingImages(for: album.assets, targetSize: layout.itemSize, contentMode: nil, options: nil)
+    }
+}
+
+// MARK: - Actions
+
+extension TTAAssetPickerViewController {
+    func didClickCancelItem() {
+        dismiss(animated: true, completion: nil)
     }
 }
 
@@ -170,20 +185,12 @@ extension TTAAssetPickerViewController: UICollectionViewDelegate {
     
     func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
         guard let cell = cell as? TTAAssetCollectionViewCell else { return }
-        cell.asset = asset(at: indexPath)
-    }
-}
-
-private extension UICollectionView {
-    
-    func indexPathsForElements(in rect: CGRect, hidesCamera: Bool) -> [IndexPath] {
-        let allLayoutAttributes = collectionViewLayout.layoutAttributesForElements(in: rect)!
-        
-        if hidesCamera {
-            return allLayoutAttributes.map { $0.indexPath }
-        } else {
-            return allLayoutAttributes.flatMap { $0.indexPath.item == 0 ? nil : IndexPath(item: $0.indexPath.item - 1, section: $0.indexPath.section) }
+        cell.config()
+        let tag = indexPath.row + 1
+        cell.tag = tag
+        album.requestThumbnail(with: indexPath.item, size: cell.bounds.size) { (image) in
+            if cell.tag != tag { return }
+            cell.config(with: image, hiddenSelectButton: false)
         }
     }
-    
 }

@@ -1,5 +1,5 @@
 //
-//  TTAAssetCollectionsTableViewCell.swift
+//  TTAAlbumTableViewCell.swift
 //  Pods
 //
 //  Created by TobyoTenma on 17/06/2017.
@@ -8,13 +8,13 @@
 
 import Photos
 
-class TTAAssetCollectionsTableViewCell: UITableViewCell {
+class TTAAlbumTableViewCell: UITableViewCell {
     
-    struct AssetCollectionsTableViewCellConst {
-        static let imageViewLeftMargin: CGFloat = 16
-        static let imageViewRightMargin: CGFloat = 10
-        static let imageViewTopMargin: CGFloat = 10
-        static let imageViewBottomMargin: CGFloat = 10
+    struct AlbumTableViewCellConst {
+        let imageViewLeftMargin: CGFloat = 16
+        let imageViewRightMargin: CGFloat = 10
+        let imageViewTopMargin: CGFloat = 10
+        let imageViewBottomMargin: CGFloat = 10
     }
     
     var assetID = ""
@@ -22,22 +22,20 @@ class TTAAssetCollectionsTableViewCell: UITableViewCell {
     
     fileprivate let previewImageView = UIImageView()
     
-    var collection: TTAAssetCollection? {
+    fileprivate let const = AlbumTableViewCellConst()
+    
+    var album: TTAAlbum? {
         didSet {
-            guard let collection = collection else { return }
-            textLabel?.text = collection.assetCollectionName
-            detailTextLabel?.text = String(describing: collection.assetCount)
             previewImageView.image = nil
             
-            guard let asset = collection.thumbnailAsset else { return }
-            let identifier = asset.assetID
-            assetID = identifier
+            guard let album = album else { return }
+            textLabel?.text = album.name()
+            detailTextLabel?.text = String(describing: album.assetCount())
+            
+            guard let asset = album.thumbnailAsset() else { return }
             TTAImagePickerManager.fetchImage(for: asset, size: nil, contentMode: nil, options: nil) { [weak self] (image, _) in
-                
                 guard let `self` = self else { return }
-                if identifier == self.assetID {
-                    self.previewImageView.image = image;
-                }
+                self.previewImageView.image = image;
             }
         }
     }
@@ -60,7 +58,7 @@ class TTAAssetCollectionsTableViewCell: UITableViewCell {
 
 // MARK: - UI
 
-extension TTAAssetCollectionsTableViewCell {
+extension TTAAlbumTableViewCell {
     
     func _configViews() {
         layer.shouldRasterize = true
@@ -73,16 +71,15 @@ extension TTAAssetCollectionsTableViewCell {
         accessoryType = .disclosureIndicator
         previewImageView.contentMode = .scaleAspectFill
         previewImageView.clipsToBounds = true
-//        previewImageView.layer.contents = UIImage.image(with: .defaultAssetImage, size: min(contentView.bounds.width, contentView.bounds.height)).cgImage
     }
     
     func _layoutViews() {
-        let height = contentView.bounds.height - AssetCollectionsTableViewCellConst.imageViewTopMargin - AssetCollectionsTableViewCellConst.imageViewBottomMargin
+        let height = contentView.bounds.height - const.imageViewTopMargin - const.imageViewBottomMargin
         let width = height
-        previewImageView.frame = CGRect(x: AssetCollectionsTableViewCellConst.imageViewLeftMargin, y: AssetCollectionsTableViewCellConst.imageViewTopMargin, width: width, height: height)
+        previewImageView.frame = CGRect(x: const.imageViewLeftMargin, y: const.imageViewTopMargin, width: width, height: height)
         previewImageView.center.y = contentView.center.y
         
-        let textLabelX = previewImageView.frame.maxX + AssetCollectionsTableViewCellConst.imageViewRightMargin
+        let textLabelX = previewImageView.frame.maxX + const.imageViewRightMargin
         textLabel?.frame.origin.x = textLabelX
         detailTextLabel?.frame.origin.x = textLabelX
         detailTextLabel?.frame.origin.y += 5

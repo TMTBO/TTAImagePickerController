@@ -1,5 +1,5 @@
 //
-//  TTAAssetCollectionsViewController.swift
+//  TTAAlbumPickerViewController.swift
 //  Pods
 //
 //  Created by TobyoTenma on 17/06/2017.
@@ -8,7 +8,7 @@
 
 import UIKit
 
-class TTAAssetCollectionsViewController: UIViewController {
+class TTAAlbumPickerViewController: UIViewController {
     
     fileprivate let tableView = UITableView()
     
@@ -18,12 +18,12 @@ class TTAAssetCollectionsViewController: UIViewController {
     /// The tint color which item was selected, default is `UIColor(colorLiteralRed: 0, green: 122.0 / 255.0, blue: 1, alpha: 1)`
     public var selectItemTintColor: UIColor?
     
-    let collections: [TTAAssetCollection]
+    let albums: [TTAAlbum]
     
     let assetPickerController: UINavigationController
 
-    init(collections: [TTAAssetCollection], pickerController: UINavigationController) {
-        self.collections = collections
+    init(albums: [TTAAlbum], pickerController: UINavigationController) {
+        self.albums = albums
         assetPickerController = pickerController
         super.init(nibName: nil, bundle: nil)
         self.navigationItem.title = "Library"
@@ -35,14 +35,14 @@ class TTAAssetCollectionsViewController: UIViewController {
     
     deinit {
         #if DEBUG
-            print("TTAImagePickerController >>>>>> assec collection controller deinit")
+            print("TTAImagePickerController >>>>>> Album Picker Controller deinit")
         #endif
     }
 }
 
 // MARK: - Life Cycle
 
-extension TTAAssetCollectionsViewController {
+extension TTAAlbumPickerViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -53,7 +53,7 @@ extension TTAAssetCollectionsViewController {
 
 // MARK: - UI
 
-extension TTAAssetCollectionsViewController {
+extension TTAAlbumPickerViewController {
     
     func _setupUI() {
         _createViews()
@@ -82,7 +82,7 @@ extension TTAAssetCollectionsViewController {
         tableView.tableHeaderView = UIView()
         tableView.tableFooterView = UIView()
         tableView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
-        tableView.register(TTAAssetCollectionsTableViewCell.self, forCellReuseIdentifier: "\(TTAAssetCollectionsTableViewCell.self)")
+        tableView.register(TTAAlbumTableViewCell.self, forCellReuseIdentifier: "\(TTAAlbumTableViewCell.self)")
     }
     
     func _prepareCancelItem() {
@@ -93,20 +93,20 @@ extension TTAAssetCollectionsViewController {
 
 // MARK: - Data
 
-extension TTAAssetCollectionsViewController {
+extension TTAAlbumPickerViewController {
     
-    func collectionCount() -> Int {
-        return collections.count
+    func albumCount() -> Int {
+        return albums.count
     }
     
-    func collection(at indexPath: IndexPath) -> TTAAssetCollection {
-        return collections[indexPath.row]
+    func album(at indexPath: IndexPath) -> TTAAlbum {
+        return albums[indexPath.row]
     }
 }
 
 // MARK: - Action
 
-extension TTAAssetCollectionsViewController {
+extension TTAAlbumPickerViewController {
     
     func didClickCancelItem() {
         dismiss(animated: true, completion: nil)
@@ -116,32 +116,32 @@ extension TTAAssetCollectionsViewController {
 
 // MARK: - UITableViewDataSource
 
-extension TTAAssetCollectionsViewController: UITableViewDataSource {
+extension TTAAlbumPickerViewController: UITableViewDataSource {
     
     func numberOfSections(in tableView: UITableView) -> Int {
         return 1
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return collectionCount()
+        return albumCount()
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "\(TTAAssetCollectionsTableViewCell.self)", for: indexPath) as! TTAAssetCollectionsTableViewCell
-        cell.collection = collection(at: indexPath)
+        let cell = tableView.dequeueReusableCell(withIdentifier: "\(TTAAlbumTableViewCell.self)", for: indexPath) as! TTAAlbumTableViewCell
+        cell.album = album(at: indexPath)
         return cell
     }
 }
 
 // MARK: - UITableViewDelegate
 
-extension TTAAssetCollectionsViewController: UITableViewDelegate {
+extension TTAAlbumPickerViewController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
         guard let splitViewController = splitViewController else { return }
         guard let pickerController = assetPickerController.topViewController as? TTAAssetPickerViewController else { return }
-        pickerController.collection = collection(at: indexPath)
+        pickerController.album = album(at: indexPath)
         splitViewController.showDetailViewController(assetPickerController, sender: nil)
     }
 }
