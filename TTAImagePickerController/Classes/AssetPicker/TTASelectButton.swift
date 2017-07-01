@@ -100,7 +100,7 @@ extension TTASelectButton {
     func _selectItem() {
         circleLayer.isHidden = true
         bgView.backgroundColor = selectItemTintColor ?? UIColor(colorLiteralRed: 0, green: 122.0 / 255.0, blue: 1, alpha: 1)
-        _selectAnimation()
+        bgView.selectItemSpringAnimation()
     }
     
     func _unselectItem() {
@@ -108,13 +108,5 @@ extension TTASelectButton {
         titleLabel?.font = UIFont.iconfont(size: UIFont.IconFontSize.assetSelectMark)
         bgView.backgroundColor = .clear
         circleLayer.isHidden = false
-    }
-    
-    func _selectAnimation() {
-        bgView.transform = CGAffineTransform(scaleX: 0.3, y: 0.3)
-        UIView.animate(withDuration: 0.3, delay: 0, usingSpringWithDamping: 0.5, initialSpringVelocity: 0, options: .curveEaseIn, animations: { [weak self] in
-            guard let `self` = self else { return }
-            self.bgView.transform = .identity
-        }, completion: nil)
     }
 }

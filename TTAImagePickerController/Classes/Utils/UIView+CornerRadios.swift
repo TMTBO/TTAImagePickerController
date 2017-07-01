@@ -9,15 +9,15 @@ import UIKit
 
 extension UIView {
     
-    public func corner(with radius: CGFloat) {
+    func corner(with radius: CGFloat) {
         corner(roundedRect: bounds, cornerRadius: radius)
     }
     
-    public func corner(roundedRect rect: CGRect, corners: UIRectCorner = UIRectCorner.allCorners, cornerRadius: CGFloat) {
+    func corner(roundedRect rect: CGRect, corners: UIRectCorner = UIRectCorner.allCorners, cornerRadius: CGFloat) {
         corner(roundedRect: rect, corners: corners, cornerRadii: CGSize(width: cornerRadius, height: cornerRadius))
     }
     
-    public func corner(roundedRect rect: CGRect, corners: UIRectCorner, cornerRadii: CGSize) {
+    func corner(roundedRect rect: CGRect, corners: UIRectCorner, cornerRadii: CGSize) {
         let maskPath = UIBezierPath(roundedRect: rect, byRoundingCorners: corners, cornerRadii: cornerRadii)
         let maskLayer = CAShapeLayer()
         maskLayer.frame = bounds

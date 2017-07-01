@@ -32,6 +32,9 @@ class TTAAssetPickerViewController: UIViewController {
     }
     
     fileprivate let collectionView = UICollectionView(frame: .zero, collectionViewLayout: TTAAssetCollectionViewLayout())
+    fileprivate var previewItem = UIBarButtonItem()
+    fileprivate var doneItem = UIBarButtonItem()
+    fileprivate var countLabel = TTASelectCountLabel()
     
     init(album: TTAAlbum, selectedAsset: [PHAsset]) {
         self.album = album
@@ -64,8 +67,14 @@ extension TTAAssetPickerViewController {
         _scrollToBottom()
     }
     
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        self.navigationController?.isToolbarHidden = false
+    }
+    
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        self.navigationController?.setToolbarHidden(true, animated: true)
     }
     
 }
@@ -79,6 +88,7 @@ fileprivate extension TTAAssetPickerViewController {
         _configViews()
         _layoutViews()
         _prepareCancelItem()
+        _prepareToolBar()
         _startCaching()
     }
     
@@ -110,6 +120,20 @@ fileprivate extension TTAAssetPickerViewController {
         if UIDevice.current.userInterfaceIdiom == .pad { return }
         let cancelItem = UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(didClickCancelItem))
         self.navigationItem.rightBarButtonItem = cancelItem
+    }
+    
+    func _prepareToolBar() {
+        previewItem = UIBarButtonItem(title: "Preview", style: .plain, target: self, action: #selector(didClickPreviewItem))
+        previewItem.isEnabled = false
+        doneItem = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(didClickDoneItem))
+        doneItem.isEnabled = false
+        let spaceItem = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
+        let countLabelWH = (navigationController?.toolbar.bounds.height ?? 49) - 23
+        countLabel = TTASelectCountLabel(frame: CGRect(x: 0, y: 0, width: countLabelWH, height: countLabelWH))
+        countLabel.selectItemTintColor = selectItemTintColor
+        let countItem = UIBarButtonItem(customView: countLabel)
+        self.toolbarItems = [previewItem, spaceItem, countItem, doneItem]
+        updateCounter()
     }
     
     func _prepareIconFont() {
@@ -144,6 +168,12 @@ fileprivate extension TTAAssetPickerViewController {
             isSelected = false
         }
         cell.configState(isSelected: isSelected)
+    }
+    
+    func updateCounter() {
+        countLabel.config(with: selectedAsset.count)
+        previewItem.isEnabled = selectedAsset.count > 0
+        doneItem.isEnabled = selectedAsset.count > 0
     }
 }
 
@@ -180,6 +210,7 @@ extension TTAAssetPickerViewController {
             guard let index = selectedAsset.index(of: asset) else { return }
             selectedAsset.remove(at: index)
         }
+        updateCounter()
     }
     
     func _startCaching() {
@@ -194,6 +225,13 @@ extension TTAAssetPickerViewController {
 extension TTAAssetPickerViewController {
     func didClickCancelItem() {
         dismiss(animated: true, completion: nil)
+    }
+    
+    func didClickPreviewItem() {
+        
+    }
+    func didClickDoneItem() {
+        
     }
 }
 
