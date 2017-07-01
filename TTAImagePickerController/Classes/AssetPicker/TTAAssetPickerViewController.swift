@@ -74,6 +74,7 @@ extension TTAAssetPickerViewController {
         _createViews()
         _configViews()
         _layoutViews()
+        _prepareCancelItem()
         _startCaching()
     }
     
@@ -99,6 +100,12 @@ extension TTAAssetPickerViewController {
         collectionView.delegate = self
         collectionView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         collectionView.register(TTAAssetCollectionViewCell.self, forCellWithReuseIdentifier: "\(TTAAssetCollectionViewCell.self)")
+    }
+    
+    func _prepareCancelItem() {
+        if UIDevice.current.userInterfaceIdiom == .pad { return }
+        let cancelItem = UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(didClickCancelItem))
+        self.navigationItem.rightBarButtonItem = cancelItem
     }
     
     func _prepareIconFont() {
@@ -141,6 +148,14 @@ extension TTAAssetPickerViewController {
     }
 }
 
+// MARK: - Actions
+
+extension TTAAssetPickerViewController {
+    func didClickCancelItem() {
+        dismiss(animated: true, completion: nil)
+    }
+}
+
 // MARK: - UICollectionViewDataSource
 
 extension TTAAssetPickerViewController: UICollectionViewDataSource {
@@ -178,18 +193,4 @@ extension TTAAssetPickerViewController: UICollectionViewDelegate {
             cell.config(with: image, hiddenSelectButton: false)
         }
     }
-}
-
-private extension UICollectionView {
-    
-    func indexPathsForElements(in rect: CGRect, hidesCamera: Bool) -> [IndexPath] {
-        let allLayoutAttributes = collectionViewLayout.layoutAttributesForElements(in: rect)!
-        
-        if hidesCamera {
-            return allLayoutAttributes.map { $0.indexPath }
-        } else {
-            return allLayoutAttributes.flatMap { $0.indexPath.item == 0 ? nil : IndexPath(item: $0.indexPath.item - 1, section: $0.indexPath.section) }
-        }
-    }
-    
 }
