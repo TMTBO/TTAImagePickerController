@@ -10,9 +10,6 @@ import UIKit
 class TTAPreviewZoomView: UIScrollView {
     
     fileprivate let imageView = UIImageView()
-    fileprivate var imageViewFromFrame: CGRect!
-    fileprivate var imageViewToFrame: CGRect!
-    fileprivate var imageURLString: String!
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -23,34 +20,19 @@ class TTAPreviewZoomView: UIScrollView {
         super.init(coder: aDecoder)
         setupUI()
     }
+    
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        layoutViews()
+    }
 }
 
 // MARK: - Public Method
 
 extension TTAPreviewZoomView {
     
-    /// Config the imageView's `image` and if it's the firstOpen then animation from `fromFram` to `toFrame`
-    public func config(from fromFrame: CGRect, to toFrame: CGRect, image: UIImage?, imageURLString: String?, isFirstOpen: Bool) {
-        zoomScale = 1
-        
-        imageView.image = image
-        imageView.frame = fromFrame
-        self.imageURLString = imageURLString
-        
-        imageViewFromFrame = fromFrame
-        imageViewToFrame = toFrame
-        guard isFirstOpen else {
-            imageView.frame = toFrame
-            return
-        }
-        UIView.animate(withDuration: TTAPreviewZoomView.animationTimeInterval()) { [weak self] in
-            guard let `self` = self else { return }
-            self.imageView.frame = toFrame
-        }
-    }
-    
     /// Config the imageView's `image`
-    public func config(image: UIImage?) {
+    func config(image: UIImage?) {
         imageView.image = image
     }
 }
@@ -62,6 +44,7 @@ fileprivate extension TTAPreviewZoomView {
         func _addViews() {
             addSubview(imageView)
         }
+        
         func _configViews() {
             
             delegate = self
@@ -69,9 +52,9 @@ fileprivate extension TTAPreviewZoomView {
             maximumZoomScale = 2
             showsVerticalScrollIndicator = false
             showsHorizontalScrollIndicator = false
-            backgroundColor = UIColor(white: 0, alpha: 0.9)
+            backgroundColor = .clear
             
-            imageView.alpha = 1.0
+            imageView.autoresizingMask = [.flexibleWidth, .flexibleHeight, .flexibleRightMargin]
             
             let tap = UITapGestureRecognizer(target: self, action: #selector(tapGestureAction(tap:)))
             addGestureRecognizer(tap)
@@ -82,12 +65,14 @@ fileprivate extension TTAPreviewZoomView {
             
             tap.require(toFail: doubleTap)
         }
-        func _layoutViews() {
-            imageView.frame = bounds
-        }
+        
         _addViews()
         _configViews()
-        _layoutViews()
+        layoutViews()
+    }
+    
+    func layoutViews() {
+        imageView.frame = CGRect(x: 0, y: 0, width: bounds.width - 30, height: bounds.height)
     }
 }
 
@@ -101,21 +86,13 @@ fileprivate extension TTAPreviewZoomView {
 
 // MARK: - Actions
 
-fileprivate extension TTAPreviewZoomView {
+extension TTAPreviewZoomView {
     
-    @objc func tapGestureAction(tap: UITapGestureRecognizer) {
-        backgroundColor = .clear
-        isUserInteractionEnabled = false
-        UIView.animate(withDuration: TTAPreviewZoomView.animationTimeInterval(), animations: { [weak self] in
-            guard let `self` = self else { return }
-            let frame = self.convert(self.imageViewFromFrame, from: UIApplication.shared.keyWindow)
-            self.imageView.frame = frame
-        }) { (isFinished) in
-            let topController = UIApplication.shared.keyWindow?.rootViewController
-            topController?.dismiss(animated: true, completion: nil)
-        }
+    func tapGestureAction(tap: UITapGestureRecognizer) {
+        
     }
-    @objc func doubleTapGestureAction(doubleTap: UITapGestureRecognizer) {
+    
+    func doubleTapGestureAction(doubleTap: UITapGestureRecognizer) {
         guard doubleTap.state == .ended else { return }
         if zoomScale > 1 {
             setZoomScale(1, animated: true)

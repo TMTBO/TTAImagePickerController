@@ -9,6 +9,8 @@ import UIKit
 
 class TTAPreviewCollectionViewCell: UICollectionViewCell {
     
+    fileprivate let zoomView = TTAPreviewZoomView()
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         setupUI()
@@ -19,25 +21,37 @@ class TTAPreviewCollectionViewCell: UICollectionViewCell {
     }
 }
 
+// MARK: - Life Cycle
+
+extension TTAPreviewCollectionViewCell {
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        layoutViews()
+    }
+}
+
 // MARK: - UI
 
 extension TTAPreviewCollectionViewCell {
     func setupUI() {
         func _createViews() {
-            
+            contentView.addSubview(zoomView)
         }
         
         func _configViews() {
-            backgroundColor = .white
-        }
-        
-        func _layoutViews() {
-            
+            backgroundColor = .clear
         }
         
         _createViews()
         _configViews()
-        _layoutViews()
+        layoutViews()
     }
     
+    func layoutViews() {
+        zoomView.frame = contentView.bounds
+    }
+    
+    func configImage(with image: UIImage? = nil) {
+        zoomView.config(image: image)
+    }
 }

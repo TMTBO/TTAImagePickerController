@@ -5,12 +5,29 @@
 //  Created by TobyoTenma on 02/07/2017.
 //
 
-import UIKit
+import Photos
 
 class TTAPreviewViewController: UIViewController {
     
+    let album: TTAAlbum
+    let selected: [PHAsset]
+    let maxPickerNum: Int
+    let indexPath: IndexPath
+    
     fileprivate let collectionView = UICollectionView(frame: .zero, collectionViewLayout: TTAPreviewCollectionViewLayout())
     fileprivate var isHiddenStatusBar = true
+    
+    init(album: TTAAlbum, selected: [PHAsset], maxPickerNum: Int, indexPath: IndexPath) {
+        self.album = album
+        self.selected = selected
+        self.maxPickerNum = maxPickerNum
+        self.indexPath = indexPath
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     
 }
 
@@ -86,6 +103,23 @@ fileprivate extension TTAPreviewViewController {
         setNeedsStatusBarAppearanceUpdate()
         UIApplication.shared.isStatusBarHidden = isHidden
     }
+    
+    func setup(assetCell cell: TTAPreviewCollectionViewCell, indexPath: IndexPath) {
+        cell.configImage()
+        let tag = indexPath.item + 1
+        cell.tag = tag
+        album.requestThumbnail(with: indexPath.item, size: cell.bounds.size) { (image) in
+            if cell.tag != tag { return }
+            cell.configImage(with: image)
+        }
+//        let isSelected: Bool
+//        if let currentAsset = album.asset(at: indexPath.item) {
+//            isSelected = selected.contains(currentAsset)
+//        } else {
+//            isSelected = false
+//        }
+//        cell.configState(isSelected: isSelected)
+    }
 }
 
 // MARK: - UICollectionViewDataSource
@@ -97,7 +131,6 @@ extension TTAPreviewViewController: UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "\(TTAPreviewCollectionViewCell.self)", for: indexPath)
-        cell.backgroundColor = indexPath.item % 2 == 0 ? .red : .white
         return cell
     }
 }
@@ -105,5 +138,8 @@ extension TTAPreviewViewController: UICollectionViewDataSource {
 // MARK: - UICollectionViewDelegate
 
 extension TTAPreviewViewController: UICollectionViewDelegate {
-    
+    func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
+        guard let cell = cell as? TTAPreviewCollectionViewCell else { return }
+        setup(assetCell: cell, indexPath: indexPath)
+    }
 }

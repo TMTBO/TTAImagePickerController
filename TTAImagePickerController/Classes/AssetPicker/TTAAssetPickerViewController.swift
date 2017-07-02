@@ -270,7 +270,7 @@ extension TTAAssetPickerViewController: UICollectionViewDelegate {
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         collectionView.deselectItem(at: indexPath, animated: true)
-        let previewVc = TTAPreviewViewController()
+        let previewVc = TTAPreviewViewController(album: album, selected: selectedAsset, maxPickerNum: maxPickerNum, indexPath: indexPath)
         navigationController?.pushViewController(previewVc, animated: true)
         print(indexPath.item)
     }
