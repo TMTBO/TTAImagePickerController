@@ -7,7 +7,13 @@
 
 import UIKit
 
+protocol TTAPreviewZoomViewDelegate: class {
+    func tappedPreviewZoomView(_ zoomView: TTAPreviewZoomView)
+}
+
 class TTAPreviewZoomView: UIScrollView {
+    
+    weak var tapDelegate: TTAPreviewZoomViewDelegate?
     
     fileprivate let imageView = UIImageView()
     
@@ -33,6 +39,15 @@ extension TTAPreviewZoomView {
     /// Config the imageView's `image`
     func config(image: UIImage?) {
         imageView.image = image
+        guard let image = image else { return }
+        let newHeight = image.size.height * bounds.width / image.size.width
+        let newWidth = bounds.width
+        imageView.frame = CGRect(x: 0, y: 0, width: newWidth, height: newHeight)
+        if newHeight < bounds.height {
+            imageView.center = center
+        } else {
+            contentSize = CGSize(width: newWidth, height: newHeight)
+        }
     }
 }
 
@@ -48,12 +63,12 @@ fileprivate extension TTAPreviewZoomView {
             
             delegate = self
             minimumZoomScale = 0.5
-            maximumZoomScale = 2
+            maximumZoomScale = 2.5
+            bounces = false
             showsVerticalScrollIndicator = false
             showsHorizontalScrollIndicator = false
             backgroundColor = .clear
             
-            imageView.frame = CGRect(x: 0, y: 0, width: bounds.width - 30, height: bounds.height)
             imageView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
             imageView.contentMode = .scaleAspectFill
             imageView.clipsToBounds = true
@@ -90,7 +105,7 @@ fileprivate extension TTAPreviewZoomView {
 extension TTAPreviewZoomView {
     
     func tapGestureAction(tap: UITapGestureRecognizer) {
-        
+        tapDelegate?.tappedPreviewZoomView(self)
     }
     
     func doubleTapGestureAction(doubleTap: UITapGestureRecognizer) {

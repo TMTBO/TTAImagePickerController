@@ -19,6 +19,7 @@ class TTAPreviewViewController: UIViewController {
     fileprivate let collectionView = UICollectionView(frame: .zero, collectionViewLayout: TTAPreviewCollectionViewLayout())
     fileprivate let previewNavigationBar = TTAPreviewNavigationBar()
     fileprivate var isHiddenStatusBar = true
+    fileprivate var isHiddenToolBars = false
     
     init(album: TTAAlbum, selected: [PHAsset], maxPickerNum: Int, indexPath: IndexPath) {
         self.album = album
@@ -78,6 +79,7 @@ fileprivate extension TTAPreviewViewController {
         _createViews()
         _configViews()
         layoutViews()
+        _ = updateToolBars(isHidden: isHiddenToolBars)
     }
     
     func _createViews() {
@@ -116,7 +118,15 @@ fileprivate extension TTAPreviewViewController {
         
     }
     
+    func updateToolBars(isHidden: Bool) -> Bool {
+        guard isHiddenToolBars != isHidden else { return false }
+        previewNavigationBar.isHidden = isHidden
+        isHiddenToolBars = isHidden
+        return true
+    }
+    
     func setup(assetCell cell: TTAPreviewCollectionViewCell, indexPath: IndexPath) {
+        cell.delegate = self
         cell.configImage()
         let tag = indexPath.item + 1
         cell.tag = tag
@@ -193,6 +203,8 @@ extension TTAPreviewViewController: UICollectionViewDelegate {
     }
 }
 
+// MARK: - TTAPreviewNavigationBarDelegate
+
 extension TTAPreviewViewController: TTAPreviewNavigationBarDelegate {
     
     func canOperate() -> (canOperate: Bool, asset: PHAsset?) {
@@ -207,5 +219,14 @@ extension TTAPreviewViewController: TTAPreviewNavigationBarDelegate {
     
     func previewNavigationBar(_ navigationBar: TTAPreviewNavigationBar, asset: PHAsset, isSelected: Bool) {
         operateAsset(asset, isSelected: isSelected)
+    }
+}
+
+// MARK: - TTAPreviewCollectionViewCellDelegate
+
+extension TTAPreviewViewController: TTAPreviewCollectionViewCellDelegate {
+    func tappedPreviewCell(_ cell: TTAPreviewCollectionViewCell) {
+        let isUpdated = updateToolBars(isHidden: !isHiddenToolBars)
+        cell.configBackgroundColor(isChange: isUpdated)
     }
 }

@@ -7,7 +7,13 @@
 
 import UIKit
 
+protocol TTAPreviewCollectionViewCellDelegate: class {
+    func tappedPreviewCell(_ cell: TTAPreviewCollectionViewCell)
+}
+
 class TTAPreviewCollectionViewCell: UICollectionViewCell {
+    
+    weak var delegate: TTAPreviewCollectionViewCellDelegate?
     
     fileprivate var zoomView: TTAPreviewZoomView
     
@@ -40,7 +46,9 @@ extension TTAPreviewCollectionViewCell {
         }
         
         func _configViews() {
-            backgroundColor = .clear
+            backgroundColor = .white
+            zoomView.tapDelegate = self
+            zoomView.frame = CGRect(x: 0, y: 0, width: bounds.width - 30, height: bounds.height)
             zoomView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         }
         
@@ -54,5 +62,20 @@ extension TTAPreviewCollectionViewCell {
     
     func configImage(with image: UIImage? = nil) {
         zoomView.config(image: image)
+    }
+    
+    func configBackgroundColor(isChange: Bool) {
+        guard isChange else { return }
+        if backgroundColor == .white {
+            backgroundColor = .black
+        } else {
+            backgroundColor = .white
+        }
+    }
+}
+
+extension TTAPreviewCollectionViewCell: TTAPreviewZoomViewDelegate {
+    func tappedPreviewZoomView(_ zoomView: TTAPreviewZoomView) {
+        delegate?.tappedPreviewCell(self)
     }
 }
