@@ -78,11 +78,14 @@ extension TTAAssetPickerViewController {
         self.navigationController?.isToolbarHidden = false
     }
     
-    override func viewDidDisappear(_ animated: Bool) {
-        super.viewDidDisappear(animated)
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
         self.navigationController?.setToolbarHidden(true, animated: true)
     }
     
+    override var prefersStatusBarHidden: Bool {
+        return false
+    }
 }
 
 // MARK: - UI
@@ -267,6 +270,8 @@ extension TTAAssetPickerViewController: UICollectionViewDelegate {
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         collectionView.deselectItem(at: indexPath, animated: true)
+        let previewVc = TTAPreviewViewController()
+        navigationController?.pushViewController(previewVc, animated: true)
         print(indexPath.item)
     }
     
