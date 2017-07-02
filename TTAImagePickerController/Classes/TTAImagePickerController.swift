@@ -6,19 +6,20 @@
 //  Copyright (c) 2017 TMTBO. All rights reserved.
 //
 
-import UIKit
+import Photos
 
-public protocol TTAImagePickerControllerDelegate { }
+public protocol TTAImagePickerControllerDelegate: class {
+    func imagePickerController(_ picker: TTAImagePickerController, didFinishPicking images: [UIImage], assets: [TTAAsset])
+}
 
-public extension TTAImagePickerControllerDelegate {
-    public func imagePickerController(_ picker: TTAImagePickerController, didFinishPicking images: [UIImage], assets: [TTAAsset]) {
-        
-    }
+// MARK: - Option Functions
+extension TTAImagePickerControllerDelegate {
+    
 }
 
 public class TTAImagePickerController: UIViewController {
     
-    public var delegate: TTAImagePickerControllerDelegate?
+    public weak var delegate: TTAImagePickerControllerDelegate?
     
     /// The max num image of the image picker can pick, default is 9
     public var maxPickerNum = 9 {
@@ -125,7 +126,19 @@ extension TTAImagePickerController {
         let assetPickerController = TTAAssetPickerViewController(album: album, selectedAsset: selectedAsset.map({ $0.original }))
         assetPickerController.maxPickerNum = maxPickerNum
         assetPickerController.selectItemTintColor = selectItemTintColor
+        assetPickerController.delegate = self
         let nav = UINavigationController(rootViewController: assetPickerController)
         return nav
+    }
+}
+
+// MARK: - TTAAssetPickerViewControllerDelegate
+
+extension TTAImagePickerController: TTAAssetPickerViewControllerDelegate {
+    func assetPickerController(_ picker: TTAAssetPickerViewController, didFinishPicking assets: [PHAsset]) {
+        TTAImagePickerManager.fetchImages(for: assets) { [weak self] (images) in
+            guard let `self` = self else { return }
+            self.delegate?.imagePickerController(self, didFinishPicking: images, assets: assets.map({ TTAAsset(original: $0) }))
+        }
     }
 }

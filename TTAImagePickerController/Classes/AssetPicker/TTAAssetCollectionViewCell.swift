@@ -7,7 +7,7 @@
 
 import Photos
 
-protocol TTAAssetCollectionViewCellDelegate {
+protocol TTAAssetCollectionViewCellDelegate: class {
     func canOperateCell(cell: TTAAssetCollectionViewCell) -> Bool
     func assetCell(_ cell: TTAAssetCollectionViewCell, isSelected: Bool)
 }
@@ -20,7 +20,7 @@ class TTAAssetCollectionViewCell: UICollectionViewCell {
         let selectButtonWidth: CGFloat = 26
     }
     
-    var delegate: TTAAssetCollectionViewCellDelegate?
+    weak var delegate: TTAAssetCollectionViewCellDelegate?
     
     /// The tint color which item was selected, default is `UIColor(colorLiteralRed: 0, green: 122.0 / 255.0, blue: 1, alpha: 1)`
     public var selectItemTintColor: UIColor? {

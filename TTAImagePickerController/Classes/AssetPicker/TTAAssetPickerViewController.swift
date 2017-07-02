@@ -8,7 +8,13 @@
 
 import Photos
 
+protocol TTAAssetPickerViewControllerDelegate: class {
+    func assetPickerController(_ picker: TTAAssetPickerViewController, didFinishPicking assets: [PHAsset])
+}
+
 class TTAAssetPickerViewController: UIViewController {
+    
+    weak var delegate: TTAAssetPickerViewControllerDelegate?
     
     /// The max num image of the image picker can pick, default is 9
     var maxPickerNum = 9
@@ -230,8 +236,10 @@ extension TTAAssetPickerViewController {
     func didClickPreviewItem() {
         
     }
+    
     func didClickDoneItem() {
-        
+        dismiss(animated: true, completion: nil)
+        delegate?.assetPickerController(self, didFinishPicking: selectedAsset)
     }
 }
 

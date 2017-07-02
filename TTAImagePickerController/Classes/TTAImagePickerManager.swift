@@ -15,12 +15,23 @@ class TTAImagePickerManager {
         return options
     }
     
+    static func _fetchOriginalOptions() -> PHImageRequestOptions {
+        let options = PHImageRequestOptions()
+        options.resizeMode = .fast
+        options.deliveryMode = .highQualityFormat
+        return options
+    }
+    
     static func _defaultMode() -> PHImageContentMode {
         return PHImageContentMode.aspectFill
     }
     
     static func _defaultSize() -> CGSize {
         return CGSize(width: 104, height: 104)
+    }
+    
+    static func _fetchOriginalSize(with asset: PHAsset) -> CGSize {
+        return CGSize(width: asset.pixelWidth, height: asset.pixelHeight)
     }
 }
 
@@ -58,6 +69,25 @@ extension TTAImagePickerManager {
 // MARK: - TTAAsset
 
 extension TTAImagePickerManager {
+    
+    static func fetchImages(for assets: [PHAsset], size: CGSize? = PHImageManagerMaximumSize, options: PHImageRequestOptions? = nil, resultHandler: @escaping ([UIImage]) -> Void) {
+        let options = options ?? _fetchOriginalOptions()
+        var images: [UIImage] = []
+        let group = DispatchGroup()
+        _ = assets.map { (asset) in
+            group.enter()
+            let size = size ?? _fetchOriginalSize(with: asset)
+            fetchImage(for: asset, size: size, contentMode: nil, options: options, resultHandler: { (image, info) in
+                if let image = image {                
+                    images.append(image)
+                }
+                group.leave()
+            })
+        }
+        group.notify(queue: .main) {
+            resultHandler(images)
+        }
+    }
     
     static func fetchImage(for asset: PHAsset?, size: CGSize?, contentMode: PHImageContentMode?, options: PHImageRequestOptions?, resultHandler: @escaping (UIImage?, [AnyHashable : Any]?) -> Void) {
         

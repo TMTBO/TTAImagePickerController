@@ -18,8 +18,14 @@ class ViewController: UIViewController {
     @IBAction func didClickShowImagePickerButton(_ sender: UIButton) {
         let imagePicker = TTAImagePickerController(selectedAsset: [TTAAsset]())
         imagePicker.selectItemTintColor = .red
+        imagePicker.delegate = self
         present(imagePicker, animated: true, completion: nil)
     }
     
 }
 
+extension ViewController: TTAImagePickerControllerDelegate {
+    func imagePickerController(_ picker: TTAImagePickerController, didFinishPicking images: [UIImage], assets: [TTAAsset]) {
+        print("got the images")
+    }
+}
