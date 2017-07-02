@@ -36,7 +36,7 @@ extension TTAAlbum {
 extension TTAAlbum {
     
     func asset(at index: Int) -> PHAsset? {
-        if index > assets.count || index < 0 { return nil }
+        if index >= assets.count || index < 0 { return nil }
         return assets[index]
     }
     
