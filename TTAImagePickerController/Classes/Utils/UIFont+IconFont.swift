@@ -43,11 +43,11 @@ extension UIFont {
     
     enum IconFont: String {
         case selectMark = "\u{e70d}"
-        case defaultAssetImage = "\u{e623}"
+        case backMark = "\u{e6fa}"
     }
     
     struct IconFontSize {
         static let assetSelectMark: CGFloat = 15
-        static let defaultAssetImage: CGFloat = 25
+        static let backMark: CGFloat = 25
     }
 }
