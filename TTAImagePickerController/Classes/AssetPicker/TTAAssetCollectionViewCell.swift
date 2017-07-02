@@ -8,8 +8,8 @@
 import Photos
 
 protocol TTAAssetCollectionViewCellDelegate: class {
-    func canOperateCell(cell: TTAAssetCollectionViewCell) -> Bool
-    func assetCell(_ cell: TTAAssetCollectionViewCell, isSelected: Bool)
+    func canOperateCell(cell: TTAAssetCollectionViewCell) -> (canOperate: Bool, asset: PHAsset?)
+    func assetCell(_ cell: TTAAssetCollectionViewCell, asset: PHAsset, isSelected: Bool)
 }
 
 class TTAAssetCollectionViewCell: UICollectionViewCell {
@@ -90,6 +90,7 @@ fileprivate extension TTAAssetCollectionViewCell {
 extension TTAAssetCollectionViewCell {
     
     func configState(isSelected: Bool) {
+        guard selectButton.isSelected != isSelected else { return }
         selectButton.selectState = isSelected ? .selected : .default
     }
     
@@ -102,8 +103,9 @@ extension TTAAssetCollectionViewCell {
 
 extension TTAAssetCollectionViewCell {
     func didClickSelectButton(_ button: TTASelectButton) {
-        guard let canOperate = delegate?.canOperateCell(cell: self), canOperate == true else { return }
+        guard let (canOperate, asset) = delegate?.canOperateCell(cell: self),
+            canOperate == true, let operateAsset = asset else { return }
         button.selectState = button.selectState == .selected ? .default : .selected
-        delegate?.assetCell(self, isSelected: button.selectState == .selected ? true : false)
+        delegate?.assetCell(self, asset: operateAsset, isSelected: button.isSelected)
     }
 }

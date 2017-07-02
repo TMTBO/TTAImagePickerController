@@ -271,6 +271,7 @@ extension TTAAssetPickerViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         collectionView.deselectItem(at: indexPath, animated: true)
         let previewVc = TTAPreviewViewController(album: album, selected: selectedAsset, maxPickerNum: maxPickerNum, indexPath: indexPath)
+        previewVc.selectItemTintColor = selectItemTintColor
         navigationController?.pushViewController(previewVc, animated: true)
         print(indexPath.item)
     }
@@ -284,13 +285,12 @@ extension TTAAssetPickerViewController: UICollectionViewDelegate {
 // MARK: - TTAAssetCollectionViewCellDelegate
 
 extension TTAAssetPickerViewController: TTAAssetCollectionViewCellDelegate {
-    func canOperateCell(cell: TTAAssetCollectionViewCell) -> Bool {
-        guard let operateAsset = asset(for: cell) else { return false }
-        return canOperateAsset(operateAsset)
+    func canOperateCell(cell: TTAAssetCollectionViewCell) -> (canOperate: Bool, asset: PHAsset?) {
+        guard let operateAsset = asset(for: cell) else { return (false, nil) }
+        return (canOperateAsset(operateAsset), operateAsset)
     }
     
-    func assetCell(_ cell: TTAAssetCollectionViewCell, isSelected: Bool) {
-        guard let operationAsset = asset(for: cell) else { return }
-        operateAsset(operationAsset, isSelected: isSelected)
+    func assetCell(_ cell: TTAAssetCollectionViewCell, asset: PHAsset, isSelected: Bool) {
+        operateAsset(asset, isSelected: isSelected)
     }
 }
