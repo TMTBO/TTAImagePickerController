@@ -23,7 +23,6 @@ class TTAPreviewZoomView: UIScrollView {
     
     override func layoutSubviews() {
         super.layoutSubviews()
-        layoutViews()
     }
 }
 
@@ -54,7 +53,10 @@ fileprivate extension TTAPreviewZoomView {
             showsHorizontalScrollIndicator = false
             backgroundColor = .clear
             
-            imageView.autoresizingMask = [.flexibleWidth, .flexibleHeight, .flexibleRightMargin]
+            imageView.frame = CGRect(x: 0, y: 0, width: bounds.width - 30, height: bounds.height)
+            imageView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+            imageView.contentMode = .scaleAspectFill
+            imageView.clipsToBounds = true
             
             let tap = UITapGestureRecognizer(target: self, action: #selector(tapGestureAction(tap:)))
             addGestureRecognizer(tap)
@@ -72,7 +74,6 @@ fileprivate extension TTAPreviewZoomView {
     }
     
     func layoutViews() {
-        imageView.frame = CGRect(x: 0, y: 0, width: bounds.width - 30, height: bounds.height)
     }
 }
 

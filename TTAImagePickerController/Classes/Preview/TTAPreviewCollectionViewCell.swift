@@ -9,9 +9,10 @@ import UIKit
 
 class TTAPreviewCollectionViewCell: UICollectionViewCell {
     
-    fileprivate let zoomView = TTAPreviewZoomView()
+    fileprivate var zoomView: TTAPreviewZoomView
     
     override init(frame: CGRect) {
+        zoomView =  TTAPreviewZoomView(frame: frame)
         super.init(frame: frame)
         setupUI()
     }
@@ -40,6 +41,7 @@ extension TTAPreviewCollectionViewCell {
         
         func _configViews() {
             backgroundColor = .clear
+            zoomView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         }
         
         _createViews()
@@ -48,7 +50,6 @@ extension TTAPreviewCollectionViewCell {
     }
     
     func layoutViews() {
-        zoomView.frame = contentView.bounds
     }
     
     func configImage(with image: UIImage? = nil) {

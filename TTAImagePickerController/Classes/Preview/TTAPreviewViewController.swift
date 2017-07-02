@@ -9,12 +9,15 @@ import Photos
 
 class TTAPreviewViewController: UIViewController {
     
-    let album: TTAAlbum
-    let selected: [PHAsset]
-    let maxPickerNum: Int
-    let indexPath: IndexPath
+    var selectItemTintColor: UIColor?
+    
+    fileprivate let album: TTAAlbum
+    fileprivate var selected: [PHAsset]
+    fileprivate let maxPickerNum: Int
+    fileprivate let indexPath: IndexPath
     
     fileprivate let collectionView = UICollectionView(frame: .zero, collectionViewLayout: TTAPreviewCollectionViewLayout())
+    fileprivate let previewNavigationBar = TTAPreviewNavigationBar()
     fileprivate var isHiddenStatusBar = true
     
     init(album: TTAAlbum, selected: [PHAsset], maxPickerNum: Int, indexPath: IndexPath) {
@@ -27,6 +30,12 @@ class TTAPreviewViewController: UIViewController {
     
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    deinit {
+        #if DEBUG
+            print("TTAImagePickerController >>>>>> preview controller deinit")
+        #endif
     }
     
 }
@@ -42,27 +51,23 @@ extension TTAPreviewViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        navigationController?.setNavigationBarHidden(true, animated: true)
+        navigationController?.isNavigationBarHidden = true
         updateStatusBarApperance(isHidden: true)
     }
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
-        navigationController?.setNavigationBarHidden(false, animated: true)
+        navigationController?.isNavigationBarHidden = false
         updateStatusBarApperance(isHidden: false)
     }
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
-        _layoutViews()
+        layoutViews()
     }
     
     override var prefersStatusBarHidden: Bool {
         return isHiddenStatusBar
-    }
-    
-    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        navigationController?.popViewController(animated: true)
     }
 }
 
@@ -72,21 +77,25 @@ fileprivate extension TTAPreviewViewController {
     func setupUI() {
         _createViews()
         _configViews()
-        _layoutViews()
+        layoutViews()
     }
     
     func _createViews() {
         view.backgroundColor = .clear
-        
+        view.addSubview(collectionView)
+        view.addSubview(previewNavigationBar)
     }
     
     func _configViews() {
         automaticallyAdjustsScrollViewInsets = false
+        previewNavigationBar.delegate = self
+        previewNavigationBar.autoresizingMask = [.flexibleHeight, .flexibleWidth]
         _prepareCollectionView()
     }
     
-    func _layoutViews() {
+    func layoutViews() {
         collectionView.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width + 30, height: UIScreen.main.bounds.height)
+        previewNavigationBar.frame = CGRect(x: 0, y: 0, width: view.bounds.width, height: 64)
     }
     
     func _prepareCollectionView() {
@@ -94,7 +103,6 @@ fileprivate extension TTAPreviewViewController {
         collectionView.delegate = self
         collectionView.autoresizingMask = [.flexibleHeight, .flexibleWidth]
         collectionView.register(TTAPreviewCollectionViewCell.self, forCellWithReuseIdentifier: "\(TTAPreviewCollectionViewCell.self)")
-        view.addSubview(collectionView)
     }
     
     func updateStatusBarApperance(isHidden: Bool) {
@@ -102,6 +110,10 @@ fileprivate extension TTAPreviewViewController {
         isHiddenStatusBar = isHidden
         setNeedsStatusBarAppearanceUpdate()
         UIApplication.shared.isStatusBarHidden = isHidden
+    }
+    
+    func updateCounter() {
+        
     }
     
     func setup(assetCell cell: TTAPreviewCollectionViewCell, indexPath: IndexPath) {
@@ -112,13 +124,50 @@ fileprivate extension TTAPreviewViewController {
             if cell.tag != tag { return }
             cell.configImage(with: image)
         }
-//        let isSelected: Bool
-//        if let currentAsset = album.asset(at: indexPath.item) {
-//            isSelected = selected.contains(currentAsset)
-//        } else {
-//            isSelected = false
-//        }
-//        cell.configState(isSelected: isSelected)
+        let isSelected: Bool
+        if let currentAsset = album.asset(at: indexPath.item) {
+            isSelected = selected.contains(currentAsset)
+        } else {
+            isSelected = false
+        }
+        previewNavigationBar.configNavigationBar(isSelected: isSelected)
+    }
+}
+
+// MARK: - Data
+
+extension TTAPreviewViewController {
+    
+    func assetCount() -> Int {
+        return album.assets.count
+    }
+    
+    func asset(at indexPath: IndexPath) -> PHAsset? {
+        return album.asset(at: indexPath.item)
+    }
+    
+    func asset(for cell: UICollectionViewCell) -> PHAsset? {
+        guard let indexPath = collectionView.indexPath(for: cell),
+            let operateAsset = asset(at: indexPath) else { return nil }
+        return operateAsset
+    }
+    
+    func canOperateAsset(_ asset: PHAsset) -> Bool {
+        guard !selected.contains(asset) else { return true }
+        if selected.count >= maxPickerNum {
+            return false
+        }
+        return true
+    }
+    
+    func operateAsset(_ asset: PHAsset, isSelected: Bool) {
+        if isSelected {
+            selected.append(asset)
+        } else {
+            guard let index = selected.index(of: asset) else { return }
+            selected.remove(at: index)
+        }
+        updateCounter()
     }
 }
 
@@ -126,7 +175,7 @@ fileprivate extension TTAPreviewViewController {
 
 extension TTAPreviewViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 10
+        return assetCount()
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -141,5 +190,22 @@ extension TTAPreviewViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
         guard let cell = cell as? TTAPreviewCollectionViewCell else { return }
         setup(assetCell: cell, indexPath: indexPath)
+    }
+}
+
+extension TTAPreviewViewController: TTAPreviewNavigationBarDelegate {
+    
+    func canOperate() -> (canOperate: Bool, asset: PHAsset?) {
+        guard let cell = collectionView.visibleCells.first,
+            let operateAsset = asset(for: cell) else { return (false, nil) }
+        return (canOperateAsset(operateAsset), operateAsset)
+    }
+    
+    func previewNavigationBar(_ navigationBar: TTAPreviewNavigationBar, didClickBack button: UIButton) {
+        navigationController?.popViewController(animated: true)
+    }
+    
+    func previewNavigationBar(_ navigationBar: TTAPreviewNavigationBar, asset: PHAsset, isSelected: Bool) {
+        operateAsset(asset, isSelected: isSelected)
     }
 }
