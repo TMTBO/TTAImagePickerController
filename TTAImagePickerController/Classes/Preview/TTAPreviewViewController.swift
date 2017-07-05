@@ -14,10 +14,11 @@ class TTAPreviewViewController: UIViewController {
     fileprivate let album: TTAAlbum
     fileprivate var selected: [PHAsset]
     fileprivate let maxPickerNum: Int
-    fileprivate let indexPath: IndexPath
+    fileprivate var currentIndexPath: IndexPath
     
     fileprivate let collectionView = UICollectionView(frame: .zero, collectionViewLayout: TTAPreviewCollectionViewLayout())
     fileprivate let previewNavigationBar = TTAPreviewNavigationBar()
+    fileprivate let previewToolBar = TTAPreviewToolBar()
     fileprivate var isHiddenStatusBar = true
     fileprivate var isHiddenToolBars = false
     
@@ -25,7 +26,7 @@ class TTAPreviewViewController: UIViewController {
         self.album = album
         self.selected = selected
         self.maxPickerNum = maxPickerNum
-        self.indexPath = indexPath
+        self.currentIndexPath = indexPath
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -48,6 +49,8 @@ extension TTAPreviewViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupUI()
+        scrollTo(indexPath: currentIndexPath)
+        updateCounter()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -86,18 +89,24 @@ fileprivate extension TTAPreviewViewController {
         view.backgroundColor = .clear
         view.addSubview(collectionView)
         view.addSubview(previewNavigationBar)
+        view.addSubview(previewToolBar)
     }
     
     func _configViews() {
         automaticallyAdjustsScrollViewInsets = false
         previewNavigationBar.delegate = self
+        previewNavigationBar.selectItemTintColor = selectItemTintColor
         previewNavigationBar.autoresizingMask = [.flexibleHeight, .flexibleWidth]
+        previewToolBar.delegate = self
+        previewToolBar.selectItemTintColor = selectItemTintColor
+        previewToolBar.autoresizingMask = [.flexibleHeight, .flexibleWidth]
         _prepareCollectionView()
     }
     
     func layoutViews() {
         collectionView.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width + 30, height: UIScreen.main.bounds.height)
         previewNavigationBar.frame = CGRect(x: 0, y: 0, width: view.bounds.width, height: 64)
+        previewToolBar.frame = CGRect(x: 0, y: view.bounds.height - 44, width: view.bounds.width, height: 44)
     }
     
     func _prepareCollectionView() {
@@ -115,17 +124,23 @@ fileprivate extension TTAPreviewViewController {
     }
     
     func updateCounter() {
-        
+        previewToolBar.update(count: selected.count)
     }
     
     func updateToolBars(isHidden: Bool) -> Bool {
         guard isHiddenToolBars != isHidden else { return false }
         previewNavigationBar.isHidden = isHidden
+        previewToolBar.isHidden = isHidden
         isHiddenToolBars = isHidden
         return true
     }
     
+    func scrollTo(indexPath: IndexPath) {
+        collectionView.scrollToItem(at: indexPath, at: .right, animated: false)
+    }
+    
     func setup(assetCell cell: TTAPreviewCollectionViewCell, indexPath: IndexPath) {
+        currentIndexPath = indexPath
         cell.delegate = self
         cell.configImage()
         let tag = indexPath.item + 1
@@ -219,6 +234,12 @@ extension TTAPreviewViewController: TTAPreviewNavigationBarDelegate {
     
     func previewNavigationBar(_ navigationBar: TTAPreviewNavigationBar, asset: PHAsset, isSelected: Bool) {
         operateAsset(asset, isSelected: isSelected)
+    }
+}
+
+extension TTAPreviewViewController: TTAPreviewToolBarDelegate {
+    func previewToolBar(toolBar: TTAPreviewToolBar, didClick doneButton: UIButton) {
+        self.dismiss(animated: true, completion: nil)
     }
 }
 
