@@ -7,8 +7,13 @@
 
 import Photos
 
+protocol TTAPreviewViewControllerDelegate: class {
+    func previewViewController(previewVc: TTAPreviewViewController, backToAssetPickerControllerWith selectedAsset: [PHAsset])
+}
+
 class TTAPreviewViewController: UIViewController {
     
+    weak var delegate: TTAPreviewViewControllerDelegate?
     var selectItemTintColor: UIColor?
     
     fileprivate let album: TTAAlbum
@@ -229,6 +234,7 @@ extension TTAPreviewViewController: TTAPreviewNavigationBarDelegate {
     }
     
     func previewNavigationBar(_ navigationBar: TTAPreviewNavigationBar, didClickBack button: UIButton) {
+        delegate?.previewViewController(previewVc: self, backToAssetPickerControllerWith: selected)
         navigationController?.popViewController(animated: true)
     }
     
@@ -236,6 +242,8 @@ extension TTAPreviewViewController: TTAPreviewNavigationBarDelegate {
         operateAsset(asset, isSelected: isSelected)
     }
 }
+
+// MARK: - TTAPreviewToolBarDelegate
 
 extension TTAPreviewViewController: TTAPreviewToolBarDelegate {
     func previewToolBar(toolBar: TTAPreviewToolBar, didClick doneButton: UIButton) {
