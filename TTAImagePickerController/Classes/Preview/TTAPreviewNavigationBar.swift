@@ -17,7 +17,11 @@ class TTAPreviewNavigationBar: UIView {
     
     weak var delegate: TTAPreviewNavigationBarDelegate?
     
-    var selectItemTintColor: UIColor?
+    var selectItemTintColor: UIColor? {
+        didSet {
+            selectButton.selectItemTintColor = selectItemTintColor
+        }
+    }
 
     fileprivate var backButton = UIButton()
     fileprivate var selectButton = TTASelectButton()
