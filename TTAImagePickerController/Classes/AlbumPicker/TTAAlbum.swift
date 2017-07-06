@@ -55,12 +55,16 @@ extension TTAAlbum {
     
     func requestThumbnail(with index: Int, size: CGSize, resultHandler: ((UIImage?) -> Void)?) {
         let requestAsset = asset(at: index)
-        request(for: requestAsset, size: size, contentMode: nil, options: nil) { (image, _) in
+        TTAAlbum.requestThumbnail(with: requestAsset, size: size, resultHandler: resultHandler)
+    }
+    
+    static func requestThumbnail(with asset: PHAsset?, size: CGSize, resultHandler: ((UIImage?) -> Void)?) {
+        request(for: asset, size: size, contentMode: nil, options: nil) { (image, _) in
             resultHandler?(image)
         }
     }
     
-    private func request(for asset: PHAsset?,
+    private static func request(for asset: PHAsset?,
                          size: CGSize,
                          contentMode: PHImageContentMode?,
                          options: PHImageRequestOptions?,
