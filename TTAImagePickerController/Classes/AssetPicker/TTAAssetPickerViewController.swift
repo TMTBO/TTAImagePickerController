@@ -184,6 +184,13 @@ fileprivate extension TTAAssetPickerViewController {
         previewItem.isEnabled = selectedAsset.count > 0
         doneItem.isEnabled = selectedAsset.count > 0
     }
+    
+    func showPreviewViewController(from index: Int, isPreview: Bool) {
+        let previewVc = TTAPreviewViewController(album: album, selected: selectedAsset, maxPickerNum: maxPickerNum, index: index, isPreview: isPreview)
+        previewVc.delegate = self
+        previewVc.selectItemTintColor = selectItemTintColor
+        navigationController?.pushViewController(previewVc, animated: true)
+    }
 }
 
 // MARK: - Data
@@ -237,7 +244,7 @@ extension TTAAssetPickerViewController {
     }
     
     func didClickPreviewItem() {
-        
+        showPreviewViewController(from: 0, isPreview: true)
     }
     
     func didClickDoneItem() {
@@ -270,11 +277,7 @@ extension TTAAssetPickerViewController: UICollectionViewDelegate {
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         collectionView.deselectItem(at: indexPath, animated: true)
-        let previewVc = TTAPreviewViewController(album: album, selected: selectedAsset, maxPickerNum: maxPickerNum, index: indexPath.item)
-        previewVc.delegate = self
-        previewVc.selectItemTintColor = selectItemTintColor
-        navigationController?.pushViewController(previewVc, animated: true)
-        print(indexPath.item)
+        showPreviewViewController(from: indexPath.item, isPreview: false)
     }
     
     func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {

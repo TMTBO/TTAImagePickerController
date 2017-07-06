@@ -20,6 +20,7 @@ class TTAPreviewViewController: UIViewController {
     fileprivate var selected: [PHAsset]
     fileprivate let maxPickerNum: Int
     fileprivate var currentIndex: Int
+    fileprivate let isPreview: Bool
     
     fileprivate let collectionView = UICollectionView(frame: .zero, collectionViewLayout: TTAPreviewCollectionViewLayout())
     fileprivate let previewNavigationBar = TTAPreviewNavigationBar()
@@ -27,11 +28,12 @@ class TTAPreviewViewController: UIViewController {
     fileprivate var isHiddenStatusBar = true
     fileprivate var isHiddenToolBars = false
     
-    init(album: TTAAlbum, selected: [PHAsset], maxPickerNum: Int, index: Int) {
+    init(album: TTAAlbum, selected: [PHAsset], maxPickerNum: Int, index: Int, isPreview: Bool) {
         self.album = album
         self.selected = selected
         self.maxPickerNum = maxPickerNum
         self.currentIndex = index
+        self.isPreview = isPreview
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -135,7 +137,7 @@ fileprivate extension TTAPreviewViewController {
     
     func updateNavigationBar() {
         let isSelected: Bool
-        if let currentAsset = album.asset(at: currentIndex) {
+        if let currentAsset = asset(at: IndexPath(item: currentIndex, section: 0)) {
             isSelected = selected.contains(currentAsset)
         } else {
             isSelected = false
@@ -161,9 +163,16 @@ fileprivate extension TTAPreviewViewController {
         cell.configImage()
         let tag = indexPath.item + 1
         cell.tag = tag
-        album.requestThumbnail(with: indexPath.item, size: cell.bounds.size) { (image) in
-            if cell.tag != tag { return }
-            cell.configImage(with: image)
+        if isPreview {
+            TTAAlbum.requestThumbnail(with: asset(at: indexPath), size: cell.bounds.size, resultHandler: { (image) in
+                if cell.tag != tag { return }
+                cell.configImage(with: image)
+            })
+        } else {
+            album.requestThumbnail(with: indexPath.item, size: cell.bounds.size) { (image) in
+                if cell.tag != tag { return }
+                cell.configImage(with: image)
+            }
         }
     }
 }
@@ -173,11 +182,11 @@ fileprivate extension TTAPreviewViewController {
 extension TTAPreviewViewController {
     
     func assetCount() -> Int {
-        return album.assets.count
+        return isPreview ? selected.count : album.assets.count
     }
     
     func asset(at indexPath: IndexPath) -> PHAsset? {
-        return album.asset(at: indexPath.item)
+        return isPreview ? selected[indexPath.item] : album.asset(at: indexPath.item)
     }
     
     func asset(for cell: UICollectionViewCell) -> PHAsset? {
