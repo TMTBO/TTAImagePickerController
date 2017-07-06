@@ -270,7 +270,7 @@ extension TTAAssetPickerViewController: UICollectionViewDelegate {
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         collectionView.deselectItem(at: indexPath, animated: true)
-        let previewVc = TTAPreviewViewController(album: album, selected: selectedAsset, maxPickerNum: maxPickerNum, indexPath: indexPath)
+        let previewVc = TTAPreviewViewController(album: album, selected: selectedAsset, maxPickerNum: maxPickerNum, index: indexPath.item)
         previewVc.delegate = self
         previewVc.selectItemTintColor = selectItemTintColor
         navigationController?.pushViewController(previewVc, animated: true)

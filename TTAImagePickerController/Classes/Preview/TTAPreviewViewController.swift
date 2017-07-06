@@ -19,7 +19,7 @@ class TTAPreviewViewController: UIViewController {
     fileprivate let album: TTAAlbum
     fileprivate var selected: [PHAsset]
     fileprivate let maxPickerNum: Int
-    fileprivate var currentIndexPath: IndexPath
+    fileprivate var currentIndex: Int
     
     fileprivate let collectionView = UICollectionView(frame: .zero, collectionViewLayout: TTAPreviewCollectionViewLayout())
     fileprivate let previewNavigationBar = TTAPreviewNavigationBar()
@@ -27,11 +27,11 @@ class TTAPreviewViewController: UIViewController {
     fileprivate var isHiddenStatusBar = true
     fileprivate var isHiddenToolBars = false
     
-    init(album: TTAAlbum, selected: [PHAsset], maxPickerNum: Int, indexPath: IndexPath) {
+    init(album: TTAAlbum, selected: [PHAsset], maxPickerNum: Int, index: Int) {
         self.album = album
         self.selected = selected
         self.maxPickerNum = maxPickerNum
-        self.currentIndexPath = indexPath
+        self.currentIndex = index
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -54,7 +54,8 @@ extension TTAPreviewViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupUI()
-        scrollTo(indexPath: currentIndexPath)
+        scroll(to: currentIndex)
+        updateNavigationBar()
         updateCounter()
     }
     
@@ -132,6 +133,16 @@ fileprivate extension TTAPreviewViewController {
         previewToolBar.update(count: selected.count)
     }
     
+    func updateNavigationBar() {
+        let isSelected: Bool
+        if let currentAsset = album.asset(at: currentIndex) {
+            isSelected = selected.contains(currentAsset)
+        } else {
+            isSelected = false
+        }
+        previewNavigationBar.configNavigationBar(isSelected: isSelected)
+    }
+    
     func updateToolBars(isHidden: Bool) -> Bool {
         guard isHiddenToolBars != isHidden else { return false }
         previewNavigationBar.isHidden = isHidden
@@ -140,12 +151,12 @@ fileprivate extension TTAPreviewViewController {
         return true
     }
     
-    func scrollTo(indexPath: IndexPath) {
+    func scroll(to index: Int) {
+        let indexPath = IndexPath(item: index, section: 0)
         collectionView.scrollToItem(at: indexPath, at: .right, animated: false)
     }
     
     func setup(assetCell cell: TTAPreviewCollectionViewCell, indexPath: IndexPath) {
-        currentIndexPath = indexPath
         cell.delegate = self
         cell.configImage()
         let tag = indexPath.item + 1
@@ -154,13 +165,6 @@ fileprivate extension TTAPreviewViewController {
             if cell.tag != tag { return }
             cell.configImage(with: image)
         }
-        let isSelected: Bool
-        if let currentAsset = album.asset(at: indexPath.item) {
-            isSelected = selected.contains(currentAsset)
-        } else {
-            isSelected = false
-        }
-        previewNavigationBar.configNavigationBar(isSelected: isSelected)
     }
 }
 
@@ -209,7 +213,8 @@ extension TTAPreviewViewController: UICollectionViewDataSource {
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "\(TTAPreviewCollectionViewCell.self)", for: indexPath)
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "\(TTAPreviewCollectionViewCell.self)", for: indexPath) as! TTAPreviewCollectionViewCell
+        setup(assetCell: cell, indexPath: indexPath)
         return cell
     }
 }
@@ -217,9 +222,14 @@ extension TTAPreviewViewController: UICollectionViewDataSource {
 // MARK: - UICollectionViewDelegate
 
 extension TTAPreviewViewController: UICollectionViewDelegate {
-    func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
-        guard let cell = cell as? TTAPreviewCollectionViewCell else { return }
-        setup(assetCell: cell, indexPath: indexPath)
+    
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        let offsetWidth = scrollView.contentOffset.x // + view.bounds.width + 30
+        let index: Int = Int(offsetWidth / (view.bounds.width + 30))
+        if index < assetCount() && currentIndex != index {
+            currentIndex = index
+            updateNavigationBar()
+        }
     }
 }
 
