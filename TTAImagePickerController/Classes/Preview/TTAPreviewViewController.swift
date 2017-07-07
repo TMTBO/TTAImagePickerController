@@ -8,7 +8,8 @@
 import Photos
 
 protocol TTAPreviewViewControllerDelegate: class {
-    func previewViewController(previewVc: TTAPreviewViewController, backToAssetPickerControllerWith selectedAsset: [PHAsset])
+    func previewViewController(_ previewVc: TTAPreviewViewController, backToAssetPickerControllerWith selectedAsset: [PHAsset])
+    func previewViewController(_ previewVc: TTAPreviewViewController, didFinishPicking assets: [PHAsset])
 }
 
 class TTAPreviewViewController: UIViewController {
@@ -233,7 +234,7 @@ extension TTAPreviewViewController: UICollectionViewDataSource {
 extension TTAPreviewViewController: UICollectionViewDelegate {
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        let offsetWidth = scrollView.contentOffset.x // + view.bounds.width + 30
+        let offsetWidth = scrollView.contentOffset.x
         let index: Int = Int(offsetWidth / (view.bounds.width + 30))
         if index < assetCount() && currentIndex != index {
             currentIndex = index
@@ -253,7 +254,7 @@ extension TTAPreviewViewController: TTAPreviewNavigationBarDelegate {
     }
     
     func previewNavigationBar(_ navigationBar: TTAPreviewNavigationBar, didClickBack button: UIButton) {
-        delegate?.previewViewController(previewVc: self, backToAssetPickerControllerWith: selected)
+        delegate?.previewViewController(self, backToAssetPickerControllerWith: selected)
         navigationController?.popViewController(animated: true)
     }
     
@@ -265,7 +266,8 @@ extension TTAPreviewViewController: TTAPreviewNavigationBarDelegate {
 // MARK: - TTAPreviewToolBarDelegate
 
 extension TTAPreviewViewController: TTAPreviewToolBarDelegate {
-    func previewToolBar(toolBar: TTAPreviewToolBar, didClick doneButton: UIButton) {
+    func previewToolBar(toolBar: TTAPreviewToolBar, didClickDone button: UIButton) {
+        delegate?.previewViewController(self, didFinishPicking: selected)
         self.dismiss(animated: true, completion: nil)
     }
 }

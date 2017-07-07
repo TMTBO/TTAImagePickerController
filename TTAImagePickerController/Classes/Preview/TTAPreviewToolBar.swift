@@ -8,7 +8,7 @@
 import UIKit
 
 protocol TTAPreviewToolBarDelegate: class {
-    func previewToolBar(toolBar: TTAPreviewToolBar, didClick doneButton: UIButton)
+    func previewToolBar(toolBar: TTAPreviewToolBar, didClickDone button: UIButton)
 }
 
 class TTAPreviewToolBar: UIView {
@@ -89,7 +89,7 @@ extension TTAPreviewToolBar {
 
 extension TTAPreviewToolBar {
     func didClickDoneButton() {
-        delegate?.previewToolBar(toolBar: self, didClick: doneButton)
+        delegate?.previewToolBar(toolBar: self, didClickDone: doneButton)
     }
 }
 

@@ -302,7 +302,12 @@ extension TTAAssetPickerViewController: TTAAssetCollectionViewCellDelegate {
 // MARK: - TTAPreviewViewControllerDelegate
 
 extension TTAAssetPickerViewController: TTAPreviewViewControllerDelegate {
-    func previewViewController(previewVc: TTAPreviewViewController, backToAssetPickerControllerWith selectedAsset: [PHAsset]) {
+    
+    func previewViewController(_ previewVc: TTAPreviewViewController, didFinishPicking assets: [PHAsset]) {
+        delegate?.assetPickerController(self, didFinishPicking: assets)
+    }
+    
+    func previewViewController(_ previewVc: TTAPreviewViewController, backToAssetPickerControllerWith selectedAsset: [PHAsset]) {
         guard self.selectedAsset != selectedAsset else { return }
         collectionView.reloadData()
         self.selectedAsset = selectedAsset
