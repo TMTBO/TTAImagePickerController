@@ -21,7 +21,7 @@ class TTAPreviewToolBar: UIView {
         }
     }
     
-    fileprivate var doneButton = UIButton()
+    fileprivate var doneButton = UIButton(type: .system)
     fileprivate let countLabel = TTASelectCountLabel()
     
     override init(frame: CGRect) {

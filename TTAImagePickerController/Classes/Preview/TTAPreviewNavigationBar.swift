@@ -23,7 +23,7 @@ class TTAPreviewNavigationBar: UIView {
         }
     }
 
-    fileprivate var backButton = UIButton()
+    fileprivate var backButton = UIButton(type: .system)
     fileprivate var selectButton = TTASelectButton()
     
     override init(frame: CGRect) {
