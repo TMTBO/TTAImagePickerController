@@ -32,8 +32,7 @@ class TTAAlbumTableViewCell: UITableViewCell {
             textLabel?.text = album.name()
             detailTextLabel?.text = String(describing: album.assetCount())
             
-            guard let asset = album.thumbnailAsset() else { return }
-            TTAImagePickerManager.fetchImage(for: asset, size: nil, contentMode: nil, options: nil) { [weak self] (image, _) in
+            album.requestThumbnail(with: 0, size: previewImageView.bounds.size.toPixel()) { [weak self] (image) in
                 guard let `self` = self else { return }
                 self.previewImageView.image = image;
             }

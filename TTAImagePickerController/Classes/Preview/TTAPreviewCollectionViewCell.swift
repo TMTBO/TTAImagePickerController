@@ -16,6 +16,7 @@ class TTAPreviewCollectionViewCell: UICollectionViewCell {
     weak var delegate: TTAPreviewCollectionViewCellDelegate?
     
     fileprivate var zoomView: TTAPreviewZoomView
+    fileprivate var progressView = TTAProgressView()
     
     override init(frame: CGRect) {
         zoomView =  TTAPreviewZoomView(frame: frame)
@@ -39,17 +40,18 @@ extension TTAPreviewCollectionViewCell {
 
 // MARK: - UI
 
-extension TTAPreviewCollectionViewCell {
+fileprivate extension TTAPreviewCollectionViewCell {
     func setupUI() {
         func _createViews() {
             contentView.addSubview(zoomView)
+            contentView.addSubview(progressView)
         }
         
         func _configViews() {
             backgroundColor = .white
             zoomView.tapDelegate = self
-            zoomView.frame = CGRect(x: 0, y: 0, width: bounds.width - 30, height: bounds.height)
             zoomView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+            progressView.isHidden = true
         }
         
         _createViews()
@@ -58,10 +60,15 @@ extension TTAPreviewCollectionViewCell {
     }
     
     func layoutViews() {
+        zoomView.frame = CGRect(x: 0, y: 0, width: bounds.width - TTAPreviewCollectionViewCell.cellMargin(), height: bounds.height)
+        progressView.frame = CGRect(x: zoomView.bounds.width - TTAProgressView.rightMargin() - TTAProgressView.widthAndHeight(), y: zoomView.bounds.height - TTAProgressView.bottomMargin() - TTAProgressView.widthAndHeight(), width: TTAProgressView.widthAndHeight(), height: TTAProgressView.widthAndHeight())
     }
-    
+}
+
+extension TTAPreviewCollectionViewCell {
     func configImage(with image: UIImage? = nil) {
         zoomView.config(image: image)
+        progressView.isHidden = true
     }
     
     func configBackgroundColor(isChange: Bool) {
@@ -72,7 +79,24 @@ extension TTAPreviewCollectionViewCell {
             backgroundColor = .white
         }
     }
+    
+    func updateProgress(_ progress: Double) {
+        let shouldUpdate = (progress >= 0 && progress <= 1)
+        progressView.isHidden = !shouldUpdate
+        guard shouldUpdate else { return }
+        progressView.update(to: progress)
+    }
 }
+
+// MARK: - Const
+
+extension TTAPreviewCollectionViewCell {
+    static func cellMargin() -> CGFloat {
+        return 30
+    }
+}
+
+// MARK: - TTAPreviewZoomViewDelegate
 
 extension TTAPreviewCollectionViewCell: TTAPreviewZoomViewDelegate {
     func tappedPreviewZoomView(_ zoomView: TTAPreviewZoomView) {

@@ -9,28 +9,30 @@
 import Photos
 
 class TTAImagePickerManager {
-    static func _defaultOptions() -> PHImageRequestOptions {
+    static func defaultOptions() -> PHImageRequestOptions {
         let options = PHImageRequestOptions()
         options.resizeMode = .fast
+        options.deliveryMode = .opportunistic
         return options
     }
     
-    static func _fetchOriginalOptions() -> PHImageRequestOptions {
+    static func fetchOriginalOptions() -> PHImageRequestOptions {
         let options = PHImageRequestOptions()
         options.resizeMode = .fast
         options.deliveryMode = .highQualityFormat
         return options
     }
     
-    static func _defaultMode() -> PHImageContentMode {
+    static func defaultMode() -> PHImageContentMode {
         return PHImageContentMode.aspectFill
     }
     
-    static func _defaultSize() -> CGSize {
+    static func defaultSize() -> CGSize {
         return CGSize(width: 104, height: 104)
     }
     
-    static func _fetchOriginalSize(with asset: PHAsset) -> CGSize {
+    static func fetchOriginalSize(with asset: PHAsset?) -> CGSize {
+        guard let asset = asset else { return defaultSize() }
         return CGSize(width: asset.pixelWidth, height: asset.pixelHeight)
     }
 }
@@ -70,15 +72,13 @@ extension TTAImagePickerManager {
 
 extension TTAImagePickerManager {
     
-    static func fetchImages(for assets: [PHAsset], size: CGSize? = PHImageManagerMaximumSize, options: PHImageRequestOptions? = nil, resultHandler: @escaping ([UIImage]) -> Void) {
-        let options = options ?? _fetchOriginalOptions()
+    static func fetchImages(for assets: [PHAsset], size: CGSize? = PHImageManagerMaximumSize, options: PHImageRequestOptions? = nil, progressHandler: PHAssetImageProgressHandler?,pr resultHandler: @escaping ([UIImage]) -> Void) {
         var images: [UIImage] = []
         let group = DispatchGroup()
         _ = assets.map { (asset) in
             group.enter()
-            let size = size ?? _fetchOriginalSize(with: asset)
-            fetchImage(for: asset, size: size, contentMode: nil, options: options, resultHandler: { (image, info) in
-                if let image = image {                
+            fetchOriginalImage(for: asset, options: fetchOriginalOptions(), progressHandler: progressHandler, resultHandler: { (image) in
+                if let image = image {
                     images.append(image)
                 }
                 group.leave()
@@ -89,25 +89,37 @@ extension TTAImagePickerManager {
         }
     }
     
-    static func fetchImage(for asset: PHAsset?, size: CGSize?, contentMode: PHImageContentMode?, options: PHImageRequestOptions?, resultHandler: @escaping (UIImage?, [AnyHashable : Any]?) -> Void) {
-        
+    static func fetchPreviewImage(for asset: PHAsset?, progressHandler: PHAssetImageProgressHandler?, resultHandler: @escaping (UIImage?) -> Void) {
+        fetchImage(for: asset, size: fetchOriginalSize(with: asset), options: defaultOptions(), progressHandler: progressHandler) { (image, _) in
+            resultHandler(image)
+        }
+    }
+    
+    static func fetchOriginalImage(for asset: PHAsset?, options: PHImageRequestOptions, progressHandler: PHAssetImageProgressHandler?, resultHandler: @escaping (UIImage?) -> Void) {
+        fetchImage(for: asset, size: fetchOriginalSize(with: asset), options: options, progressHandler: progressHandler) { (image, info) in
+            resultHandler(image)
+        }
+    }
+    
+    static func fetchImage(for asset: PHAsset?, size: CGSize, options: PHImageRequestOptions, progressHandler: PHAssetImageProgressHandler?, resultHandler: @escaping (UIImage?, [AnyHashable : Any]?) -> Void) {
         guard let asset = asset else { resultHandler(nil, nil); return }
         
-        let options = options ?? _defaultOptions()
-        let contentMode = contentMode ?? _defaultMode()
-        let size = size ?? _defaultSize()
-        
-        TTACachingImageManager.shared?.manager.requestImage(for: asset, targetSize: size.toPixel(), contentMode: contentMode, options: options, resultHandler: { (image, info) in
+        TTACachingImageManager.shared?.manager.requestImage(for: asset, targetSize: size, contentMode: defaultMode(), options: options, resultHandler: { (image, info) in
             if let isInCloud = info?[PHImageResultIsInCloudKey] as? Bool
                 , image == nil && isInCloud {
                 options.isNetworkAccessAllowed = true
-                _ = fetchImage(for: asset, size: size, contentMode: contentMode, options: options, resultHandler: resultHandler)
+                options.progressHandler = { (progress, error, stop, info) in
+                    DispatchQueue.main.async {
+                        progressHandler?(progress, error, stop, info)
+                    }
+                }
+                PHImageManager.default().requestImage(for: asset, targetSize: size.toPixel(), contentMode: defaultMode(), options: options, resultHandler: resultHandler)
+//                fetchImageData(for: asset, size: size, options: options, progressHandler: progressHandler, resultHandler: resultHandler)
             } else {
-                if let cancelled = info?[PHImageCancelledKey] as? Bool, cancelled {
+                if let cancelled = info?[PHImageCancelledKey] as? Bool, info?[PHImageErrorKey] != nil && cancelled {
                     return
                 }
                 resultHandler(image, info)
-                
 /*
                 DispatchQueue.global().async {
                     guard let fixedImage = fixOrientation(aImage: image) else {
@@ -128,6 +140,18 @@ extension TTAImagePickerManager {
                 }
  */
             }
+        })
+    }
+    
+    static func fetchImageData(for asset: PHAsset?, size: CGSize, options: PHImageRequestOptions, progressHandler: PHAssetImageProgressHandler?, resultHandler: @escaping (UIImage?, [AnyHashable : Any]?) -> Void) {
+        guard let asset = asset else { resultHandler(nil, nil); return }
+        
+        TTACachingImageManager.shared?.manager.requestImageData(for: asset, options: options, resultHandler: { (data, dataUTI, orientation, info) in
+            guard let imageData = data,
+                let image = UIImage(data: imageData, scale: UIScreen.main.scale),
+                let scaledImage = scaleImage(image: image, to: size),
+                let resultImage = fixOrientation(aImage: scaledImage) else { resultHandler(nil, nil); return }
+            resultHandler(resultImage, info)
         })
     }
 }
@@ -210,9 +234,9 @@ struct TTACachingImageManager {
             assets.enumerateObjects({ (asset, index, isStop) in
                 originalAssets.append(asset)
             })
-            let options = options ?? TTAImagePickerManager._defaultOptions()
-            let contentMode = contentMode ?? TTAImagePickerManager._defaultMode()
-            let targetSize = targetSize ?? TTAImagePickerManager._defaultSize()
+            let options = options ?? TTAImagePickerManager.defaultOptions()
+            let contentMode = contentMode ?? TTAImagePickerManager.defaultMode()
+            let targetSize = targetSize ?? TTAImagePickerManager.defaultSize()
             self.manager.startCachingImages(for: originalAssets, targetSize: targetSize.toPixel(), contentMode: contentMode, options: options)
         }
     }
@@ -223,9 +247,9 @@ struct TTACachingImageManager {
             assets.enumerateObjects({ (asset, index, isStop) in
                 originalAssets.append(asset)
             })
-            let options = options ?? TTAImagePickerManager._defaultOptions()
-            let contentMode = contentMode ?? TTAImagePickerManager._defaultMode()
-            let targetSize = targetSize ?? TTAImagePickerManager._defaultSize()
+            let options = options ?? TTAImagePickerManager.defaultOptions()
+            let contentMode = contentMode ?? TTAImagePickerManager.defaultMode()
+            let targetSize = targetSize ?? TTAImagePickerManager.defaultSize()
             self.manager.stopCachingImages(for: originalAssets, targetSize: targetSize.toPixel(), contentMode: contentMode, options: options)
         }
     }

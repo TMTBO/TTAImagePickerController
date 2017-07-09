@@ -53,23 +53,18 @@ extension TTAAlbum {
 
 extension TTAAlbum {
     
-    func requestThumbnail(with index: Int, size: CGSize, resultHandler: ((UIImage?) -> Void)?) {
+    func requestThumbnail(with index: Int, size: CGSize, progressHandler: PHAssetImageProgressHandler? = nil, resultHandler: ((UIImage?) -> Void)?) {
         let requestAsset = asset(at: index)
-        TTAAlbum.requestThumbnail(with: requestAsset, size: size, resultHandler: resultHandler)
-    }
-    
-    static func requestThumbnail(with asset: PHAsset?, size: CGSize, resultHandler: ((UIImage?) -> Void)?) {
-        request(for: asset, size: size, contentMode: nil, options: nil) { (image, _) in
+        request(for: requestAsset, size: size, options: TTAImagePickerManager.defaultOptions(), progressHandler: progressHandler) { (image, _) in
             resultHandler?(image)
         }
     }
     
-    private static func request(for asset: PHAsset?,
+    private func request(for asset: PHAsset?,
                          size: CGSize,
-                         contentMode: PHImageContentMode?,
-                         options: PHImageRequestOptions?,
+                         options: PHImageRequestOptions,
+                         progressHandler: PHAssetImageProgressHandler?,
                          resultHandler: @escaping (UIImage?, [AnyHashable : Any]?) -> Void) {
-        TTAImagePickerManager.fetchImage(for: asset, size: size, contentMode: contentMode, options: options, resultHandler: resultHandler)
-        
+            TTAImagePickerManager.fetchImage(for: asset, size: size, options: options, progressHandler: progressHandler, resultHandler: resultHandler)
     }
 }

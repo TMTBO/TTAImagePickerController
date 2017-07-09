@@ -166,8 +166,8 @@ fileprivate extension TTAAssetPickerViewController {
         cell.configImage()
         let tag = indexPath.item + 1
         cell.tag = tag
-        album.requestThumbnail(with: indexPath.item, size: cell.bounds.size) { (image) in
-            if cell.tag != tag { return }
+        album.requestThumbnail(with: indexPath.item, size: cell.bounds.size.toPixel()) { (image) in
+            guard let image = image, cell.tag == tag else { return }
             cell.configImage(with: image)
         }
         let isSelected: Bool
@@ -186,7 +186,7 @@ fileprivate extension TTAAssetPickerViewController {
     }
     
     func showPreviewViewController(from index: Int, isPreview: Bool) {
-        let previewVc = TTAPreviewViewController(album: album, selected: selectedAsset, maxPickerNum: maxPickerNum, index: index, isPreview: isPreview)
+        let previewVc = TTAPreviewViewController(album: isPreview ? nil : album, selected: selectedAsset, maxPickerNum: maxPickerNum, index: index)
         previewVc.delegate = self
         previewVc.selectItemTintColor = selectItemTintColor
         navigationController?.pushViewController(previewVc, animated: true)
