@@ -90,6 +90,12 @@ fileprivate extension TTAPreviewZoomView {
     
     func layoutViews() {
     }
+    
+    func _refreshImageViewenter() {
+        let offsetX = bounds.width > contentSize.width ? (bounds.width - contentSize.width) * 0.5 : 0
+        let offsetY = bounds.height > contentSize.height ? (bounds.height - contentSize.height) * 0.5 : 0
+        imageView.center = CGPoint(x: contentSize.width * 0.5 + offsetX, y: contentSize.height * 0.5 + offsetY)
+    }
 }
 
 // MARK: - Const
@@ -110,7 +116,8 @@ extension TTAPreviewZoomView {
     
     func doubleTapGestureAction(doubleTap: UITapGestureRecognizer) {
         guard doubleTap.state == .ended else { return }
-        if zoomScale > 1 {
+        print(zoomScale)
+        if zoomScale != 1 {
             setZoomScale(1, animated: true)
         } else {
             let touchPoint = doubleTap.location(in: imageView)
@@ -131,9 +138,10 @@ extension TTAPreviewZoomView: UIScrollViewDelegate {
     }
     
     func scrollViewDidZoom(_ scrollView: UIScrollView) {
-        let offsetX = bounds.width > contentSize.width ? (bounds.width - contentSize.width) * 0.5 : 0
-        let offsetY = bounds.height > contentSize.height ? (bounds.height - contentSize.height) * 0.5 : 0
-        let lineSpace: CGFloat = 30
-        imageView.center = CGPoint(x: contentSize.width * 0.5 + offsetX - lineSpace / 2, y: contentSize.height * 0.5 + offsetY)
+        _refreshImageViewenter()
+    }
+    
+    func scrollViewDidEndZooming(_ scrollView: UIScrollView, with view: UIView?, atScale scale: CGFloat) {
+        _refreshImageViewenter()
     }
 }
