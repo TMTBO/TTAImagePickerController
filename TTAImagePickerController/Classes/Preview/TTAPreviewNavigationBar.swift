@@ -73,9 +73,8 @@ extension TTAPreviewNavigationBar {
     }
     
     func layoutViews() {
-        backButton.frame = CGRect(x: 0, y: 0, width: 100, height: 64)
-        selectButton.frame = CGRect(x: bounds.width - 26 - 10, y: (64 - 26) / 2, width: 26, height: 26)
-    }
+        backButton.frame = CGRect(x: 0, y: 20, width: 100, height: 44)
+        selectButton.frame = CGRect(x: bounds.width - 26 - 10, y: (44 - 26) / 2 + 20, width: 26, height: 26)    }
     
     func configNavigationBar(isSelected: Bool) {
         guard selectButton.isSelected != isSelected else { return }
