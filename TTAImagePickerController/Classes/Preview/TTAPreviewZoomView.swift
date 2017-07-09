@@ -30,6 +30,10 @@ class TTAPreviewZoomView: UIScrollView {
     override func layoutSubviews() {
         super.layoutSubviews()
     }
+    
+    deinit {
+        NotificationCenter.default.removeObserver(self)
+    }
 }
 
 // MARK: - Public Method
@@ -39,15 +43,7 @@ extension TTAPreviewZoomView {
     /// Config the imageView's `image`
     func config(image: UIImage?) {
         imageView.image = image
-        guard let image = image else { return }
-        let newHeight = image.size.height * bounds.width / image.size.width
-        let newWidth = bounds.width
-        imageView.frame = CGRect(x: 0, y: 0, width: newWidth, height: newHeight)
-        if newHeight < bounds.height {
-            imageView.center = center
-        } else {
-            contentSize = CGSize(width: newWidth, height: newHeight)
-        }
+        refreshFrame()
     }
 }
 
@@ -60,7 +56,6 @@ fileprivate extension TTAPreviewZoomView {
         }
         
         func _configViews() {
-            
             delegate = self
             minimumZoomScale = 0.5
             maximumZoomScale = 2.5
@@ -69,7 +64,6 @@ fileprivate extension TTAPreviewZoomView {
             showsHorizontalScrollIndicator = false
             backgroundColor = .clear
             
-            imageView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
             imageView.contentMode = .scaleAspectFill
             imageView.clipsToBounds = true
             
@@ -83,15 +77,31 @@ fileprivate extension TTAPreviewZoomView {
             tap.require(toFail: doubleTap)
         }
         
+        func _addObserver() {
+            NotificationCenter.default.addObserver(self, selector: #selector(orientationDidChanged(notify:)), name: NSNotification.Name.UIDeviceOrientationDidChange, object: nil)
+        }
+        
         _addViews()
         _configViews()
+        _addObserver()
         layoutViews()
     }
     
     func layoutViews() {
     }
     
-    func _refreshImageViewenter() {
+    func refreshFrame() {
+        guard let image = imageView.image else { return }
+        let newHeight = bounds.height
+        let newWidth = newHeight * image.size.width / image.size.height
+        let size = CGSize(width: newWidth, height: newHeight)
+        setZoomScale(1, animated: false)
+        contentSize = size
+        imageView.frame = CGRect(x: 0, y: 0, width: newWidth, height: newHeight)
+        refreshImageViewCenter()
+    }
+    
+    func refreshImageViewCenter() {
         let offsetX = bounds.width > contentSize.width ? (bounds.width - contentSize.width) * 0.5 : 0
         let offsetY = bounds.height > contentSize.height ? (bounds.height - contentSize.height) * 0.5 : 0
         imageView.center = CGPoint(x: contentSize.width * 0.5 + offsetX, y: contentSize.height * 0.5 + offsetY)
@@ -127,6 +137,10 @@ extension TTAPreviewZoomView {
             zoom(to: zoomToRect, animated: true)
         }
     }
+    
+    func orientationDidChanged(notify: Notification) {
+        refreshFrame()
+    }
 }
 
 // MARK: - UIScrollViewDelegate
@@ -138,10 +152,10 @@ extension TTAPreviewZoomView: UIScrollViewDelegate {
     }
     
     func scrollViewDidZoom(_ scrollView: UIScrollView) {
-        _refreshImageViewenter()
+        refreshImageViewCenter()
     }
     
     func scrollViewDidEndZooming(_ scrollView: UIScrollView, with view: UIView?, atScale scale: CGFloat) {
-        _refreshImageViewenter()
+        refreshImageViewCenter()
     }
 }
