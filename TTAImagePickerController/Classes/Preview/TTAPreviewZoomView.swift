@@ -92,8 +92,15 @@ fileprivate extension TTAPreviewZoomView {
     
     func refreshFrame() {
         guard let image = imageView.image else { return }
-        let newHeight = bounds.height
-        let newWidth = newHeight * image.size.width / image.size.height
+        let newHeight: CGFloat
+        let newWidth: CGFloat
+        if bounds.height > bounds.width {
+            newWidth = bounds.width
+            newHeight = newWidth * image.size.height / image.size.width
+        } else {
+            newHeight = bounds.height
+            newWidth = newHeight * image.size.width / image.size.height
+        }
         let size = CGSize(width: newWidth, height: newHeight)
         setZoomScale(1, animated: false)
         contentSize = size
@@ -126,7 +133,6 @@ extension TTAPreviewZoomView {
     
     func doubleTapGestureAction(doubleTap: UITapGestureRecognizer) {
         guard doubleTap.state == .ended else { return }
-        print(zoomScale)
         if zoomScale != 1 {
             setZoomScale(1, animated: true)
         } else {
