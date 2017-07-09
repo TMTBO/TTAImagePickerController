@@ -56,9 +56,7 @@ extension TTAPermissionView {
             iconLabel.font = UIFont.iconfont(size: UIFont.IconFontSize.photoMark)
             iconLabel.textColor = UIColor.lightGray
             
-            let appName = Bundle.main.infoDictionary?["CFBundleDisplayName"] as? String
-            let tipString = "Allow \(appName ?? "App") to access your album in \"Settings -> Privacy -> Photos\""
-            tipLabel.text = tipString
+            configTipLabel()
             tipLabel.numberOfLines = 0
             tipLabel.textAlignment = .center
             tipLabel.font = UIFont.systemFont(ofSize: 16)
@@ -90,6 +88,12 @@ extension TTAPermissionView {
             iconText = UIFont.IconFont.cameraMark.rawValue
         }
         iconLabel.text = iconText
+    }
+    
+    func configTipLabel() {
+        let appName = Bundle.main.infoDictionary?["CFBundleDisplayName"] as? String
+        let tipString = "Allow \(appName ?? "App") to access your \(type == .photo ? "Album" : "Camera") in \"Settings -> Privacy -> Photos\""
+        tipLabel.text = tipString
     }
 }
 
