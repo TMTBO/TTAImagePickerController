@@ -15,12 +15,13 @@ class TTAPreviewCollectionViewLayout: UICollectionViewFlowLayout {
         minimumLineSpacing = 0
         minimumInteritemSpacing = 0
         scrollDirection = .horizontal
-        itemSize = CGSize(width: UIScreen.main.bounds.width + 30, height: UIScreen.main.bounds.height)
-        collectionView?.isPagingEnabled = true
-        collectionView?.bounces = false
-        collectionView?.showsVerticalScrollIndicator = false
-        collectionView?.showsHorizontalScrollIndicator = false
-        collectionView?.backgroundColor = collectionView?.superview?.backgroundColor
+        guard let collectionView = collectionView else { return }
+        itemSize = collectionView.bounds.size
+        collectionView.isPagingEnabled = true
+        collectionView.bounces = false
+        collectionView.showsVerticalScrollIndicator = false
+        collectionView.showsHorizontalScrollIndicator = false
+        collectionView.backgroundColor = collectionView.superview?.backgroundColor
     }
 
 }

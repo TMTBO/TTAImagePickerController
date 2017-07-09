@@ -111,9 +111,11 @@ fileprivate extension TTAPreviewViewController {
     }
     
     func layoutViews() {
-        collectionView.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width + 30, height: UIScreen.main.bounds.height)
+        collectionView.frame = CGRect(x: 0, y: 0, width: view.bounds.width + 30, height: view.bounds.height)
         previewNavigationBar.frame = CGRect(x: 0, y: 0, width: view.bounds.width, height: 64)
         previewToolBar.frame = CGRect(x: 0, y: view.bounds.height - 44, width: view.bounds.width, height: 44)
+        let layout = collectionView.collectionViewLayout as? TTAPreviewCollectionViewLayout
+        layout?.itemSize = collectionView.bounds.size
     }
     
     func _prepareCollectionView() {
@@ -153,8 +155,10 @@ fileprivate extension TTAPreviewViewController {
     }
     
     func scroll(to index: Int) {
-        let indexPath = IndexPath(item: index, section: 0)
-        collectionView.scrollToItem(at: indexPath, at: .right, animated: false)
+        DispatchQueue.main.async {
+            let indexPath = IndexPath(item: index, section: 0)
+            self.collectionView.scrollToItem(at: indexPath, at: .right, animated: false)            
+        }
     }
     
     func setup(assetCell cell: TTAPreviewCollectionViewCell, indexPath: IndexPath) {
