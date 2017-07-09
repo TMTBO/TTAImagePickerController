@@ -71,13 +71,8 @@ extension TTAPreviewCollectionViewCell {
         progressView.isHidden = true
     }
     
-    func configBackgroundColor(isChange: Bool) {
-        guard isChange else { return }
-        if backgroundColor == .white {
-            backgroundColor = .black
-        } else {
-            backgroundColor = .white
-        }
+    func configBackgroundColor(isHiddenBars: Bool) {
+        backgroundColor = isHiddenBars ? .black : .white
     }
     
     func updateProgress(_ progress: Double, error: Error?) {

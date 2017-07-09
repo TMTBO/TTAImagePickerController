@@ -146,12 +146,11 @@ fileprivate extension TTAPreviewViewController {
         previewNavigationBar.configNavigationBar(isSelected: isSelected)
     }
     
-    func updateToolBars(isHidden: Bool) -> Bool {
-        guard isHiddenToolBars != isHidden else { return false }
+    func updateToolBars(isHidden: Bool) {
+        guard isHiddenToolBars != isHidden else { return}
         previewNavigationBar.isHidden = isHidden
         previewToolBar.isHidden = isHidden
         isHiddenToolBars = isHidden
-        return true
     }
     
     func scroll(to index: Int) {
@@ -166,6 +165,7 @@ fileprivate extension TTAPreviewViewController {
         cell.tag = tag
         cell.delegate = self
         cell.configImage()
+        cell.configBackgroundColor(isHiddenBars: isHiddenToolBars)
         TTAImagePickerManager.fetchPreviewImage(for: asset(at: indexPath), progressHandler: { (progress, error, stop, info) in
             guard cell.tag == tag else { return }
             cell.updateProgress(progress, error: error)
@@ -276,7 +276,9 @@ extension TTAPreviewViewController: TTAPreviewToolBarDelegate {
 
 extension TTAPreviewViewController: TTAPreviewCollectionViewCellDelegate {
     func tappedPreviewCell(_ cell: TTAPreviewCollectionViewCell) {
-        let isUpdated = updateToolBars(isHidden: !isHiddenToolBars)
-        cell.configBackgroundColor(isChange: isUpdated)
+        updateToolBars(isHidden: !isHiddenToolBars)
+        cell.configBackgroundColor(isHiddenBars: isHiddenToolBars)
+        let reloadItems = collectionView.nearIndexPaths(for: cell, in: 0, sideCount: 1)
+        collectionView.reloadItems(at: reloadItems)
     }
 }
