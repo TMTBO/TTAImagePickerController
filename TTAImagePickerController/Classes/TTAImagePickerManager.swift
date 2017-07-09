@@ -37,6 +37,27 @@ class TTAImagePickerManager {
     }
 }
 
+// MARK: - PhotoLibraryPermission
+
+extension TTAImagePickerManager {
+    static func checkPhotoLibraryPermission(_ resultHandler: @escaping (_ isAuthorized: Bool) -> Swift.Void) {
+        func hasPermission() -> Bool {
+            return PHPhotoLibrary.authorizationStatus() == .authorized
+        }
+        func needToRequestPermission() -> Bool {
+            return PHPhotoLibrary.authorizationStatus() == .notDetermined
+        }
+        func requestPermission(_ resultHandler: @escaping (_ isAuthorized: Bool) -> Swift.Void) {
+            PHPhotoLibrary.requestAuthorization { (status) in
+                DispatchQueue.main.async {
+                    self.checkPhotoLibraryPermission(resultHandler)
+                }
+            }
+        }
+        hasPermission() ? resultHandler(true) : (needToRequestPermission() ? requestPermission(resultHandler) : resultHandler(false))
+    }
+}
+
 // MARK: - TTAAssetCollection
 
 extension TTAImagePickerManager {
@@ -225,7 +246,7 @@ extension TTAImagePickerManager {
 
 struct TTACachingImageManager {
     
-    static var shared:TTACachingImageManager? = TTACachingImageManager()
+    static var shared: TTACachingImageManager? = TTACachingImageManager()
     let manager = PHCachingImageManager()
     
     func startCachingImages(for assets: PHFetchResult<PHAsset>, targetSize: CGSize?, contentMode: PHImageContentMode?, options: PHImageRequestOptions?) {

@@ -46,7 +46,6 @@ class TTAAssetPickerViewController: UIViewController {
         self.album = album
         self.selectedAsset = selectedAsset
         super.init(nibName: nil, bundle: nil)
-        _prepareIconFont()
         TTACachingImageManager.prepareCachingManager()
     }
     
@@ -143,13 +142,6 @@ fileprivate extension TTAAssetPickerViewController {
         let countItem = UIBarButtonItem(customView: countLabel)
         self.toolbarItems = [previewItem, spaceItem, countItem, doneItem]
         updateCounter()
-    }
-    
-    func _prepareIconFont() {
-        guard let path = Bundle(for: TTAImagePickerController.self).path(forResource: "TTAImagePickerController", ofType: "bundle"),
-            let bundle = Bundle(path: path),
-            let url = bundle.url(forResource: "iconfont", withExtension: ".ttf") else { return }
-        UIFont.registerFont(with: url, fontName: "iconfont")
     }
     
     func _scrollToBottom() {

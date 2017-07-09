@@ -36,6 +36,9 @@ public class TTAImagePickerController: UIViewController {
         }
     }
     
+    /// The selected asset
+    public var selectedAsset: [TTAAsset] = []
+    
     /// The tint color which item was selected, default is `UIColor(colorLiteralRed: 0, green: 122.0 / 255.0, blue: 1, alpha: 1)`
     public var selectItemTintColor: UIColor? = UIColor(colorLiteralRed: 0, green: 122.0 / 255.0, blue: 1, alpha: 1) {
         didSet {
@@ -76,14 +79,12 @@ public class TTAImagePickerController: UIViewController {
     
     public init(selectedAsset: [TTAAsset]) {
         super.init(nibName: nil, bundle: nil)
-        let albums = TTAImagePickerManager.fetchAssetCollections()
-        if let album = albums.first {
-            let pickerController = _generateAssetController(with: album, selectedAsset: selectedAsset)
-            let collectionController = _generateCollectionController(with: albums, pickerController: pickerController)
-            splitController.viewControllers = [collectionController, pickerController]
-        }
+        self.selectedAsset = selectedAsset
+        prepareIconFont()
+//        prepareSplitController()
         addChildViewController(splitController)
         view.addSubview(splitController.view)
+        splitController.view.backgroundColor = .clear
         splitController.preferredDisplayMode = .allVisible
         splitController.view.autoresizingMask = [.flexibleWidth, .flexibleHeight]
     }
@@ -104,6 +105,12 @@ public class TTAImagePickerController: UIViewController {
 
 extension TTAImagePickerController {
     
+    public override func viewDidLoad() {
+        super.viewDidLoad()
+        view.backgroundColor = .white
+        checkPermission()
+    }
+    
     public override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         splitController.view.frame = view.bounds
@@ -116,9 +123,36 @@ extension TTAImagePickerController {
     }
 }
 
+// MARK: - Check Permission
+
+extension TTAImagePickerController {
+    func checkPermission() {
+        func permissionDenied() {
+            setNavigationBarHidden(false, animated: false)
+            showPermissionView(with: .photo)
+        }
+        func startSetup() {
+            setNavigationBarHidden(true, animated: false)
+            prepareSplitController()
+        }
+        TTAImagePickerManager.checkPhotoLibraryPermission { (isAuthorized) in
+            isAuthorized ? startSetup() : permissionDenied()
+        }
+    }
+}
+
 // MARK: - Generate Controllers
 
 extension TTAImagePickerController {
+    
+    func prepareSplitController() {
+        let albums = TTAImagePickerManager.fetchAssetCollections()
+        if let album = albums.first {
+            let pickerController = _generateAssetController(with: album, selectedAsset: selectedAsset)
+            let collectionController = _generateCollectionController(with: albums, pickerController: pickerController)
+            splitController.viewControllers = [collectionController, pickerController]
+        }
+    }
     
     func _generateCollectionController(with collections: [TTAAlbum], pickerController: UINavigationController) -> UINavigationController {
         let assetCollectionController = TTAAlbumPickerViewController(albums: collections, pickerController: pickerController)
@@ -138,13 +172,26 @@ extension TTAImagePickerController {
     }
 }
 
+// MARK: - Prepareation
+
+extension TTAImagePickerController {
+    func prepareIconFont() {
+        guard let path = Bundle(for: TTAImagePickerController.self).path(forResource: "TTAImagePickerController", ofType: "bundle"),
+            let bundle = Bundle(path: path),
+            let url = bundle.url(forResource: "iconfont", withExtension: ".ttf") else { return }
+        UIFont.registerFont(with: url, fontName: "iconfont")
+    }
+}
+
 // MARK: - TTAAssetPickerViewControllerDelegate
 
 extension TTAImagePickerController: TTAAssetPickerViewControllerDelegate {
     func assetPickerController(_ picker: TTAAssetPickerViewController, didFinishPicking assets: [PHAsset]) {
-        TTAImagePickerManager.fetchImages(for: assets) { [weak self] (images) in
+        TTAImagePickerManager.fetchImages(for: assets, progressHandler: { (progress, error, stop, info) -> Void in
+            print("Loading images \(progress)")
+        }) { [weak self] (images) in
             guard let `self` = self else { return }
-            self.delegate?.imagePickerController(self, didFinishPicking: images, assets: assets.map({ TTAAsset(original: $0) }))
+            self.pickerDelegate?.imagePickerController(self, didFinishPicking: images, assets: assets.map({ TTAAsset(original: $0) }))
         }
     }
 }

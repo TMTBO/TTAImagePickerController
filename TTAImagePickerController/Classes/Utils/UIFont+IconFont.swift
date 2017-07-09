@@ -15,7 +15,7 @@ extension UIFont {
     
     static var iconfontName: String {
         get {
-            return objc_getAssociatedObject(self, &AssociatedKey.iconfontName) as! String
+            return objc_getAssociatedObject(self, &AssociatedKey.iconfontName) as? String ?? "iconfont"
         }
         set {
             objc_setAssociatedObject(self, &AssociatedKey.iconfontName, newValue as Any, .OBJC_ASSOCIATION_COPY_NONATOMIC)
@@ -45,11 +45,15 @@ extension UIFont {
         case selectMark = "\u{e70d}"
         case backMark = "\u{e6fa}"
         case warningMark = "\u{e62a}"
+        case photoMark = "\u{e605}"
+        case cameraMark = "\u{e623}"
     }
     
     struct IconFontSize {
         static let assetSelectMark: CGFloat = 15
         static let backMark: CGFloat = 25
         static let warningMark: CGFloat = 20
+        static let photoMark: CGFloat = 80
+        static let cameraMark: CGFloat = 30
     }
 }
