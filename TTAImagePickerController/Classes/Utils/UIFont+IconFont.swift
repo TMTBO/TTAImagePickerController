@@ -44,10 +44,12 @@ extension UIFont {
     enum IconFont: String {
         case selectMark = "\u{e70d}"
         case backMark = "\u{e6fa}"
+        case warningMark = "\u{e62a}"
     }
     
     struct IconFontSize {
         static let assetSelectMark: CGFloat = 15
         static let backMark: CGFloat = 25
+        static let warningMark: CGFloat = 20
     }
 }

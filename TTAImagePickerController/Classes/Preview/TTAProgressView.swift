@@ -71,6 +71,13 @@ class TTAProgressView: UIView {
         self.progress = progress
         setNeedsDisplay()
     }
+    
+    func progressError(_ error: Error) {
+        isHidden = false
+        progress = 0
+        let errorImage = UIImage.image(with: .warningMark, in: bounds.size, tintColor: .red, cornerRadius: bounds.width / 2)
+        progressLayer.contents = errorImage.cgImage
+    }
 }
 
 extension TTAProgressView {

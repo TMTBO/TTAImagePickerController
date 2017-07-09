@@ -80,7 +80,11 @@ extension TTAPreviewCollectionViewCell {
         }
     }
     
-    func updateProgress(_ progress: Double) {
+    func updateProgress(_ progress: Double, error: Error?) {
+        if let error = error {
+            progressView.progressError(error)
+            return
+        }
         let shouldUpdate = (progress >= 0 && progress <= 1)
         progressView.isHidden = !shouldUpdate
         guard shouldUpdate else { return }

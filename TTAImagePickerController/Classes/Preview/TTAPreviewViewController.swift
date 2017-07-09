@@ -164,10 +164,7 @@ fileprivate extension TTAPreviewViewController {
         cell.configImage()
         TTAImagePickerManager.fetchPreviewImage(for: asset(at: indexPath), progressHandler: { (progress, error, stop, info) in
             guard cell.tag == tag else { return }
-            cell.updateProgress(progress)
-            guard let error = error as NSError? else { return }
-            print(error)
-            
+            cell.updateProgress(progress, error: error)
         }) { (image) in
             guard let image = image, cell.tag == tag else { return }
             cell.configImage(with: image)
