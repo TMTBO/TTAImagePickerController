@@ -102,7 +102,6 @@ fileprivate extension TTAPreviewZoomView {
             newWidth = newHeight * image.size.width / image.size.height
         }
         let size = CGSize(width: newWidth, height: newHeight)
-        setZoomScale(1, animated: false)
         contentSize = size
         imageView.frame = CGRect(x: 0, y: 0, width: newWidth, height: newHeight)
         refreshImageViewCenter()
@@ -146,6 +145,7 @@ extension TTAPreviewZoomView {
     
     func orientationDidChanged(notify: Notification) {
         refreshFrame()
+        setZoomScale(1, animated: false)
     }
 }
 
