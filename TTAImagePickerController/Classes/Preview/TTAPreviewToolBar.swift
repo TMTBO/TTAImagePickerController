@@ -52,6 +52,7 @@ extension TTAPreviewToolBar {
             backgroundColor = UIColor.black.withAlphaComponent(0.5)
             doneButton.addTarget(self, action: #selector(didClickDoneButton), for: .touchUpInside)
             doneButton.setTitle("Done", for: .normal)
+            doneButton.setTitleColor(.lightGray, for: .disabled)
             doneButton.contentHorizontalAlignment = .right
             doneButton.isEnabled = false
             countLabel.isHidden = true
