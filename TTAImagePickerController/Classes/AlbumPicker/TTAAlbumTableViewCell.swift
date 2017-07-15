@@ -32,7 +32,7 @@ class TTAAlbumTableViewCell: UITableViewCell {
             textLabel?.text = album.name()
             detailTextLabel?.text = String(describing: album.assetCount())
             
-            album.requestThumbnail(with: 0, size: previewImageView.bounds.size.toPixel()) { [weak self] (image) in
+            album.requestThumbnail(with: 0, size: TTAImagePickerManager.defaultSize().toPixel()) { [weak self] (image) in
                 guard let `self` = self else { return }
                 self.previewImageView.image = image;
             }
@@ -42,7 +42,7 @@ class TTAAlbumTableViewCell: UITableViewCell {
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style: .subtitle, reuseIdentifier: reuseIdentifier)
         _configViews()
-        _layoutViews()
+        layoutViews()
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -51,7 +51,7 @@ class TTAAlbumTableViewCell: UITableViewCell {
     
     override func layoutSubviews() {
         super.layoutSubviews()
-        _layoutViews()
+        layoutViews()
     }
 }
 
@@ -72,7 +72,7 @@ extension TTAAlbumTableViewCell {
         previewImageView.clipsToBounds = true
     }
     
-    func _layoutViews() {
+    func layoutViews() {
         let height = contentView.bounds.height - const.imageViewTopMargin - const.imageViewBottomMargin
         let width = height
         previewImageView.frame = CGRect(x: const.imageViewLeftMargin, y: const.imageViewTopMargin, width: width, height: height)
