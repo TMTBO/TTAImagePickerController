@@ -177,6 +177,13 @@ fileprivate extension TTAAssetPickerViewController {
         doneItem.isEnabled = selectedAsset.count > 0
     }
     
+    func lightupCell(with index: Int, isPreview: Bool) {
+        let indexPath = IndexPath(item: isPreview ? album.index(for: selectedAsset[index]) : index, section: 0)
+        collectionView.scrollToItem(at: indexPath, at: .centeredVertically, animated: false)
+        guard let cell = collectionView.cellForItem(at: indexPath) as? TTAAssetCollectionViewCell else { return }
+        cell.lightUp()
+    }
+    
     func showPreviewViewController(from index: Int, isPreview: Bool) {
         let previewVc = TTAPreviewViewController(album: isPreview ? nil : album, selected: selectedAsset, maxPickerNum: maxPickerNum, index: index)
         previewVc.delegate = self
@@ -299,7 +306,8 @@ extension TTAAssetPickerViewController: TTAPreviewViewControllerDelegate {
         delegate?.assetPickerController(self, didFinishPicking: assets)
     }
     
-    func previewViewController(_ previewVc: TTAPreviewViewController, backToAssetPickerControllerWith selectedAsset: [PHAsset]) {
+    func previewViewController(_ previewVc: TTAPreviewViewController, backToAssetPickerControllerWith currentIndex: Int, selectedAsset: [PHAsset]) {
+        lightupCell(with: currentIndex, isPreview: previewVc.album == nil)
         guard self.selectedAsset != selectedAsset else { return }
         collectionView.reloadData()
         self.selectedAsset = selectedAsset

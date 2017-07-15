@@ -31,6 +31,7 @@ class TTAAssetCollectionViewCell: UICollectionViewCell {
     
     fileprivate let imageView = UIImageView()
     fileprivate let selectButton = TTASelectButton()
+    fileprivate let lightUpLayer = CALayer()
     
     fileprivate let const = AssetCollectionViewCellConst()
     
@@ -74,6 +75,10 @@ fileprivate extension TTAAssetCollectionViewCell {
         selectButton.selectItemTintColor = selectItemTintColor
         selectButton.autoresizingMask = [.flexibleTopMargin, .flexibleRightMargin]
         selectButton.addTarget(self, action: #selector(didClickSelectButton(_:)), for: .touchUpInside)
+        
+        lightUpLayer.backgroundColor = UIColor(colorLiteralRed: 0.90, green: 0.90, blue: 0.90, alpha: 1).cgColor
+        lightUpLayer.opacity = 0
+        layer.addSublayer(lightUpLayer)
     }
     
     func _layoutViews() {
@@ -82,6 +87,7 @@ fileprivate extension TTAAssetCollectionViewCell {
                                     y: const.selectButtonMargin,
                                 width: const.selectButtonWidth,
                                height: const.selectButtonHeight)
+        lightUpLayer.frame = contentView.bounds
     }
 }
 
@@ -97,8 +103,23 @@ extension TTAAssetCollectionViewCell {
     func configImage(with image: UIImage? = nil) {
         imageView.image = image
     }
+    
+    func lightUp() {
+        // MARK: - Animations
+        func _lightupAnimation() -> CABasicAnimation {
+            let animation = CABasicAnimation()
+            animation.keyPath = "opacity"
+            animation.fromValue = 0
+            animation.toValue = 1
+            animation.duration = 0.9
+            animation.repeatCount = 3
+            animation.autoreverses = true
+            animation.isRemovedOnCompletion = true
+            return animation
+        }
+        lightUpLayer.add(_lightupAnimation(), forKey: nil)
+    }
 }
-
 // MARK: - Actions
 
 extension TTAAssetCollectionViewCell {

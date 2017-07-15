@@ -8,7 +8,7 @@
 import Photos
 
 protocol TTAPreviewViewControllerDelegate: class {
-    func previewViewController(_ previewVc: TTAPreviewViewController, backToAssetPickerControllerWith selectedAsset: [PHAsset])
+    func previewViewController(_ previewVc: TTAPreviewViewController, backToAssetPickerControllerWith currentIndex: Int, selectedAsset: [PHAsset])
     func previewViewController(_ previewVc: TTAPreviewViewController, didFinishPicking assets: [PHAsset])
 }
 
@@ -17,7 +17,7 @@ class TTAPreviewViewController: UIViewController {
     weak var delegate: TTAPreviewViewControllerDelegate?
     var selectItemTintColor: UIColor?
     
-    fileprivate let album: TTAAlbum?
+    fileprivate(set) var album: TTAAlbum?
     fileprivate var selected: [PHAsset]
     fileprivate let maxPickerNum: Int
     fileprivate var currentIndex: Int
@@ -251,7 +251,7 @@ extension TTAPreviewViewController: TTAPreviewNavigationBarDelegate {
     }
     
     func previewNavigationBar(_ navigationBar: TTAPreviewNavigationBar, didClickBack button: UIButton) {
-        delegate?.previewViewController(self, backToAssetPickerControllerWith: selected)
+        delegate?.previewViewController(self, backToAssetPickerControllerWith: currentIndex, selectedAsset: selected)
         navigationController?.popViewController(animated: true)
     }
     
