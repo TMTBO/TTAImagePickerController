@@ -85,7 +85,7 @@ extension TTAProgressView {
         return 16
     }
     static func bottomMargin() -> CGFloat {
-        return 44 + 16
+        return 16
     }
     static func widthAndHeight() -> CGFloat {
         return 20

@@ -13,7 +13,8 @@ protocol TTAPreviewCollectionViewCellDelegate: class {
 
 class TTAPreviewCollectionViewCell: UICollectionViewCell {
     
-    weak var delegate: TTAPreviewCollectionViewCellDelegate?
+    fileprivate(set) weak var delegate: TTAPreviewCollectionViewCellDelegate?
+    fileprivate(set) var isToolBarHidden = false
     
     fileprivate var zoomView: TTAPreviewZoomView
     fileprivate var progressView = TTAProgressView()
@@ -35,6 +36,11 @@ extension TTAPreviewCollectionViewCell {
     override func layoutSubviews() {
         super.layoutSubviews()
         layoutViews()
+    }
+    
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        updateProgress(0, error: nil)
     }
 }
 
@@ -61,7 +67,7 @@ fileprivate extension TTAPreviewCollectionViewCell {
     
     func layoutViews() {
         zoomView.frame = CGRect(x: 0, y: 0, width: bounds.width - TTAPreviewCollectionViewCell.cellMargin(), height: bounds.height)
-        progressView.frame = CGRect(x: zoomView.bounds.width - TTAProgressView.rightMargin() - TTAProgressView.widthAndHeight(), y: zoomView.bounds.height - TTAProgressView.bottomMargin() - TTAProgressView.widthAndHeight(), width: TTAProgressView.widthAndHeight(), height: TTAProgressView.widthAndHeight())
+        progressView.frame = CGRect(x: zoomView.bounds.width - TTAProgressView.rightMargin() - TTAProgressView.widthAndHeight(), y: zoomView.progressViewY(isToolBarHidden: isToolBarHidden), width: TTAProgressView.widthAndHeight(), height: TTAProgressView.widthAndHeight())
     }
 }
 
@@ -71,8 +77,23 @@ extension TTAPreviewCollectionViewCell {
         progressView.isHidden = true
     }
     
-    func configBackgroundColor(isHiddenBars: Bool) {
+    func configCell(tag: Int, delegate: TTAPreviewCollectionViewCellDelegate?, isHiddenBars: Bool, image: UIImage? = nil) {
+        self.tag = tag;
+        self.delegate = delegate;
+        configCell(isHiddenBars: isHiddenBars)
+        configImage(with: image)
+    }
+    
+    func configCell(isHiddenBars: Bool) {
         backgroundColor = isHiddenBars ? .black : .white
+        isToolBarHidden = isHiddenBars
+        let y = zoomView.progressViewY(isToolBarHidden: isHiddenBars)
+        guard y > 0 else { return }
+        UIView.beginAnimations(nil, context: nil)
+        UIView.setAnimationDuration(0.25)
+        UIView.setAnimationCurve(.easeInOut)
+        progressView.frame.origin.y = y
+        UIView.commitAnimations()
     }
     
     func updateProgress(_ progress: Double, error: Error?) {

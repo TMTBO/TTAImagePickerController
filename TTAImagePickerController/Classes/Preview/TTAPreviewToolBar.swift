@@ -66,7 +66,7 @@ extension TTAPreviewToolBar {
     func layoutViews() {
         let doneButtonWidth = self.width()
         let doneButtonX = bounds.width - rightMargin() - doneButtonWidth
-        doneButton.frame = CGRect(x: doneButtonX, y: 0, width: doneButtonWidth, height: height())
+        doneButton.frame = CGRect(x: doneButtonX, y: 0, width: doneButtonWidth, height: type(of: self).height())
         let countLabelWH: CGFloat = 26
         countLabel.frame = CGRect(x: doneButtonX - countLabelWH, y: (bounds.height - countLabelWH) / 2, width: countLabelWH, height: countLabelWH)
         
@@ -74,11 +74,11 @@ extension TTAPreviewToolBar {
     
     func width() -> CGFloat {
         guard let text = doneButton.titleLabel?.text else { return 0 }
-        return (text as NSString).boundingRect(with: CGSize(width: CGFloat.greatestFiniteMagnitude, height: height()), options: .usesLineFragmentOrigin, attributes: [NSFontAttributeName: doneButton.titleLabel?.font ?? UIFont.systemFont(ofSize: 17)], context: nil).size.width + 3
+        return (text as NSString).boundingRect(with: CGSize(width: CGFloat.greatestFiniteMagnitude, height: type(of: self).height()), options: .usesLineFragmentOrigin, attributes: [NSFontAttributeName: doneButton.titleLabel?.font ?? UIFont.systemFont(ofSize: 17)], context: nil).size.width + 3
     }
     
-    func height() -> CGFloat {
-        return bounds.height
+    static func height() -> CGFloat {
+        return 44
     }
     
     func rightMargin() -> CGFloat {

@@ -45,6 +45,16 @@ extension TTAPreviewZoomView {
         imageView.image = image
         refreshFrame()
     }
+    
+    func progressViewY(isToolBarHidden: Bool) -> CGFloat {
+        let y: CGFloat
+        if imageView.frame.maxY < bounds.maxY - (isToolBarHidden ? 0 : TTAPreviewToolBar.height()) {
+            y = imageView.frame.maxY - TTAProgressView.bottomMargin() - TTAProgressView.widthAndHeight()
+        } else {
+            y = bounds.height - TTAProgressView.bottomMargin() - TTAProgressView.widthAndHeight() - (isToolBarHidden ? 0 : TTAPreviewToolBar.height())
+        }
+        return y
+    }
 }
 
 // MARK: - UI
@@ -132,6 +142,8 @@ extension TTAPreviewZoomView {
     
     func doubleTapGestureAction(doubleTap: UITapGestureRecognizer) {
         guard doubleTap.state == .ended else { return }
+        UIView.setAnimationCurve(.easeInOut)
+        UIView.setAnimationDuration(0.25)
         if zoomScale != 1 {
             setZoomScale(1, animated: true)
         } else {
@@ -141,6 +153,7 @@ extension TTAPreviewZoomView {
             let zoomToRect = CGRect(x: touchPoint.x - width / 2, y: touchPoint.y - height / 2, width: width, height: height)
             zoom(to: zoomToRect, animated: true)
         }
+        tapDelegate?.tappedPreviewZoomView(self)
     }
     
     func orientationDidChanged(notify: Notification) {
