@@ -65,6 +65,7 @@ extension TTAPermissionView {
             goSettingButton.titleLabel?.font = UIFont.systemFont(ofSize: 18)
             goSettingButton.addTarget(self, action: #selector(didClickGoSetting), for: .touchUpInside)
             
+            autoresizingMask = [.flexibleWidth, .flexibleHeight];
             iconLabel.autoresizingMask = [.flexibleWidth, .flexibleHeight]
             tipLabel.autoresizingMask = [.flexibleWidth, .flexibleHeight]
             goSettingButton.autoresizingMask = [.flexibleWidth, .flexibleHeight]
@@ -74,7 +75,7 @@ extension TTAPermissionView {
         layoutViews()
     }
     func layoutViews() {
-        iconLabel.frame = CGRect(x: 0, y: iconTopMargin(), width: bounds.width, height: iconHeight())
+        iconLabel.frame = CGRect(x: sideMargin(), y: iconTopMargin(), width: bounds.width - 2 * sideMargin(), height: iconHeight())
         tipLabel.frame = CGRect(x: sideMargin(), y: iconLabel.frame.maxY + tipTopMargin(), width: bounds.width - 2 * sideMargin(), height: 50)
         goSettingButton.frame = CGRect(x: sideMargin(), y: tipLabel.frame.maxY + buttonTopMargin(), width: tipLabel.bounds.width, height: buttonHeight())
     }
