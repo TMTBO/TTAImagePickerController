@@ -24,32 +24,28 @@ public class TTAImagePickerController: UIViewController {
     /// The max num image of the image picker can pick, default is 9
     public var maxPickerNum = 9 {
         didSet {
-            _ = splitController.viewControllers.map { (vc) in
-                guard let nav = vc as? UINavigationController,
-                    let rootVc = nav.topViewController else { return }
-                if let albumVc = rootVc as? TTAAlbumPickerViewController {
-                    albumVc.maxPickerNum = maxPickerNum
-                } else if let assetVc = rootVc as? TTAAssetPickerViewController {
-                    assetVc.maxPickerNum = maxPickerNum
-                }
+            configPicker { (albumVc, assetVc) in
+                albumVc?.maxPickerNum = maxPickerNum
+                assetVc?.maxPickerNum = maxPickerNum
             }
         }
     }
     
     /// The selected asset
-    public var selectedAsset: [TTAAsset] = []
+    public var selectedAsset: [TTAAsset] = [] {
+        didSet {
+            configPicker { (_, assetVc) in
+                assetVc?.selectedAsset = selectedAsset.map { $0.original }
+            }
+        }
+    }
     
     /// The tint color which item was selected, default is `UIColor(colorLiteralRed: 0, green: 122.0 / 255.0, blue: 1, alpha: 1)`
     public var selectItemTintColor: UIColor? = UIColor(colorLiteralRed: 0, green: 122.0 / 255.0, blue: 1, alpha: 1) {
         didSet {
-            _ = splitController.viewControllers.map { (vc) in
-                guard let nav = vc as? UINavigationController,
-                    let rootVc = nav.topViewController else { return }
-                if let albumVc = rootVc as? TTAAlbumPickerViewController {
-                    albumVc.selectItemTintColor = selectItemTintColor
-                } else if let assetVc = rootVc as? TTAAssetPickerViewController {
-                    assetVc.selectItemTintColor = selectItemTintColor
-                }
+            configPicker { (albumVc, assetVc) in
+                albumVc?.selectItemTintColor = selectItemTintColor
+                assetVc?.selectItemTintColor = selectItemTintColor
             }
         }
     }
@@ -123,16 +119,32 @@ extension TTAImagePickerController {
     }
 }
 
+// MARK: - Private
+
+extension TTAImagePickerController {
+    func configPicker(_ handler: (_ albumVc: TTAAlbumPickerViewController?, _ assetVc: TTAAssetPickerViewController?) -> ()) {
+        _ = splitController.viewControllers.map { (vc) in
+            guard let nav = vc as? UINavigationController,
+                let rootVc = nav.topViewController else { return }
+            if let albumVc = rootVc as? TTAAlbumPickerViewController {
+                handler(albumVc, nil)
+            } else if let assetVc = rootVc as? TTAAssetPickerViewController {
+                handler(nil, assetVc)
+            }
+        }
+    }
+}
+
 // MARK: - Check Permission
 
 extension TTAImagePickerController {
     func checkPermission() {
         func permissionDenied() {
-            setNavigationBarHidden(false, animated: false)
+//            setNavigationBarHidden(false, animated: false)
             showPermissionView(with: .photo)
         }
         func startSetup() {
-            setNavigationBarHidden(true, animated: false)
+//            setNavigationBarHidden(true, animated: false)
             prepareSplitController()
         }
         TTAImagePickerManager.checkPhotoLibraryPermission { (isAuthorized) in
@@ -191,7 +203,7 @@ extension TTAImagePickerController: TTAAssetPickerViewControllerDelegate {
             print("Loading images \(progress)")
         }) { [weak self] (images) in
             guard let `self` = self else { return }
-            self.pickerDelegate?.imagePickerController(self, didFinishPicking: images, assets: assets.map({ TTAAsset(original: $0) }))
+            self.delegate?.imagePickerController(self, didFinishPicking: images, assets: assets.map({ TTAAsset(original: $0) }))
         }
     }
 }
