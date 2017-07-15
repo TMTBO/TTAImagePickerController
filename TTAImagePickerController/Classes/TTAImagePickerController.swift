@@ -28,9 +28,9 @@ public class TTAImagePickerController: UIViewController {
                 guard let nav = vc as? UINavigationController,
                     let rootVc = nav.topViewController else { return }
                 if let albumVc = rootVc as? TTAAlbumPickerViewController {
-                    albumVc.selectItemTintColor = selectItemTintColor
+                    albumVc.maxPickerNum = maxPickerNum
                 } else if let assetVc = rootVc as? TTAAssetPickerViewController {
-                    assetVc.selectItemTintColor = selectItemTintColor
+                    assetVc.maxPickerNum = maxPickerNum
                 }
             }
         }
