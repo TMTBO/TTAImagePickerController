@@ -76,7 +76,7 @@ extension TTAPermissionView {
     }
     func layoutViews() {
         iconLabel.frame = CGRect(x: sideMargin(), y: iconTopMargin(), width: bounds.width - 2 * sideMargin(), height: iconHeight())
-        tipLabel.frame = CGRect(x: sideMargin(), y: iconLabel.frame.maxY + tipTopMargin(), width: bounds.width - 2 * sideMargin(), height: 50)
+        tipLabel.frame = CGRect(x: sideMargin(), y: iconLabel.frame.maxY + tipTopMargin(), width: bounds.width - 2 * sideMargin(), height: tipHeight())
         goSettingButton.frame = CGRect(x: sideMargin(), y: tipLabel.frame.maxY + buttonTopMargin(), width: tipLabel.bounds.width, height: buttonHeight())
     }
     
@@ -110,13 +110,16 @@ extension TTAPermissionView {
 
 extension TTAPermissionView {
     func iconTopMargin() -> CGFloat {
-        return 200
+        return (bounds.height - 64 - iconHeight() - tipTopMargin() - tipHeight() - buttonTopMargin() - buttonHeight()) / 2
     }
     func iconHeight() -> CGFloat {
         return 100
     }
     func tipTopMargin() -> CGFloat {
         return 10
+    }
+    func tipHeight() -> CGFloat {
+        return 50
     }
     func sideMargin() -> CGFloat {
         return 16
@@ -135,7 +138,7 @@ extension TTAPermissionView {
 extension UIViewController {
     func showPermissionView(with type: TTAPermissionView.TTAPermissionViewType) {
         let permissionView = TTAPermissionView(type: type)
-        permissionView.frame = view.bounds
+        permissionView.frame = view.bounds.offsetBy(dx: 0, dy: type(of: self) is UINavigationController.Type ? 64 : 0)
         view.addSubview(permissionView)
     }
 }
