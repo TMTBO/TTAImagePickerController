@@ -228,11 +228,13 @@ extension TTAImagePickerController {
 
 extension TTAImagePickerController: TTAAssetPickerViewControllerDelegate {
     func assetPickerController(_ picker: TTAAssetPickerViewController, didFinishPicking assets: [PHAsset]) {
+        let hud = TTAHUD.showIndicator()
         TTAImagePickerManager.fetchImages(for: assets, progressHandler: { (progress, error, stop, info) -> Void in
             print("Loading images \(progress)")
         }) { [weak self] (images) in
             guard let `self` = self else { return }
             self.pickerDelegate?.imagePickerController(self, didFinishPicking: images, assets: assets.map({ TTAAsset(original: $0) }))
+            hud.dimiss()
         }
     }
 }

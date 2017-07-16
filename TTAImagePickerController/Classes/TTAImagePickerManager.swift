@@ -63,6 +63,7 @@ extension TTAImagePickerManager {
 extension TTAImagePickerManager {
     
     static func fetchAssetCollections() -> [TTAAlbum] {
+        let hud = TTAHUD.showIndicator()
         let fetchResult = PHAssetCollection.fetchAssetCollections(with: .smartAlbum, subtype: .any, options: nil)
         guard fetchResult.count > 0 else { return [TTAAlbum]() }
         
@@ -85,6 +86,7 @@ extension TTAImagePickerManager {
         assetCollections.sort { (collection1, collection2) -> Bool in
             return collection1.name() ?? "" < collection2.name() ?? ""
         }
+        hud.dimiss()
         return assetCollections
     }
 }
