@@ -16,6 +16,7 @@ class TTAPreviewViewController: UIViewController {
     
     weak var delegate: TTAPreviewViewControllerDelegate?
     var selectItemTintColor: UIColor?
+    var tintColor: UIColor?
     
     fileprivate(set) var album: TTAAlbum?
     fileprivate var selected: [PHAsset]
@@ -103,9 +104,11 @@ fileprivate extension TTAPreviewViewController {
         automaticallyAdjustsScrollViewInsets = false
         previewNavigationBar.delegate = self
         previewNavigationBar.selectItemTintColor = selectItemTintColor
+        previewNavigationBar.tintColor = tintColor
         previewNavigationBar.autoresizingMask = [.flexibleHeight, .flexibleWidth]
         previewToolBar.delegate = self
         previewToolBar.selectItemTintColor = selectItemTintColor
+        previewToolBar.tintColor = tintColor
         previewToolBar.autoresizingMask = [.flexibleHeight, .flexibleWidth]
         _prepareCollectionView()
     }

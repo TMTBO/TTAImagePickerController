@@ -188,6 +188,7 @@ fileprivate extension TTAAssetPickerViewController {
         let previewVc = TTAPreviewViewController(album: isPreview ? nil : album, selected: selectedAsset, maxPickerNum: maxPickerNum, index: index)
         previewVc.delegate = self
         previewVc.selectItemTintColor = selectItemTintColor
+        previewVc.tintColor = navigationController?.navigationBar.tintColor
         navigationController?.pushViewController(previewVc, animated: true)
     }
 }
