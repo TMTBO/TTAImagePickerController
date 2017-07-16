@@ -34,6 +34,7 @@ extension TTASelectCountLabel {
     func setupUI() {
         textColor = .white
         textAlignment = .center
+        adjustsFontSizeToFitWidth = true
         autoresizingMask = [.flexibleHeight, .flexibleWidth]
     }
     
