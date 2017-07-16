@@ -97,10 +97,12 @@ extension TTAImagePickerManager {
     
     static func fetchImages(for assets: [PHAsset], size: CGSize? = PHImageManagerMaximumSize, options: PHImageRequestOptions? = nil, progressHandler: PHAssetImageProgressHandler?,pr resultHandler: @escaping ([UIImage]) -> Void) {
         var images: [UIImage] = []
+        let options = fetchOriginalOptions()
+        options.isSynchronous = true
         let group = DispatchGroup()
         _ = assets.map { (asset) in
             group.enter()
-            fetchOriginalImage(for: asset, options: fetchOriginalOptions(), progressHandler: progressHandler, resultHandler: { (image) in
+            fetchOriginalImage(for: asset, options: options, progressHandler: progressHandler, resultHandler: { (image) in
                 if let image = image {
                     images.append(image)
                 }
