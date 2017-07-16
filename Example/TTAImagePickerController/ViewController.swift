@@ -49,8 +49,17 @@ extension ViewController: UICollectionViewDataSource {
     }
 }
 
+extension ViewController: UICollectionViewDelegate {
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        collectionView.deselectItem(at: indexPath, animated: true)
+        let previewVc = TTAPreviewViewController(selected: selectedAssets, index: indexPath.item, delegate: self)
+        present(previewVc, animated: true, completion: nil)
+    }
+}
+
 extension ViewController: TTAImagePickerControllerDelegate {
-    func imagePickerController(_ picker: TTAImagePickerController, didFinishPicking images: [UIImage], assets: [TTAAsset]) {
+    
+    func imagePickerController(_ picker: TTAImagePickerControllerCompatiable, didFinishPicking images: [UIImage], assets: [TTAAsset]) {
         print("got the images")
         selectedImages = images
         selectedAssets = assets
