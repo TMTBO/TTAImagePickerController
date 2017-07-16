@@ -104,6 +104,17 @@ extension TTAAssetCollectionViewCell {
         imageView.image = image
     }
     
+    func configCell(tag: Int, delegate: TTAAssetCollectionViewCellDelegate?, selectItemTintColor: UIColor?, canSelect: Bool, image: UIImage? = nil) {
+        self.tag = tag;
+        self.delegate = delegate;
+        configImage(with: image)
+        guard canSelect else {
+            selectButton.isHidden = !canSelect
+            return
+        }
+        self.selectItemTintColor = selectItemTintColor
+    }
+    
     func lightUp() {
         // MARK: - Animations
         func _lightupAnimation() -> CABasicAnimation {

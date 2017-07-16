@@ -17,7 +17,11 @@ class TTAAssetPickerViewController: UIViewController {
     weak var delegate: TTAAssetPickerViewControllerDelegate?
     
     /// The max num image of the image picker can pick, default is 9
-    var maxPickerNum = 9
+    var maxPickerNum = 9 {
+        didSet {
+            canSelect = !(maxPickerNum <= 1)
+        }
+    }
     
     /// The tint color which item was selected, default is `UIColor(colorLiteralRed: 0, green: 122.0 / 255.0, blue: 1, alpha: 1)`
     public var selectItemTintColor: UIColor?
@@ -41,6 +45,7 @@ class TTAAssetPickerViewController: UIViewController {
     fileprivate var previewItem = UIBarButtonItem()
     fileprivate var doneItem = UIBarButtonItem()
     fileprivate var countLabel = TTASelectCountLabel()
+    fileprivate var canSelect = true
     
     init(album: TTAAlbum, selectedAsset: [PHAsset]) {
         self.album = album
@@ -74,7 +79,7 @@ extension TTAAssetPickerViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        self.navigationController?.isToolbarHidden = false
+        self.navigationController?.isToolbarHidden = !canSelect
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -155,7 +160,7 @@ fileprivate extension TTAAssetPickerViewController {
             let contentSize = self.collectionView.contentSize
             let bounds = self.collectionView.bounds
 
-            let maxOffsetY = contentSize.height - bounds.height + 44
+            let maxOffsetY = contentSize.height - bounds.height + (self.canSelect ? 44 : 0)
             let shouldOffsetY = rect.minY - bounds.height / 2 + rect.height
             let offsetY = min(maxOffsetY, shouldOffsetY)
 
@@ -166,15 +171,7 @@ fileprivate extension TTAAssetPickerViewController {
     }
     
     func setup(assetCell cell: TTAAssetCollectionViewCell, indexPath: IndexPath) {
-        cell.delegate = self
-        cell.selectItemTintColor = selectItemTintColor
-        cell.configImage()
         let tag = indexPath.item + 1
-        cell.tag = tag
-        album.requestThumbnail(with: indexPath.item, size: cell.bounds.size.toPixel()) { (image) in
-            guard let image = image, cell.tag == tag else { return }
-            cell.configImage(with: image)
-        }
         let isSelected: Bool
         if let currentAsset = asset(at: indexPath) {
             isSelected = selectedAsset.contains(currentAsset)
@@ -182,6 +179,11 @@ fileprivate extension TTAAssetPickerViewController {
             isSelected = false
         }
         cell.configState(isSelected: isSelected)
+        cell.configCell(tag: tag, delegate: self, selectItemTintColor: selectItemTintColor, canSelect: canSelect)
+        album.requestThumbnail(with: indexPath.item, size: cell.bounds.size.toPixel()) { (image) in
+            guard let image = image, cell.tag == tag else { return }
+            cell.configImage(with: image)
+        }
     }
     
     func updateCounter() {
