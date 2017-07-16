@@ -34,9 +34,7 @@ public class TTAImagePickerController: UINavigationController {
     /// The selected asset
     public var selectedAsset: [TTAAsset] = [] {
         didSet {
-            configPicker { (_, assetVc) in
-                assetVc?.selectedAsset = selectedAsset.map { $0.original }
-            }
+            updateSelectedAsset()
         }
     }
     
@@ -85,7 +83,8 @@ public class TTAImagePickerController: UINavigationController {
         prepareNavigationItems()
         
         self.selectedAsset = selectedAsset
-
+        updateSelectedAsset()
+        
         addChildViewController(splitController)
         view.addSubview(splitController.view)
         splitController.view.backgroundColor = .clear
@@ -110,6 +109,12 @@ extension TTAImagePickerController {
         topViewController.navigationItem.hidesBackButton = true
         let cancelItem = UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(didClickCancelItem))
         topViewController.navigationItem.rightBarButtonItem = cancelItem
+    }
+    
+    func updateSelectedAsset() {
+        configPicker { (_, assetVc) in
+            assetVc?.selectedAsset = selectedAsset.map { $0.original }
+        }
     }
 }
 
