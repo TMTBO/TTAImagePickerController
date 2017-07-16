@@ -32,6 +32,7 @@ class TTASelectCountLabel: UILabel {
 
 extension TTASelectCountLabel {
     func setupUI() {
+        backgroundColor = UIColor(colorLiteralRed: 0, green: 122.0 / 255.0, blue: 1, alpha: 1)
         textColor = .white
         textAlignment = .center
         adjustsFontSizeToFitWidth = true

@@ -12,14 +12,18 @@ protocol TTAPreviewViewControllerDelegate: class {
     func previewViewController(_ previewVc: TTAPreviewViewController, didFinishPicking assets: [PHAsset])
 }
 
-class TTAPreviewViewController: UIViewController {
+public class TTAPreviewViewController: UIViewController, TTAImagePickerControllerCompatiable {
     
     weak var delegate: TTAPreviewViewControllerDelegate?
-    var selectItemTintColor: UIColor?
+    /// Only for preview selected assets from outer
+    fileprivate weak var previewDelegate: TTAImagePickerControllerDelegate?
+    
+    var selectItemTintColor: UIColor? = UIColor(colorLiteralRed: 0, green: 122.0 / 255.0, blue: 1, alpha: 1)
     var tintColor: UIColor?
     
     fileprivate(set) var album: TTAAlbum?
     fileprivate var selected: [PHAsset]
+    fileprivate let previewAssets: [PHAsset]
     fileprivate let maxPickerNum: Int
     fileprivate var currentIndex: Int
     
@@ -32,16 +36,26 @@ class TTAPreviewViewController: UIViewController {
     init(album: TTAAlbum?, selected: [PHAsset], maxPickerNum: Int, index: Int) {
         self.album = album
         self.selected = selected
+        self.previewAssets = selected
         self.maxPickerNum = maxPickerNum
         self.currentIndex = index
         super.init(nibName: nil, bundle: nil)
     }
     
-    required init?(coder aDecoder: NSCoder) {
+    public convenience init(selected: [TTAAsset], index: Int, delegate: TTAImagePickerControllerDelegate?) {
+        self.init(album: nil, selected: selected.map { $0.original }, maxPickerNum: selected.count, index: index)
+        previewDelegate = delegate
+        TTACachingImageManager.prepareCachingManager()
+    }
+    
+    required public init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
     deinit {
+        if previewDelegate != nil {
+            TTACachingImageManager.destoryCachingManager()
+        }
         #if DEBUG
             print("TTAImagePickerController >>>>>> preview controller deinit")
         #endif
@@ -53,7 +67,7 @@ class TTAPreviewViewController: UIViewController {
 
 extension TTAPreviewViewController {
     
-    override func viewDidLoad() {
+    override public func viewDidLoad() {
         super.viewDidLoad()
         setupUI()
         scroll(to: currentIndex)
@@ -61,24 +75,24 @@ extension TTAPreviewViewController {
         updateCounter()
     }
     
-    override func viewWillAppear(_ animated: Bool) {
+    override public func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         navigationController?.isNavigationBarHidden = true
         updateStatusBarApperance(isHidden: true)
     }
     
-    override func viewWillDisappear(_ animated: Bool) {
+    override public func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         navigationController?.isNavigationBarHidden = false
         updateStatusBarApperance(isHidden: false)
     }
     
-    override func viewDidLayoutSubviews() {
+    override public func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         layoutViews()
     }
     
-    override var prefersStatusBarHidden: Bool {
+    override public var prefersStatusBarHidden: Bool {
         return isHiddenStatusBar
     }
 }
@@ -178,15 +192,15 @@ fileprivate extension TTAPreviewViewController {
 
 // MARK: - Data
 
-extension TTAPreviewViewController {
+fileprivate extension TTAPreviewViewController {
     
     func assetCount() -> Int {
-        guard let album = album else { return selected.count }
+        guard let album = album else { return previewAssets.count }
         return album.assets.count
     }
     
     func asset(at indexPath: IndexPath) -> PHAsset? {
-        guard let album = album else { return selected[indexPath.item] }
+        guard let album = album else { return previewAssets[indexPath.item] }
         return album.asset(at: indexPath.item)
     }
     
@@ -218,11 +232,11 @@ extension TTAPreviewViewController {
 // MARK: - UICollectionViewDataSource
 
 extension TTAPreviewViewController: UICollectionViewDataSource {
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+    public func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return assetCount()
     }
     
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+    public func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "\(TTAPreviewCollectionViewCell.self)", for: indexPath) as! TTAPreviewCollectionViewCell
         setup(assetCell: cell, indexPath: indexPath)
         return cell
@@ -233,7 +247,7 @@ extension TTAPreviewViewController: UICollectionViewDataSource {
 
 extension TTAPreviewViewController: UICollectionViewDelegate {
     
-    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+    public func scrollViewDidScroll(_ scrollView: UIScrollView) {
         let offsetWidth = scrollView.contentOffset.x + scrollView.bounds.width / 2
         let index: Int = Int(offsetWidth / (view.bounds.width + 30))
         if index < assetCount() && currentIndex != index {
@@ -255,7 +269,15 @@ extension TTAPreviewViewController: TTAPreviewNavigationBarDelegate {
     
     func previewNavigationBar(_ navigationBar: TTAPreviewNavigationBar, didClickBack button: UIButton) {
         delegate?.previewViewController(self, backToAssetPickerControllerWith: currentIndex, selectedAsset: selected)
-        navigationController?.popViewController(animated: true)
+        guard let navigationController = navigationController else {
+            dismiss(animated: true, completion: nil)
+            return
+        }
+        if navigationController.viewControllers.count > 1 {
+            navigationController.popViewController(animated: true)
+        } else {
+            dismiss(animated: true, completion: nil)
+        }
     }
     
     func previewNavigationBar(_ navigationBar: TTAPreviewNavigationBar, asset: PHAsset, isSelected: Bool) {
@@ -268,6 +290,12 @@ extension TTAPreviewViewController: TTAPreviewNavigationBarDelegate {
 extension TTAPreviewViewController: TTAPreviewToolBarDelegate {
     func previewToolBar(toolBar: TTAPreviewToolBar, didClickDone button: UIButton) {
         delegate?.previewViewController(self, didFinishPicking: selected)
+        if previewDelegate != nil {
+            fetchImages(with: selected, completionHandler: { [weak self] (images) in
+                guard let `self` = self else { return }
+                self.previewDelegate?.imagePickerController(self, didFinishPicking: images, assets: self.selected.map { TTAAsset(original: $0) })
+            })
+        }
         self.dismiss(animated: true, completion: nil)
     }
 }
