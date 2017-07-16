@@ -32,7 +32,7 @@ class TTAAssetPickerViewController: UIViewController {
         didSet {
             navigationItem.title = album.name()
             collectionView.reloadData()
-            _scrollToBottom()
+            scrollTo(assetCount() - 1)
             _startCaching()
         }
     }
@@ -69,7 +69,7 @@ extension TTAAssetPickerViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         _setupUI()
-        _scrollToBottom()
+        scrollTo(self.assetCount() - 1)
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -144,11 +144,24 @@ fileprivate extension TTAAssetPickerViewController {
         updateCounter()
     }
     
-    func _scrollToBottom() {
+    func scrollTo(_ index: Int) {
         DispatchQueue.main.async { [weak self] in
             guard let `self` = self else { return }
             if self.assetCount() <= Int(TTAAssetCollectionViewLayout.TTAAssetCollectionViewLayoutConst.correctColumNum) { return }
-            self.collectionView.scrollToItem(at: IndexPath(item: self.assetCount() - 1, section: 0), at: .bottom, animated: false)
+//            self.collectionView.scrollToItem(at: IndexPath(item: index, section: 0), at: .centeredVertically, animated: false)
+            
+            guard let attribute = self.collectionView.collectionViewLayout.layoutAttributesForItem(at: IndexPath(item: index, section: 0)) else { return }
+            let rect = attribute.frame
+            let contentSize = self.collectionView.contentSize
+            let bounds = self.collectionView.bounds
+
+            let maxOffsetY = contentSize.height - bounds.height + 44
+            let shouldOffsetY = rect.minY - bounds.height / 2 + rect.height
+            let offsetY = min(maxOffsetY, shouldOffsetY)
+
+            // Because of the NavigationBar, the `offsetY` should less or equal to -64
+            if offsetY <= -64 { return }
+            self.collectionView.contentOffset = CGPoint(x: 0, y: offsetY)
         }
     }
     
@@ -178,8 +191,9 @@ fileprivate extension TTAAssetPickerViewController {
     }
     
     func lightupCell(with index: Int, isPreview: Bool) {
-        let indexPath = IndexPath(item: isPreview ? album.index(for: selectedAsset[index]) : index, section: 0)
-        collectionView.scrollToItem(at: indexPath, at: .centeredVertically, animated: false)
+        let correctIndex = isPreview ? album.index(for: selectedAsset[index]) : index
+        let indexPath = IndexPath(item: correctIndex, section: 0)
+        scrollTo(correctIndex)
         guard let cell = collectionView.cellForItem(at: indexPath) as? TTAAssetCollectionViewCell else { return }
         cell.lightUp()
     }
@@ -310,8 +324,15 @@ extension TTAAssetPickerViewController: TTAPreviewViewControllerDelegate {
     func previewViewController(_ previewVc: TTAPreviewViewController, backToAssetPickerControllerWith currentIndex: Int, selectedAsset: [PHAsset]) {
         lightupCell(with: currentIndex, isPreview: previewVc.album == nil)
         guard self.selectedAsset != selectedAsset else { return }
-        collectionView.reloadData()
-        self.selectedAsset = selectedAsset
-        updateCounter()
+        DispatchQueue.global().async { [weak self] in
+            guard let `self` = self else { return }
+            let assets = Set(self.selectedAsset).symmetricDifference(Set(selectedAsset))
+            let indexPaths = assets.map { IndexPath(item: self.album.index(for: $0), section: 0) }
+            self.selectedAsset = selectedAsset
+            DispatchQueue.main.async {
+                self.collectionView.reloadItems(at: indexPaths)
+                self.updateCounter()
+            }
+        }
     }
 }
