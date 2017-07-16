@@ -9,15 +9,27 @@
 import Photos
 
 public protocol TTAImagePickerControllerDelegate: class {
-    func imagePickerController(_ picker: TTAImagePickerController, didFinishPicking images: [UIImage], assets: [TTAAsset])
+    func imagePickerController(_ picker: TTAImagePickerControllerCompatiable, didFinishPicking images: [UIImage], assets: [TTAAsset])
 }
 
 // MARK: - Option Functions
-extension TTAImagePickerControllerDelegate {
-    
+public protocol TTAImagePickerControllerCompatiable {
+    func fetchImages(with assets: [PHAsset], completionHandler: @escaping ([UIImage]) -> ())
 }
 
-public class TTAImagePickerController: UINavigationController {
+public extension TTAImagePickerControllerCompatiable {
+    func fetchImages(with assets: [PHAsset], completionHandler: @escaping ([UIImage]) -> ()) {
+        let hud = TTAHUD.showIndicator()
+        TTAImagePickerManager.fetchImages(for: assets, progressHandler: { (progress, error, stop, info) -> Void in
+            print("Loading images \(progress)")
+        }) { (images) in
+            completionHandler(images)
+            hud.dimiss()
+        }
+    }
+}
+
+public class TTAImagePickerController: UINavigationController, TTAImagePickerControllerCompatiable {
     
     public weak var pickerDelegate: TTAImagePickerControllerDelegate?
     
@@ -228,9 +240,7 @@ extension TTAImagePickerController {
 
 extension TTAImagePickerController: TTAAssetPickerViewControllerDelegate {
     func assetPickerController(_ picker: TTAAssetPickerViewController, didFinishPicking assets: [PHAsset]) {
-        TTAImagePickerManager.fetchImages(for: assets, progressHandler: { (progress, error, stop, info) -> Void in
-            print("Loading images \(progress)")
-        }) { [weak self] (images) in
+        fetchImages(with: assets) { [weak self] (images) in
             guard let `self` = self else { return }
             self.pickerDelegate?.imagePickerController(self, didFinishPicking: images, assets: assets.map({ TTAAsset(original: $0) }))
         }

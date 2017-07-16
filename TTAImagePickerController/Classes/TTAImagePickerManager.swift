@@ -63,6 +63,7 @@ extension TTAImagePickerManager {
 extension TTAImagePickerManager {
     
     static func fetchAssetCollections() -> [TTAAlbum] {
+        let hud = TTAHUD.showIndicator()
         let fetchResult = PHAssetCollection.fetchAssetCollections(with: .smartAlbum, subtype: .any, options: nil)
         guard fetchResult.count > 0 else { return [TTAAlbum]() }
         
@@ -85,6 +86,7 @@ extension TTAImagePickerManager {
         assetCollections.sort { (collection1, collection2) -> Bool in
             return collection1.name() ?? "" < collection2.name() ?? ""
         }
+        hud.dimiss()
         return assetCollections
     }
 }
@@ -95,10 +97,12 @@ extension TTAImagePickerManager {
     
     static func fetchImages(for assets: [PHAsset], size: CGSize? = PHImageManagerMaximumSize, options: PHImageRequestOptions? = nil, progressHandler: PHAssetImageProgressHandler?,pr resultHandler: @escaping ([UIImage]) -> Void) {
         var images: [UIImage] = []
+        let options = fetchOriginalOptions()
+        options.isSynchronous = true
         let group = DispatchGroup()
         _ = assets.map { (asset) in
             group.enter()
-            fetchOriginalImage(for: asset, options: fetchOriginalOptions(), progressHandler: progressHandler, resultHandler: { (image) in
+            fetchOriginalImage(for: asset, options: options, progressHandler: progressHandler, resultHandler: { (image) in
                 if let image = image {
                     images.append(image)
                 }

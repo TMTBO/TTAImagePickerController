@@ -80,6 +80,10 @@ extension TTAPreviewNavigationBar {
         guard selectButton.isSelected != isSelected else { return }
         selectButton.selectState = isSelected ? .selected : .default
     }
+    
+    func configHideSelectButton(_ isHidden: Bool) {
+        selectButton.isHidden = isHidden
+    }
 }
 
 // MARK: - Actions

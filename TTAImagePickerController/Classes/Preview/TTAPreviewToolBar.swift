@@ -97,7 +97,12 @@ extension TTAPreviewToolBar {
 // MARK: - Public Method
 
 extension TTAPreviewToolBar {
-    func update(count: Int) {
+    func update(count: Int, with enableDone: Bool) {
+        guard !enableDone else {
+            doneButton.isEnabled = enableDone
+            countLabel.isHidden = enableDone
+            return
+        }
         countLabel.config(with: count)
         doneButton.isEnabled = count > 0
     }
