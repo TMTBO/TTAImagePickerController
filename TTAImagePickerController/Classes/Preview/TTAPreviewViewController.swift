@@ -234,7 +234,7 @@ extension TTAPreviewViewController: UICollectionViewDataSource {
 extension TTAPreviewViewController: UICollectionViewDelegate {
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        let offsetWidth = scrollView.contentOffset.x
+        let offsetWidth = scrollView.contentOffset.x + scrollView.bounds.width / 2
         let index: Int = Int(offsetWidth / (view.bounds.width + 30))
         if index < assetCount() && currentIndex != index {
             currentIndex = index
