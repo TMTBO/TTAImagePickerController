@@ -120,6 +120,8 @@ fileprivate extension TTAPreviewViewController {
         previewNavigationBar.selectItemTintColor = selectItemTintColor
         previewNavigationBar.tintColor = tintColor
         previewNavigationBar.autoresizingMask = [.flexibleHeight, .flexibleWidth]
+        previewNavigationBar.configHideSelectButton(maxPickerNum <= 1)
+        
         previewToolBar.delegate = self
         previewToolBar.selectItemTintColor = selectItemTintColor
         previewToolBar.tintColor = tintColor
@@ -150,7 +152,7 @@ fileprivate extension TTAPreviewViewController {
     }
     
     func updateCounter() {
-        previewToolBar.update(count: selected.count)
+        previewToolBar.update(count: selected.count, with: maxPickerNum <= 1)
     }
     
     func updateNavigationBar() {
@@ -289,6 +291,9 @@ extension TTAPreviewViewController: TTAPreviewNavigationBarDelegate {
 
 extension TTAPreviewViewController: TTAPreviewToolBarDelegate {
     func previewToolBar(toolBar: TTAPreviewToolBar, didClickDone button: UIButton) {
+        if maxPickerNum == 1, let asset = asset(at: IndexPath(item: currentIndex, section: 0)) {
+            selected = [asset]
+        }
         delegate?.previewViewController(self, didFinishPicking: selected)
         if previewDelegate != nil {
             fetchImages(with: selected, completionHandler: { [weak self] (images) in
