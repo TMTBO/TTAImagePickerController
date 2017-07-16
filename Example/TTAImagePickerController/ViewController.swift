@@ -22,11 +22,14 @@ class ViewController: UIViewController {
     }
 
     @IBAction func didClickShowImagePickerButton(_ sender: UIButton) {
-        let imagePicker = TTAImagePickerController(selectedAsset: [TTAAsset]())
-        imagePicker.selectItemTintColor = .red
-        imagePicker.delegate = self
-        imagePicker.selectedAsset = selectedAssets
+        let imagePicker = TTAImagePickerController(selectedAsset: selectedAssets)
+        imagePicker.pickerDelegate = self
         imagePicker.maxPickerNum = Int(maxImageCountTextField.text ?? "9") ?? 9
+        
+//        imagePicker.selectItemTintColor = .red
+//        imagePicker.barTintColor = .orange
+//        imagePicker.tintColor = .cyan
+        
         present(imagePicker, animated: true, completion: nil)
     }
     
