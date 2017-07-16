@@ -17,9 +17,9 @@ extension TTAImagePickerControllerDelegate {
     
 }
 
-public class TTAImagePickerController: UIViewController {
+public class TTAImagePickerController: UINavigationController {
     
-    public weak var delegate: TTAImagePickerControllerDelegate?
+    public weak var pickerDelegate: TTAImagePickerControllerDelegate?
     
     /// The max num image of the image picker can pick, default is 9
     public var maxPickerNum = 9 {
@@ -53,8 +53,11 @@ public class TTAImagePickerController: UIViewController {
     /// NavigationBar tintColor
     public var tintColor: UIColor = UIColor(colorLiteralRed: 0, green: 122.0 / 255.0, blue: 1, alpha: 1) {
         didSet {
+            navigationBar.tintColor = tintColor
+            navigationBar.titleTextAttributes = [NSForegroundColorAttributeName: tintColor]
             _ = splitController.viewControllers.map { (viewController) in
                 guard let viewController = viewController as? UINavigationController else { return }
+                viewController.toolbar.tintColor = tintColor
                 viewController.navigationBar.tintColor = tintColor
                 viewController.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName: tintColor]
             }
@@ -64,29 +67,30 @@ public class TTAImagePickerController: UIViewController {
     /// NavigationBar barTintColor
     public var barTintColor: UIColor? {
         didSet {
+            navigationBar.barTintColor = barTintColor
             _ = splitController.viewControllers.map { (viewController) in
-                let viewController = viewController as! UINavigationController
+                guard let viewController = viewController as? UINavigationController else { return }
                 viewController.navigationBar.barTintColor = barTintColor
+                viewController.toolbar.barTintColor = barTintColor
             }
         }
     }
     
     fileprivate let splitController = UISplitViewController()
     
-    public init(selectedAsset: [TTAAsset]) {
-        super.init(nibName: nil, bundle: nil)
+    public convenience init(selectedAsset: [TTAAsset]) {
+        type(of: self).prepareIconFont()
+        let rootVc = UIViewController()
+        self.init(rootViewController: rootVc)
+        prepareNavigationItems()
+        
         self.selectedAsset = selectedAsset
-        prepareIconFont()
-//        prepareSplitController()
+
         addChildViewController(splitController)
         view.addSubview(splitController.view)
         splitController.view.backgroundColor = .clear
         splitController.preferredDisplayMode = .allVisible
         splitController.view.autoresizingMask = [.flexibleWidth, .flexibleHeight]
-    }
-    
-    required public init?(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
     }
     
     deinit {
@@ -95,6 +99,18 @@ public class TTAImagePickerController: UIViewController {
         #endif
     }
 
+}
+
+// MARK: - UI
+
+extension TTAImagePickerController {
+    func prepareNavigationItems() {
+        guard let topViewController = topViewController else { return }
+        topViewController.navigationItem.title = "\(TTAImagePickerController.self)"
+        topViewController.navigationItem.hidesBackButton = true
+        let cancelItem = UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(didClickCancelItem))
+        topViewController.navigationItem.rightBarButtonItem = cancelItem
+    }
 }
 
 // MARK: - Life Cycle
@@ -121,7 +137,7 @@ extension TTAImagePickerController {
 
 // MARK: - Private
 
-extension TTAImagePickerController {
+fileprivate extension TTAImagePickerController {
     func configPicker(_ handler: (_ albumVc: TTAAlbumPickerViewController?, _ assetVc: TTAAssetPickerViewController?) -> ()) {
         _ = splitController.viewControllers.map { (vc) in
             guard let nav = vc as? UINavigationController,
@@ -140,16 +156,24 @@ extension TTAImagePickerController {
 extension TTAImagePickerController {
     func checkPermission() {
         func permissionDenied() {
-//            setNavigationBarHidden(false, animated: false)
+            setNavigationBarHidden(false, animated: false)
             showPermissionView(with: .photo)
         }
         func startSetup() {
-//            setNavigationBarHidden(true, animated: false)
+            setNavigationBarHidden(true, animated: false)
             prepareSplitController()
         }
         TTAImagePickerManager.checkPhotoLibraryPermission { (isAuthorized) in
             isAuthorized ? startSetup() : permissionDenied()
         }
+    }
+}
+
+// MARK: - Actions
+
+extension TTAImagePickerController {
+    func didClickCancelItem() {
+        dismiss(animated: true, completion: nil)
     }
 }
 
@@ -187,7 +211,7 @@ extension TTAImagePickerController {
 // MARK: - Prepareation
 
 extension TTAImagePickerController {
-    func prepareIconFont() {
+    static func prepareIconFont() {
         guard let path = Bundle(for: TTAImagePickerController.self).path(forResource: "TTAImagePickerController", ofType: "bundle"),
             let bundle = Bundle(path: path),
             let url = bundle.url(forResource: "iconfont", withExtension: ".ttf") else { return }
@@ -203,7 +227,7 @@ extension TTAImagePickerController: TTAAssetPickerViewControllerDelegate {
             print("Loading images \(progress)")
         }) { [weak self] (images) in
             guard let `self` = self else { return }
-            self.delegate?.imagePickerController(self, didFinishPicking: images, assets: assets.map({ TTAAsset(original: $0) }))
+            self.pickerDelegate?.imagePickerController(self, didFinishPicking: images, assets: assets.map({ TTAAsset(original: $0) }))
         }
     }
 }
