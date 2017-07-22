@@ -47,6 +47,9 @@ extension TTAPreviewZoomView {
     }
     
     func progressViewY(isToolBarHidden: Bool) -> CGFloat {
+        if imageView.image == nil {
+            return bounds.height - TTAProgressView.bottomMargin() - TTAProgressView.widthAndHeight() - (isToolBarHidden ? 0 : TTAPreviewToolBar.height())
+        }
         let y: CGFloat
         if imageView.frame.maxY < bounds.maxY - (isToolBarHidden ? 0 : TTAPreviewToolBar.height()) {
             y = imageView.frame.maxY - TTAProgressView.bottomMargin() - TTAProgressView.widthAndHeight()
