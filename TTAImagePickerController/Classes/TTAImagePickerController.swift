@@ -146,12 +146,6 @@ extension TTAImagePickerController {
         super.viewDidLayoutSubviews()
         splitController.view.frame = view.bounds
     }
-    
-    public override var prefersStatusBarHidden: Bool {
-        guard let nav = splitController.viewControllers.last as? UINavigationController,
-            let visibleVc = nav.visibleViewController else { return false }
-        return visibleVc.prefersStatusBarHidden
-    }
 }
 
 // MARK: - Private
@@ -249,3 +243,13 @@ extension TTAImagePickerController: TTAAssetPickerViewControllerDelegate {
         }
     }
 }
+
+extension UISplitViewController {
+    open override var prefersStatusBarHidden: Bool {
+        guard let nav = viewControllers.last as? UINavigationController,
+            let visibleVc = nav.visibleViewController else { return false }
+        return visibleVc.prefersStatusBarHidden
+    }
+}
+
+
