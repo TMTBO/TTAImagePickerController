@@ -25,6 +25,7 @@ class TTAPreviewNavigationBar: UIView {
 
     fileprivate var backButton = UIButton(type: .system)
     fileprivate var selectButton = TTASelectButton()
+    fileprivate var bgView = UIVisualEffectView(effect: UIBlurEffect(style: .dark))
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -45,14 +46,16 @@ class TTAPreviewNavigationBar: UIView {
 
 extension TTAPreviewNavigationBar {
     func setupUI() {
+        
         func _createViews() {
-            addSubview(backButton)
-            addSubview(selectButton)
+            addSubview(bgView)
+            bgView.contentView.addSubview(backButton)
+            bgView.contentView.addSubview(selectButton)
         }
         
         func _configViews() {
-            backgroundColor = UIColor.black.withAlphaComponent(0.5)
-            
+            backgroundColor = UIColor.clear
+            bgView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
             backButton.addTarget(self, action: #selector(didClickBackButton(_:)), for: .touchUpInside)
             backButton.setTitle(UIFont.IconFont.backMark.rawValue, for: .normal)
             backButton.titleLabel?.font = UIFont.iconfont(size: UIFont.IconFontSize.backMark)
@@ -73,8 +76,10 @@ extension TTAPreviewNavigationBar {
     }
     
     func layoutViews() {
+        bgView.frame = bounds
         backButton.frame = CGRect(x: 0, y: 20, width: 100, height: 44)
-        selectButton.frame = CGRect(x: bounds.width - 26 - 10, y: (44 - 26) / 2 + 20, width: 26, height: 26)    }
+        selectButton.frame = CGRect(x: bounds.width - 26 - 10, y: (44 - 26) / 2 + 20, width: 26, height: 26)
+    }
     
     func configNavigationBar(isSelected: Bool) {
         guard selectButton.isSelected != isSelected else { return }
