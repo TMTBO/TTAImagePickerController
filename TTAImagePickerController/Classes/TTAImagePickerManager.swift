@@ -63,7 +63,7 @@ extension TTAImagePickerManager {
 extension TTAImagePickerManager {
     
     static func fetchAssetCollections() -> [TTAAlbum] {
-        let hud = TTAHUD.showIndicator()
+        let hud = TTAHUD.showIndicator(with: .indicator)
         let fetchResult = PHAssetCollection.fetchAssetCollections(with: .smartAlbum, subtype: .any, options: nil)
         guard fetchResult.count > 0 else { return [TTAAlbum]() }
         
@@ -95,27 +95,30 @@ extension TTAImagePickerManager {
 
 extension TTAImagePickerManager {
     
-    static func fetchImages(for assets: [PHAsset], size: CGSize? = PHImageManagerMaximumSize, options: PHImageRequestOptions? = nil, progressHandler: PHAssetImageProgressHandler?,pr resultHandler: @escaping ([UIImage]) -> Void) {
-        var images: [UIImage] = []
-        let options = fetchOriginalOptions()
-        options.isSynchronous = true
-        let group = DispatchGroup()
-        _ = assets.map { (asset) in
-            group.enter()
-            fetchOriginalImage(for: asset, options: options, progressHandler: progressHandler, resultHandler: { (image) in
-                if let image = image {
-                    images.append(image)
-                }
-                group.leave()
-            })
-        }
-        group.notify(queue: .main) {
-            resultHandler(images)
+    static func fetchImages(for assets: [PHAsset], size: CGSize? = PHImageManagerMaximumSize, options: PHImageRequestOptions? = nil, progressHandler: PHAssetImageProgressHandler?,resultHandler: @escaping ([UIImage]) -> Void) {
+        // Because of the `isSynchronous` is `true`, if call `fetchOriginalImage` to  download the image from icloud in mainThread, then the mainThread will be blocked and the progressHandler will not excuated
+        DispatchQueue.global().async {
+            var images: [UIImage] = []
+            let options = fetchOriginalOptions()
+            options.isSynchronous = true
+            let group = DispatchGroup()
+            _ = assets.map { (asset) in
+                group.enter()
+                fetchOriginalImage(for: asset, options: options, progressHandler: progressHandler, resultHandler: { (image) in
+                    if let image = image {
+                        images.append(image)
+                    }
+                    group.leave()
+                })
+            }
+            group.notify(queue: .main) {
+                resultHandler(images)
+            }
         }
     }
     
     static func fetchPreviewImage(for asset: PHAsset?, progressHandler: PHAssetImageProgressHandler?, resultHandler: @escaping (UIImage?) -> Void) {
-        fetchImage(for: asset, size: fetchOriginalSize(with: asset), options: defaultOptions(), progressHandler: progressHandler) { (image, _) in
+        fetchImage(for: asset, size: fetchOriginalSize(with: asset), options: defaultOptions(), progressHandler:progressHandler) { (image, _) in
             resultHandler(image)
         }
     }
