@@ -80,14 +80,18 @@ extension TTAPreviewCollectionViewCell {
     func configCell(tag: Int, delegate: TTAPreviewCollectionViewCellDelegate?, isHiddenBars: Bool, image: UIImage? = nil) {
         self.tag = tag;
         self.delegate = delegate;
-        configCell(isHiddenBars: isHiddenBars)
         configImage(with: image)
+        configCell(isHiddenBars: isHiddenBars)
     }
     
     func configCell(isHiddenBars: Bool) {
         backgroundColor = isHiddenBars ? .black : .white
         isToolBarHidden = isHiddenBars
-        let y = zoomView.progressViewY(isToolBarHidden: isHiddenBars)
+        updateProgressFrame()
+    }
+    
+    func updateProgressFrame() {
+        let y = zoomView.progressViewY(isToolBarHidden: isToolBarHidden)
         guard y > 0 else { return }
         UIView.beginAnimations(nil, context: nil)
         UIView.setAnimationDuration(0.25)
@@ -101,10 +105,15 @@ extension TTAPreviewCollectionViewCell {
             progressView.progressError(error)
             return
         }
-        let shouldUpdate = (progress >= 0 && progress <= 1)
+        let shouldUpdate = (progress >= 0 && progress < 1)
         progressView.isHidden = !shouldUpdate
         guard shouldUpdate else { return }
         progressView.update(to: progress)
+        updateProgressFrame()
+    }
+    
+    func orientationDidChanged() {
+        zoomView.orientationDidChanged()
     }
 }
 

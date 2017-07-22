@@ -19,8 +19,10 @@ public protocol TTAImagePickerControllerCompatiable {
 
 public extension TTAImagePickerControllerCompatiable {
     func fetchImages(with assets: [PHAsset], completionHandler: @escaping ([UIImage]) -> ()) {
-        let hud = TTAHUD.showIndicator()
+        let hud = TTAHUD.showIndicator(with: .indicator)
         TTAImagePickerManager.fetchImages(for: assets, progressHandler: { (progress, error, stop, info) -> Void in
+           hud.updateTip("Loading from icloud...")
+            hud.updateProgress(progress)
             print("Loading images \(progress)")
         }) { (images) in
             completionHandler(images)
@@ -144,12 +146,6 @@ extension TTAImagePickerController {
         super.viewDidLayoutSubviews()
         splitController.view.frame = view.bounds
     }
-    
-    public override var prefersStatusBarHidden: Bool {
-        guard let nav = splitController.viewControllers.last as? UINavigationController,
-            let visibleVc = nav.visibleViewController else { return false }
-        return visibleVc.prefersStatusBarHidden
-    }
 }
 
 // MARK: - Private
@@ -243,6 +239,15 @@ extension TTAImagePickerController: TTAAssetPickerViewControllerDelegate {
         fetchImages(with: assets) { [weak self] (images) in
             guard let `self` = self else { return }
             self.pickerDelegate?.imagePickerController(self, didFinishPicking: images, assets: assets.map({ TTAAsset(original: $0) }))
+            self.dismiss(animated: true, completion: nil)
         }
+    }
+}
+
+extension UISplitViewController {
+    open override var prefersStatusBarHidden: Bool {
+        guard let nav = viewControllers.last as? UINavigationController,
+            let visibleVc = nav.visibleViewController else { return false }
+        return visibleVc.prefersStatusBarHidden
     }
 }

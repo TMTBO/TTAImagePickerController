@@ -30,10 +30,6 @@ class TTAPreviewZoomView: UIScrollView {
     override func layoutSubviews() {
         super.layoutSubviews()
     }
-    
-    deinit {
-        NotificationCenter.default.removeObserver(self)
-    }
 }
 
 // MARK: - Public Method
@@ -47,6 +43,9 @@ extension TTAPreviewZoomView {
     }
     
     func progressViewY(isToolBarHidden: Bool) -> CGFloat {
+        if imageView.image == nil {
+            return bounds.height - TTAProgressView.bottomMargin() - TTAProgressView.widthAndHeight() - (isToolBarHidden ? 0 : TTAPreviewToolBar.height())
+        }
         let y: CGFloat
         if imageView.frame.maxY < bounds.maxY - (isToolBarHidden ? 0 : TTAPreviewToolBar.height()) {
             y = imageView.frame.maxY - TTAProgressView.bottomMargin() - TTAProgressView.widthAndHeight()
@@ -87,13 +86,8 @@ fileprivate extension TTAPreviewZoomView {
             tap.require(toFail: doubleTap)
         }
         
-        func _addObserver() {
-            NotificationCenter.default.addObserver(self, selector: #selector(orientationDidChanged(notify:)), name: NSNotification.Name.UIDeviceOrientationDidChange, object: nil)
-        }
-        
         _addViews()
         _configViews()
-        _addObserver()
         layoutViews()
     }
     
@@ -156,7 +150,7 @@ extension TTAPreviewZoomView {
         tapDelegate?.tappedPreviewZoomView(self)
     }
     
-    func orientationDidChanged(notify: Notification) {
+    func orientationDidChanged() {
         refreshFrame()
         setZoomScale(1, animated: false)
     }

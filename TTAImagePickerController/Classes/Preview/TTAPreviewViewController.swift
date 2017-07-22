@@ -56,6 +56,7 @@ public class TTAPreviewViewController: UIViewController, TTAImagePickerControlle
         if previewDelegate != nil {
             TTACachingImageManager.destoryCachingManager()
         }
+        NotificationCenter.default.removeObserver(self)
         #if DEBUG
             print("TTAImagePickerController >>>>>> preview controller deinit")
         #endif
@@ -103,6 +104,7 @@ fileprivate extension TTAPreviewViewController {
     func setupUI() {
         _createViews()
         _configViews()
+        _addObserver()
         layoutViews()
         _ = updateBars(isHidden: isHiddenBars)
     }
@@ -129,10 +131,14 @@ fileprivate extension TTAPreviewViewController {
         _prepareCollectionView()
     }
     
+    func _addObserver() {
+        NotificationCenter.default.addObserver(self, selector: #selector(orientationDidChanged), name: NSNotification.Name.UIDeviceOrientationDidChange, object: nil)
+    }
+    
     func layoutViews() {
         collectionView.frame = CGRect(x: 0, y: 0, width: view.bounds.width + 30, height: view.bounds.height)
-        previewNavigationBar.frame = CGRect(x: 0, y: 0, width: view.bounds.width, height: 64)
-        previewToolBar.frame = CGRect(x: 0, y: view.bounds.height - 44, width: view.bounds.width, height: 44)
+        previewNavigationBar.frame = CGRect(x: 0, y: 0, width: view.bounds.width, height: TTAPreviewNavigationBar.height())
+        previewToolBar.frame = CGRect(x: 0, y: view.bounds.height - TTAPreviewToolBar.height(), width: view.bounds.width, height: TTAPreviewToolBar.height())
         let layout = collectionView.collectionViewLayout as? TTAPreviewCollectionViewLayout
         layout?.itemSize = collectionView.bounds.size
     }
@@ -159,6 +165,7 @@ fileprivate extension TTAPreviewViewController {
         let isSelected: Bool
         if let currentAsset = asset(at: IndexPath(item: currentIndex, section: 0)) {
             isSelected = selected.contains(currentAsset)
+            previewNavigationBar.updateImageInfo(with: currentAsset.creationDate)
         } else {
             isSelected = false
         }
@@ -231,6 +238,16 @@ fileprivate extension TTAPreviewViewController {
     }
 }
 
+// MARK: - Actions
+
+extension TTAPreviewViewController {
+    func orientationDidChanged(notify: Notification) {
+        previewNavigationBar.orientationDidChanged(notify: notify)
+        guard let cell = collectionView.visibleCells.first as? TTAPreviewCollectionViewCell else { return }
+        cell.orientationDidChanged()
+    }
+}
+
 // MARK: - UICollectionViewDataSource
 
 extension TTAPreviewViewController: UICollectionViewDataSource {
@@ -299,9 +316,9 @@ extension TTAPreviewViewController: TTAPreviewToolBarDelegate {
             fetchImages(with: selected, completionHandler: { [weak self] (images) in
                 guard let `self` = self else { return }
                 self.previewDelegate?.imagePickerController(self, didFinishPicking: images, assets: self.selected.map { TTAAsset(original: $0) })
+                self.dismiss(animated: true, completion: nil)
             })
         }
-        self.dismiss(animated: true, completion: nil)
     }
 }
 

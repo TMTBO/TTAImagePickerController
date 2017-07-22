@@ -23,8 +23,10 @@ class TTAPreviewNavigationBar: UIView {
         }
     }
 
-    fileprivate var backButton = UIButton(type: .system)
-    fileprivate var selectButton = TTASelectButton()
+    fileprivate let backButton = UIButton(type: .system)
+    fileprivate let selectButton = TTASelectButton()
+    fileprivate let timeLabel = UILabel()
+    fileprivate let bgView = UIVisualEffectView(effect: UIBlurEffect(style: .dark))
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -45,14 +47,22 @@ class TTAPreviewNavigationBar: UIView {
 
 extension TTAPreviewNavigationBar {
     func setupUI() {
+        
         func _createViews() {
-            addSubview(backButton)
-            addSubview(selectButton)
+            addSubview(bgView)
+            bgView.contentView.addSubview(backButton)
+            bgView.contentView.addSubview(selectButton)
+            bgView.contentView.addSubview(timeLabel)
         }
         
         func _configViews() {
-            backgroundColor = UIColor.black.withAlphaComponent(0.5)
-            
+            backgroundColor = UIColor.clear
+            bgView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+            timeLabel.textColor = .white
+            timeLabel.font = UIFont.systemFont(ofSize: 16)
+            timeLabel.adjustsFontSizeToFitWidth = true
+            timeLabel.textAlignment = .center
+            timeLabel.numberOfLines = 2
             backButton.addTarget(self, action: #selector(didClickBackButton(_:)), for: .touchUpInside)
             backButton.setTitle(UIFont.IconFont.backMark.rawValue, for: .normal)
             backButton.titleLabel?.font = UIFont.iconfont(size: UIFont.IconFontSize.backMark)
@@ -73,8 +83,18 @@ extension TTAPreviewNavigationBar {
     }
     
     func layoutViews() {
-        backButton.frame = CGRect(x: 0, y: 20, width: 100, height: 44)
-        selectButton.frame = CGRect(x: bounds.width - 26 - 10, y: (44 - 26) / 2 + 20, width: 26, height: 26)    }
+        bgView.frame = bounds
+        backButton.frame = CGRect(x: 0, y: 20, width: 100, height: bounds.height - 20)
+        selectButton.frame = CGRect(x: bounds.width - 26 - 10, y: (bounds.height - 20 - 26) / 2 + 20, width: 26, height: 26)
+        timeLabel.frame = CGRect(x: backButton.frame.maxX + 10, y: backButton.frame.minY, width: bounds.width - 2 * (backButton.frame.width + 10), height: backButton.frame.height)
+    }
+    
+    func updateImageInfo(with creationDate: Date?) {
+        guard let creationDate = creationDate else { return }
+        dateFormatter.dateStyle = .medium
+        dateFormatter.timeStyle = .medium
+        timeLabel.text = dateFormatter.string(from: creationDate)
+    }
     
     func configNavigationBar(isSelected: Bool) {
         guard selectButton.isSelected != isSelected else { return }
@@ -99,5 +119,18 @@ extension TTAPreviewNavigationBar {
             let operateAsset = asset else { return }
         selectButton.selectState = selectButton.selectState == .selected ? .default : .selected
         delegate?.previewNavigationBar(self, asset: operateAsset, isSelected: selectButton.isSelected)
+    }
+    
+    func orientationDidChanged(notify: Notification) {
+        setNeedsLayout()
+    }
+}
+
+// MARK: - Const
+
+extension TTAPreviewNavigationBar {
+    static func height() -> CGFloat {
+        let orientation = UIDevice.current.orientation
+        return (orientation == .landscapeLeft || orientation == .landscapeRight) ? 52 : 64
     }
 }

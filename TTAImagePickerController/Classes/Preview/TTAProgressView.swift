@@ -12,11 +12,11 @@ class TTAProgressView: UIView {
     fileprivate let progressLayer = CAShapeLayer()
     fileprivate var progress: Double = 0.02
     
-    override var isHidden: Bool {
-        didSet {
-            progress = 0.02
-        }
-    }
+//    override var isHidden: Bool {
+//        didSet {
+//            progress = 0.02
+//        }
+//    }
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -69,6 +69,8 @@ class TTAProgressView: UIView {
     func update(to progress: Double) {
         guard progress > 0.02 else { return }
         self.progress = progress
+        progressLayer.isHidden = false
+        circleLayer.isHidden = false
         setNeedsDisplay()
     }
     
@@ -76,7 +78,9 @@ class TTAProgressView: UIView {
         isHidden = false
         progress = 0
         let errorImage = UIImage.image(with: .warningMark, in: bounds.size, tintColor: .red, cornerRadius: bounds.width / 2)
-        progressLayer.contents = errorImage.cgImage
+        layer.contents = errorImage.cgImage
+        progressLayer.isHidden = true
+        circleLayer.isHidden = true
     }
 }
 

@@ -264,7 +264,6 @@ extension TTAAssetPickerViewController {
     }
     
     func didClickDoneItem() {
-        dismiss(animated: true, completion: nil)
         delegate?.assetPickerController(self, didFinishPicking: selectedAsset)
     }
 }

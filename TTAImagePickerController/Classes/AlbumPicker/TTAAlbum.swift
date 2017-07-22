@@ -68,3 +68,8 @@ extension TTAAlbum {
             TTAImagePickerManager.fetchImage(for: asset, size: size, options: options, progressHandler: progressHandler, resultHandler: resultHandler)
     }
 }
+
+/// The Main user for this model is to avoid the user to `import Photos` in the file when they use `TTAImagePickerController`
+public struct TTAAsset {
+    var original: PHAsset
+}

@@ -23,6 +23,7 @@ class TTAPreviewToolBar: UIView {
     
     fileprivate var doneButton = UIButton(type: .system)
     fileprivate let countLabel = TTASelectCountLabel()
+    fileprivate var bgView = UIVisualEffectView(effect: UIBlurEffect(style: .dark))
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -44,12 +45,14 @@ class TTAPreviewToolBar: UIView {
 extension TTAPreviewToolBar {
     func setupUI() {
         func _createViews() {
-            addSubview(doneButton)
-            addSubview(countLabel)
+            addSubview(bgView)
+            bgView.contentView.addSubview(doneButton)
+            bgView.contentView.addSubview(countLabel)
         }
         
         func _configViews() {
-            backgroundColor = UIColor.black.withAlphaComponent(0.5)
+            backgroundColor = .clear
+            bgView.autoresizingMask = [.flexibleHeight, .flexibleWidth]
             doneButton.addTarget(self, action: #selector(didClickDoneButton), for: .touchUpInside)
             doneButton.setTitle("Done", for: .normal)
             doneButton.setTitleColor(.lightGray, for: .disabled)
@@ -69,7 +72,7 @@ extension TTAPreviewToolBar {
         doneButton.frame = CGRect(x: doneButtonX, y: 0, width: doneButtonWidth, height: type(of: self).height())
         let countLabelWH: CGFloat = 26
         countLabel.frame = CGRect(x: doneButtonX - countLabelWH, y: (bounds.height - countLabelWH) / 2, width: countLabelWH, height: countLabelWH)
-        
+        bgView.frame = bounds
     }
     
     func width() -> CGFloat {
@@ -78,7 +81,8 @@ extension TTAPreviewToolBar {
     }
     
     static func height() -> CGFloat {
-        return 44
+        let orientation = UIDevice.current.orientation
+        return (orientation == .landscapeLeft || orientation == .landscapeRight) ? 32 : 44
     }
     
     func rightMargin() -> CGFloat {
@@ -91,6 +95,10 @@ extension TTAPreviewToolBar {
 extension TTAPreviewToolBar {
     func didClickDoneButton() {
         delegate?.previewToolBar(toolBar: self, didClickDone: doneButton)
+    }
+    
+    func orientationDidChanged() {
+        setNeedsLayout()
     }
 }
 
