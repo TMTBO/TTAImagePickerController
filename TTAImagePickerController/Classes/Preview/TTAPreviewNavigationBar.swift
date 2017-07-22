@@ -84,8 +84,8 @@ extension TTAPreviewNavigationBar {
     
     func layoutViews() {
         bgView.frame = bounds
-        backButton.frame = CGRect(x: 0, y: 20, width: 100, height: 44)
-        selectButton.frame = CGRect(x: bounds.width - 26 - 10, y: (44 - 26) / 2 + 20, width: 26, height: 26)
+        backButton.frame = CGRect(x: 0, y: 20, width: 100, height: bounds.height - 20)
+        selectButton.frame = CGRect(x: bounds.width - 26 - 10, y: (bounds.height - 20 - 26) / 2 + 20, width: 26, height: 26)
         timeLabel.frame = CGRect(x: backButton.frame.maxX + 10, y: backButton.frame.minY, width: bounds.width - 2 * (backButton.frame.width + 10), height: backButton.frame.height)
     }
     
@@ -119,5 +119,18 @@ extension TTAPreviewNavigationBar {
             let operateAsset = asset else { return }
         selectButton.selectState = selectButton.selectState == .selected ? .default : .selected
         delegate?.previewNavigationBar(self, asset: operateAsset, isSelected: selectButton.isSelected)
+    }
+    
+    func orientationDidChanged(notify: Notification) {
+        setNeedsLayout()
+    }
+}
+
+// MARK: - Const
+
+extension TTAPreviewNavigationBar {
+    static func height() -> CGFloat {
+        let orientation = UIDevice.current.orientation
+        return (orientation == .landscapeLeft || orientation == .landscapeRight) ? 52 : 64
     }
 }

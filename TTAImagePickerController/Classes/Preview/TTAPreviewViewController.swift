@@ -56,6 +56,7 @@ public class TTAPreviewViewController: UIViewController, TTAImagePickerControlle
         if previewDelegate != nil {
             TTACachingImageManager.destoryCachingManager()
         }
+        NotificationCenter.default.removeObserver(self)
         #if DEBUG
             print("TTAImagePickerController >>>>>> preview controller deinit")
         #endif
@@ -103,6 +104,7 @@ fileprivate extension TTAPreviewViewController {
     func setupUI() {
         _createViews()
         _configViews()
+        _addObserver()
         layoutViews()
         _ = updateBars(isHidden: isHiddenBars)
     }
@@ -129,10 +131,14 @@ fileprivate extension TTAPreviewViewController {
         _prepareCollectionView()
     }
     
+    func _addObserver() {
+        NotificationCenter.default.addObserver(self, selector: #selector(orientationDidChanged), name: NSNotification.Name.UIDeviceOrientationDidChange, object: nil)
+    }
+    
     func layoutViews() {
         collectionView.frame = CGRect(x: 0, y: 0, width: view.bounds.width + 30, height: view.bounds.height)
-        previewNavigationBar.frame = CGRect(x: 0, y: 0, width: view.bounds.width, height: 64)
-        previewToolBar.frame = CGRect(x: 0, y: view.bounds.height - 44, width: view.bounds.width, height: 44)
+        previewNavigationBar.frame = CGRect(x: 0, y: 0, width: view.bounds.width, height: TTAPreviewNavigationBar.height())
+        previewToolBar.frame = CGRect(x: 0, y: view.bounds.height - TTAPreviewToolBar.height(), width: view.bounds.width, height: TTAPreviewToolBar.height())
         let layout = collectionView.collectionViewLayout as? TTAPreviewCollectionViewLayout
         layout?.itemSize = collectionView.bounds.size
     }
@@ -229,6 +235,16 @@ fileprivate extension TTAPreviewViewController {
             selected.remove(at: index)
         }
         updateCounter()
+    }
+}
+
+// MARK: - Actions
+
+extension TTAPreviewViewController {
+    func orientationDidChanged(notify: Notification) {
+        previewNavigationBar.orientationDidChanged(notify: notify)
+        guard let cell = collectionView.visibleCells.first as? TTAPreviewCollectionViewCell else { return }
+        cell.orientationDidChanged()
     }
 }
 

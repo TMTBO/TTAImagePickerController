@@ -111,6 +111,10 @@ extension TTAPreviewCollectionViewCell {
         progressView.update(to: progress)
         updateProgressFrame()
     }
+    
+    func orientationDidChanged() {
+        zoomView.orientationDidChanged()
+    }
 }
 
 // MARK: - Const
