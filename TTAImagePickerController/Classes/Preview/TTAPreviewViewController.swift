@@ -159,6 +159,7 @@ fileprivate extension TTAPreviewViewController {
         let isSelected: Bool
         if let currentAsset = asset(at: IndexPath(item: currentIndex, section: 0)) {
             isSelected = selected.contains(currentAsset)
+            previewNavigationBar.updateImageInfo(with: currentAsset.creationDate)
         } else {
             isSelected = false
         }

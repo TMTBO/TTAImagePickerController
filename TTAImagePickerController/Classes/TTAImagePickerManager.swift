@@ -8,6 +8,8 @@
 
 import Photos
 
+let dateFormatter = DateFormatter()
+
 class TTAImagePickerManager {
     static func defaultOptions() -> PHImageRequestOptions {
         let options = PHImageRequestOptions()

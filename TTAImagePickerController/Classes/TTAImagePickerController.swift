@@ -251,5 +251,3 @@ extension UISplitViewController {
         return visibleVc.prefersStatusBarHidden
     }
 }
-
-
