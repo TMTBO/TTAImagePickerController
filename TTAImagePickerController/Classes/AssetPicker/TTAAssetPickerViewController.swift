@@ -136,7 +136,7 @@ fileprivate extension TTAAssetPickerViewController {
     }
     
     func _prepareToolBar() {
-        previewItem = UIBarButtonItem(title: "Preview", style: .plain, target: self, action: #selector(didClickPreviewItem))
+        previewItem = UIBarButtonItem(title: Bundle.localizedString(for: "Preview"), style: .plain, target: self, action: #selector(didClickPreviewItem))
         previewItem.isEnabled = false
         doneItem = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(didClickDoneItem))
         doneItem.isEnabled = false

@@ -30,7 +30,7 @@ public class TTAPreviewViewController: UIViewController, TTAImagePickerControlle
     fileprivate let collectionView = UICollectionView(frame: .zero, collectionViewLayout: TTAPreviewCollectionViewLayout())
     fileprivate let previewNavigationBar = TTAPreviewNavigationBar()
     fileprivate let previewToolBar = TTAPreviewToolBar()
-    fileprivate var isHiddenStatusBar = true
+    fileprivate var isHiddenStatusBar = false
     fileprivate var isHiddenBars = false
     
     init(album: TTAAlbum?, selected: [PHAsset], maxPickerNum: Int, index: Int) {
@@ -79,13 +79,13 @@ extension TTAPreviewViewController {
     override public func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         navigationController?.isNavigationBarHidden = true
-        updateStatusBarApperance(isHidden: true)
+//        updateStatusBarApperance(isHidden: true)
     }
     
     override public func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         navigationController?.isNavigationBarHidden = false
-        updateStatusBarApperance(isHidden: false)
+//        updateStatusBarApperance(isHidden: false)
     }
     
     override public func viewDidLayoutSubviews() {
@@ -95,6 +95,10 @@ extension TTAPreviewViewController {
     
     override public var prefersStatusBarHidden: Bool {
         return isHiddenStatusBar
+    }
+    
+    public override var preferredStatusBarStyle: UIStatusBarStyle {
+        return .lightContent
     }
 }
 
@@ -177,6 +181,7 @@ fileprivate extension TTAPreviewViewController {
         previewNavigationBar.isHidden = isHidden
         previewToolBar.isHidden = isHidden
         isHiddenBars = isHidden
+        updateStatusBarApperance(isHidden: isHidden)
     }
     
     func scroll(to index: Int) {

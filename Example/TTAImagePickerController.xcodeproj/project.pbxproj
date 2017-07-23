@@ -31,6 +31,7 @@
 		607FACDF1AFB9204008FA782 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
 		607FACEA1AFB9204008FA782 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		607FACEB1AFB9204008FA782 /* Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tests.swift; sourceTree = "<group>"; };
+		79DF75691F24A14B00A888FD /* README_zh.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; name = README_zh.md; path = ../README_zh.md; sourceTree = "<group>"; };
 		7CA4E56DCDE312B4F1D9F5F3 /* README.md */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = net.daringfireball.markdown; name = README.md; path = ../README.md; sourceTree = "<group>"; };
 		C4C56C75D0826A17F9936B29 /* LICENSE */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = LICENSE; path = ../LICENSE; sourceTree = "<group>"; };
 		EAEEF7D68F127F445E229F82 /* Pods_TTAImagePickerController_Tests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_TTAImagePickerController_Tests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -123,6 +124,7 @@
 			children = (
 				0CDCA37F0C5A1E0F20A60260 /* TTAImagePickerController.podspec */,
 				7CA4E56DCDE312B4F1D9F5F3 /* README.md */,
+				79DF75691F24A14B00A888FD /* README_zh.md */,
 				C4C56C75D0826A17F9936B29 /* LICENSE */,
 			);
 			name = "Podspec Metadata";

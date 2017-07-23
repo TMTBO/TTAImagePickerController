@@ -54,7 +54,7 @@ extension TTAPreviewToolBar {
             backgroundColor = .clear
             bgView.autoresizingMask = [.flexibleHeight, .flexibleWidth]
             doneButton.addTarget(self, action: #selector(didClickDoneButton), for: .touchUpInside)
-            doneButton.setTitle("Done", for: .normal)
+            doneButton.setTitle(Bundle.localizedString(for: "Done"), for: .normal)
             doneButton.setTitleColor(.lightGray, for: .disabled)
             doneButton.contentHorizontalAlignment = .right
             doneButton.isEnabled = false

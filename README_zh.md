@@ -1,55 +1,54 @@
 # TTAImagePickerController
 
-English | [中文](./README_zh.md)
+中文 | [English](./README.md)
 
-**A Lightweight image selection framework**
+**一个轻量级图片选择框架**
 
 [![CI Status](http://img.shields.io/travis/TMTBO/TTAImagePickerController.svg?style=flat)](https://travis-ci.org/TMTBO/TTAImagePickerController)
 [![Version](https://img.shields.io/cocoapods/v/TTAImagePickerController.svg?style=flat)](http://cocoapods.org/pods/TTAImagePickerController)
 [![License](https://img.shields.io/cocoapods/l/TTAImagePickerController.svg?style=flat)](http://cocoapods.org/pods/TTAImagePickerController)
 [![Platform](https://img.shields.io/cocoapods/p/TTAImagePickerController.svg?style=flat)](http://cocoapods.org/pods/TTAImagePickerController)
 
-## Feature
+## 特点
 
-* A Lightweight image selection framework, Low memory consumption
-* Support Device orientation and iPad
-* Almost identical to the `UIImagePickerController` interface, easy to get started
-* Convenient preview function
-* A lot of small details
+* 个轻量级图片选择框架,内存占用低
+* 适配屏幕旋转和 iPad
+*  与 `UIImagePickerController` 相似的接口, 容易上手使用
+* 便捷胡图片预览功能
+* 许多小细节
 
-## ScreenShot
+## 屏幕截图
 
 
-## Example
+## 示例程序
 
-To run the example project, clone the repo, and run `pod install` from the `Example` directory first.
+运行示例工程,先从 github 上克隆,再在 `Example` 文件夹运行 `pod install`.
 
-## Requirements
+## 版本要求
 
 * iOS > 8.0
 * swift >= 3.0
 
-## Installation
+## 安装
 
-* `TTAImagePickerController` is available through [CocoaPods](http://cocoapods.org). To install
-it, simply add the following line to your Podfile:`pod "TTAImagePickerController" `
+* `TTAImagePickerController` 可以通过 [CocoaPods](http://cocoapods.org) 安装. 把`pod "TTAImagePickerController" `添加到你的 `Podfile` 文件中
 
-*  Manual import：
-	Drag and drop All files in the `TTAImagePickerController` folder to project, import the main file：`import TTAImagePickerController`
+* 手动导入：
+	将 `TTAImagePickerController` 文件夹中的所有文件拖到你的工程中,在使用到的文件中导入`import TTAImagePickerController`
 
-## How to use
+## 如何使用
 
-**1. Create**
+**1. 创建**
 
 ```
-// Create the image picker with the assets that you had selected which will show as selected in the picker
+// 用已经选中的 assets 创建 imagePicker, 这个已经选中的 assets 数组中的元素将在 imagePicker 中标记为已选中
 let imagePicker = TTAImagePickerController(selectedAsset: selectedAssets)
-// Set pickerDelegate
+// 设置代理
 imagePicker.pickerDelegate = self
-// Set the max pick number, default is 9
+// 设置最大可选图片个数, 默认为 9 张
 imagePicker.maxPickerNum = Int(maxImageCountTextField.text ?? "9") ?? 9
         
-// You can custom the picker apperance
+// 你可以自定义选择器的外观
 // imagePicker.selectItemTintColor = .red
 // imagePicker.barTintColor = .orange
 // imagePicker.tintColor = .cyan
@@ -57,24 +56,24 @@ imagePicker.maxPickerNum = Int(maxImageCountTextField.text ?? "9") ?? 9
 present(imagePicker, animated: true, completion: nil)
 ```
 
-**2. Confirm and implement delegate**
+**2. 遵循并实现协议**
 
 ```
-// implement the delegate method and when finished picking, you will get the images and assets that you have selected
+// 实现协议方法,当选择完成后,你可以在这个方法中得到回调,获取你所选中的 图片数组 和 assets
 func imagePickerController(_ picker: TTAImagePickerControllerCompatiable, didFinishPicking images: [UIImage], assets: [TTAAsset]) {
-	print("got the images")
+	print("获取到图片")
 	selectedImages = images
 	selectedAssets = assets
 	imagesCollectionView.reloadData()
 }
 ```
 
-**Extra function you can get**
+**你可以获得的额外的功能**
 
 ```
-// On the other hand, you can preview the images directly and deselected some of them
-// What you need to do:
-// Create a instance of `TTAPreviewViewController` (dependency the delegate in step 2)
+// 你可以直接预览并操作你已经选中的 图片
+// 你需要做的:
+// 创建一个 `TTAPreviewViewController` 实例 (这里依赖步骤 2 中的代理方法)
 extension ViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         collectionView.deselectItem(at: indexPath, animated: true)

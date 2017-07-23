@@ -22,10 +22,14 @@ class ViewController: UIViewController {
     }
 
     @IBAction func didClickShowImagePickerButton(_ sender: UIButton) {
+        // Create the image picket with the assets that you had selected which will show as selected in the picker
         let imagePicker = TTAImagePickerController(selectedAsset: selectedAssets)
+        // Set pickerDelegate
         imagePicker.pickerDelegate = self
+        // Set the max pick number, default is 9
         imagePicker.maxPickerNum = Int(maxImageCountTextField.text ?? "9") ?? 9
         
+        // You can custom the picker apperance
 //        imagePicker.selectItemTintColor = .red
 //        imagePicker.barTintColor = .orange
 //        imagePicker.tintColor = .cyan
@@ -33,6 +37,27 @@ class ViewController: UIViewController {
         present(imagePicker, animated: true, completion: nil)
     }
     
+}
+
+// Confirm the `TTAImagePickerControllerDelegate`
+extension ViewController: TTAImagePickerControllerDelegate {
+    // implement the delegate method and when finished picking, you will get the images and assets that you have selected
+    func imagePickerController(_ picker: TTAImagePickerControllerCompatiable, didFinishPicking images: [UIImage], assets: [TTAAsset]) {
+        print("got the images")
+        selectedImages = images
+        selectedAssets = assets
+        imagesCollectionView.reloadData()
+    }
+}
+// On the other hand, you can preview the images directly and deselected some of them
+// What you need to do:
+// Create a instance of `TTAPreviewViewController`
+extension ViewController: UICollectionViewDelegate {
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        collectionView.deselectItem(at: indexPath, animated: true)
+        let previewVc = TTAPreviewViewController(selected: selectedAssets, index: indexPath.item, delegate: self)
+        present(previewVc, animated: true, completion: nil)
+    }
 }
 
 extension ViewController: UICollectionViewDataSource {
@@ -46,23 +71,5 @@ extension ViewController: UICollectionViewDataSource {
         cell.layer.contentsScale = UIScreen.main.scale
         cell.layer.contentsGravity = "resizeAspectFill"
         return cell
-    }
-}
-
-extension ViewController: UICollectionViewDelegate {
-    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        collectionView.deselectItem(at: indexPath, animated: true)
-        let previewVc = TTAPreviewViewController(selected: selectedAssets, index: indexPath.item, delegate: self)
-        present(previewVc, animated: true, completion: nil)
-    }
-}
-
-extension ViewController: TTAImagePickerControllerDelegate {
-    
-    func imagePickerController(_ picker: TTAImagePickerControllerCompatiable, didFinishPicking images: [UIImage], assets: [TTAAsset]) {
-        print("got the images")
-        selectedImages = images
-        selectedAssets = assets
-        imagesCollectionView.reloadData()
     }
 }

@@ -1,0 +1,14 @@
+
+"Loading" = "正在加载...";
+"Loading from icloud..." = "从iCloud加载...";
+"Library" = "相册";
+"Preview" = "预览";
+"Go Setting" = "去设置";
+
+"Album" = "相册";
+"Photos" = "相册";
+"Camera" = "相机";
+
+"Done" = "完成";
+
+"Allow %@ to access your %@ in \"Settings -> Privacy -> %@\"" = "允许 %@ 访问你的 %@ 请在 \n\"设置 -> 隐私 -> %@\" 中设置";

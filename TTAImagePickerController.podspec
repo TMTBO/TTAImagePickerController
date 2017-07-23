@@ -9,7 +9,7 @@
 Pod::Spec.new do |s|
   s.name             = 'TTAImagePickerController'
   s.version          = '0.1.0'
-  s.summary          = 'A short description of TTAImagePickerController.'
+  s.summary          = 'A Lightweight image selection framework/一个轻量级图片选择框架'
 
 # This description is used to generate tags and improve search results.
 #   * Think: What does it do? Why did you write it? What is the focus?
@@ -18,13 +18,25 @@ Pod::Spec.new do |s|
 #   * Finally, don't worry about the indent, CocoaPods strips it!
 
   s.description      = <<-DESC
-TODO: Add long description of the pod here.
+A Lightweight image selection framework
+* A Lightweight image selection framework, Low memory consumption
+* Support Device orientation and iPad
+* Almost identical to the `UIImagePickerController` interface, easy to get started
+* Convenient preview function
+* A lot of small details
+
+一个轻量级图片选择框架
+* 个轻量级图片选择框架,内存占用低
+* 适配屏幕旋转和 iPad
+*  与 `UIImagePickerController` 相似的接口, 容易上手使用
+* 便捷胡图片预览功能
+* 许多小细节
                        DESC
 
   s.homepage         = 'https://github.com/TMTBO/TTAImagePickerController'
-  # s.screenshots     = 'www.example.com/screenshots_1', 'www.example.com/screenshots_2'
+  s.screenshots     = 'www.example.com/screenshots_1'
   s.license          = { :type => 'MIT', :file => 'LICENSE' }
-  s.author           = { 'TMTBO' => 'tmtbo@hotmail.com' }
+  s.author           = { 'TobyoTenma' => 'tmtbo@hotmail.com' }
   s.source           = { :git => 'https://github.com/TMTBO/TTAImagePickerController.git', :tag => s.version.to_s }
   # s.social_media_url = 'https://twitter.com/<TWITTER_USERNAME>'
 
@@ -33,10 +45,10 @@ TODO: Add long description of the pod here.
   s.source_files = 'TTAImagePickerController/Classes/**/*'
   
   s.resource_bundles = {
-    'TTAImagePickerController' => ['TTAImagePickerController/Assets/*.png', 'TTAImagePickerController/Resources/*.ttf']
+    'TTAImagePickerController' => ['TTAImagePickerController/Assets/*.png', 'TTAImagePickerController/Resources/*.ttf', 'TTAImagePickerController/Resources/*.lproj']
   }
 
   # s.public_header_files = 'Pod/Classes/**/*.h'
-  # s.frameworks = 'UIKit', 'MapKit'
+  s.frameworks = 'UIKit', 'Photos'
   # s.dependency 'AFNetworking', '~> 2.3'
 end

@@ -77,7 +77,7 @@ class TTAHUD: UIView {
 
 extension TTAHUD {
     
-    static func showIndicator(with type: TTAHUDType, tip: String = "Loading") -> TTAHUD {
+    static func showIndicator(with type: TTAHUDType, tip: String = Bundle.localizedString(for: "Loading")) -> TTAHUD {
         let hud = TTAHUD(with: type)
         hud.tipLabel.text = tip;
         UIApplication.shared.keyWindow?.addSubview(hud)

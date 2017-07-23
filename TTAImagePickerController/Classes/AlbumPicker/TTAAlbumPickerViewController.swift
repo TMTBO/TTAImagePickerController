@@ -26,7 +26,7 @@ class TTAAlbumPickerViewController: UIViewController {
         self.albums = albums
         assetPickerController = pickerController
         super.init(nibName: nil, bundle: nil)
-        self.navigationItem.title = "Library"
+        self.navigationItem.title = Bundle.localizedString(for: "Library")
     }
     
     required init?(coder aDecoder: NSCoder) {
