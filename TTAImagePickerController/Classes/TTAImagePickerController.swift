@@ -21,9 +21,8 @@ public extension TTAImagePickerControllerCompatiable {
     func fetchImages(with assets: [PHAsset], completionHandler: @escaping ([UIImage]) -> ()) {
         let hud = TTAHUD.showIndicator(with: .indicator)
         TTAImagePickerManager.fetchImages(for: assets, progressHandler: { (progress, error, stop, info) -> Void in
-           hud.updateTip("Loading from icloud...")
+            hud.updateTip("Loading from icloud...")
             hud.updateProgress(progress)
-            print("Loading images \(progress)")
         }) { (images) in
             completionHandler(images)
             hud.dimiss()
@@ -90,13 +89,13 @@ public class TTAImagePickerController: UINavigationController, TTAImagePickerCon
     
     fileprivate let splitController = UISplitViewController()
     
-    public convenience init(selectedAsset: [TTAAsset]) {
+    public convenience init(selectedAsset: [TTAAsset]?) {
         type(of: self).prepareIconFont()
         let rootVc = UIViewController()
         self.init(rootViewController: rootVc)
         prepareNavigationItems()
         
-        self.selectedAsset = selectedAsset
+        self.selectedAsset = selectedAsset ?? []
         updateSelectedAsset()
         
         addChildViewController(splitController)
