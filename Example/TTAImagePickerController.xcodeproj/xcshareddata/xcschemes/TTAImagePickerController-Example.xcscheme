@@ -20,34 +20,6 @@
                ReferencedContainer = "container:TTAImagePickerController.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
-         <BuildActionEntry
-            buildForTesting = "YES"
-            buildForRunning = "YES"
-            buildForProfiling = "YES"
-            buildForArchiving = "YES"
-            buildForAnalyzing = "YES">
-            <BuildableReference
-               BuildableIdentifier = "primary"
-               BlueprintIdentifier = "A410E63B0285CDEA9B2902A12824A78E"
-               BuildableName = "TTAImagePickerController.framework"
-               BlueprintName = "TTAImagePickerController"
-               ReferencedContainer = "container:Pods/Pods.xcodeproj">
-            </BuildableReference>
-         </BuildActionEntry>
-         <BuildActionEntry
-            buildForTesting = "YES"
-            buildForRunning = "YES"
-            buildForProfiling = "NO"
-            buildForArchiving = "NO"
-            buildForAnalyzing = "YES">
-            <BuildableReference
-               BuildableIdentifier = "primary"
-               BlueprintIdentifier = "607FACE41AFB9204008FA782"
-               BuildableName = "TTAImagePickerController_Tests.xctest"
-               BlueprintName = "TTAImagePickerController_Tests"
-               ReferencedContainer = "container:TTAImagePickerController.xcodeproj">
-            </BuildableReference>
-         </BuildActionEntry>
       </BuildActionEntries>
    </BuildAction>
    <TestAction
@@ -61,9 +33,9 @@
             skipped = "NO">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "607FACE41AFB9204008FA782"
-               BuildableName = "TTAImagePickerController_Tests.xctest"
-               BlueprintName = "TTAImagePickerController_Tests"
+               BlueprintIdentifier = "79DF75751F24CFA200A888FD"
+               BuildableName = "TTAImagePickerController_ExampleTests.xctest"
+               BlueprintName = "TTAImagePickerController_ExampleTests"
                ReferencedContainer = "container:TTAImagePickerController.xcodeproj">
             </BuildableReference>
          </TestableReference>
