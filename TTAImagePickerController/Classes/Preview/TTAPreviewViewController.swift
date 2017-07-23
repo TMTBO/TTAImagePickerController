@@ -96,6 +96,8 @@ extension TTAPreviewViewController {
     override public var prefersStatusBarHidden: Bool {
         return isHiddenStatusBar
     }
+    
+    
 }
 
 // MARK: - UI
