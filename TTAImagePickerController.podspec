@@ -34,7 +34,7 @@ A Lightweight image selection framework
                        DESC
 
   s.homepage         = 'https://github.com/TMTBO/TTAImagePickerController'
-  s.screenshots     = 'www.example.com/screenshots_1'
+  # s.screenshots     = 'https://github.com/TMTBO/TTAImagePickerController/blob/master/TTAImagePicker_all.png'
   s.license          = { :type => 'MIT', :file => 'LICENSE' }
   s.author           = { 'TobyoTenma' => 'tmtbo@hotmail.com' }
   s.source           = { :git => 'https://github.com/TMTBO/TTAImagePickerController.git', :tag => s.version.to_s }
