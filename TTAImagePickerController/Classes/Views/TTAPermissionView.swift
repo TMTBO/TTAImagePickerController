@@ -61,7 +61,7 @@ extension TTAPermissionView {
             tipLabel.textAlignment = .center
             tipLabel.font = UIFont.systemFont(ofSize: 16)
             
-            goSettingButton.setTitle("Go Setting", for: .normal)
+            goSettingButton.setTitle(Bundle.localizedString(for: "Go Setting"), for: .normal)
             goSettingButton.titleLabel?.font = UIFont.systemFont(ofSize: 18)
             goSettingButton.addTarget(self, action: #selector(didClickGoSetting), for: .touchUpInside)
             
@@ -92,8 +92,10 @@ extension TTAPermissionView {
     }
     
     func configTipLabel() {
-        let appName = Bundle.main.infoDictionary?["CFBundleDisplayName"] as? String
-        let tipString = "Allow \(appName ?? "App") to access your \(type == .photo ? "Album" : "Camera") in \"Settings -> Privacy -> Photos\""
+        let appName = Bundle.main.infoDictionary?["CFBundleName"] as? String
+        let displayName = Bundle.main.infoDictionary?["CFBundleDisplayName"] as? String
+        let accessTypeString = type == .photo ? Bundle.localizedString(for: "Photos") : Bundle.localizedString(for: "Camera")
+        let tipString = String(format: Bundle.localizedString(for: "Allow %@ to access your %@ in \"Settings -> Privacy -> %@\""), displayName ?? appName ?? "App", accessTypeString, accessTypeString)
         tipLabel.text = tipString
     }
 }
@@ -119,7 +121,7 @@ extension TTAPermissionView {
         return 10
     }
     func tipHeight() -> CGFloat {
-        return 50
+        return (tipLabel.text as NSString?)?.boundingRect(with: CGSize(width: tipLabel.frame.width, height: CGFloat.greatestFiniteMagnitude), options: .usesLineFragmentOrigin, attributes: [NSFontAttributeName: tipLabel.font], context: nil).height ?? 50
     }
     func sideMargin() -> CGFloat {
         return 16

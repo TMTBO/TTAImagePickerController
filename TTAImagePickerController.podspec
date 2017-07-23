@@ -45,7 +45,7 @@ A Lightweight image selection framework
   s.source_files = 'TTAImagePickerController/Classes/**/*'
   
   s.resource_bundles = {
-    'TTAImagePickerController' => ['TTAImagePickerController/Assets/*.png', 'TTAImagePickerController/Resources/*.ttf']
+    'TTAImagePickerController' => ['TTAImagePickerController/Assets/*.png', 'TTAImagePickerController/Resources/*.ttf', 'TTAImagePickerController/Resources/*.lproj']
   }
 
   # s.public_header_files = 'Pod/Classes/**/*.h'

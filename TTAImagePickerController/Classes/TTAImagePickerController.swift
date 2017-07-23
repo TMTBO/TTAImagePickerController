@@ -21,7 +21,7 @@ public extension TTAImagePickerControllerCompatiable {
     func fetchImages(with assets: [PHAsset], completionHandler: @escaping ([UIImage]) -> ()) {
         let hud = TTAHUD.showIndicator(with: .indicator)
         TTAImagePickerManager.fetchImages(for: assets, progressHandler: { (progress, error, stop, info) -> Void in
-            hud.updateTip("Loading from icloud...")
+            hud.updateTip(Bundle.localizedString(for: "Loading from icloud..."))
             hud.updateProgress(progress)
         }) { (images) in
             completionHandler(images)
@@ -224,9 +224,7 @@ extension TTAImagePickerController {
 
 extension TTAImagePickerController {
     static func prepareIconFont() {
-        guard let path = Bundle(for: TTAImagePickerController.self).path(forResource: "TTAImagePickerController", ofType: "bundle"),
-            let bundle = Bundle(path: path),
-            let url = bundle.url(forResource: "iconfont", withExtension: ".ttf") else { return }
+        guard let url = Bundle.imagePickerBundle().url(forResource: "iconfont", withExtension: ".ttf") else { return }
         UIFont.registerFont(with: url, fontName: "iconfont")
     }
 }

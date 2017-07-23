@@ -1,0 +1,15 @@
+
+"Loading" = "Loading";
+"Loading from icloud..." = "Loading from iCloud...";
+"Library" = "Library";
+"Preview" = "Preview";
+"Go Setting" = "Go Setting";
+
+"Album" = "Album";
+"Photos" = "Photos";
+"Camera" = "Camera";
+
+"Done" = "Done";
+
+// PermissionTip
+"Allow %@ to access your %@ in \"Settings -> Privacy -> %@\"" = "Allow %@ to access your %@ in \n\"Settings -> Privacy -> %@\"";
