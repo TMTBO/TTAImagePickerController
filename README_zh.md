@@ -19,6 +19,7 @@
 
 ## 屏幕截图
 
+![ScreenShot](https://github.com/TMTBO/TTAImagePickerController/blob/master/TTAImagePicker_all.png)
 
 ## 示例程序
 
