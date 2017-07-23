@@ -68,12 +68,12 @@ extension TTAPreviewNavigationBar {
             backButton.titleLabel?.font = UIFont.iconfont(size: UIFont.IconFontSize.backMark)
             backButton.setTitleColor(selectItemTintColor, for: .normal)
             backButton.titleEdgeInsets = UIEdgeInsets(top: 0, left: 6, bottom: 0, right: 0)
-            if #available(iOS 11.0, *) {
-                backButton.contentHorizontalAlignment = .leading
-            } else {
+//            if #available(iOS 11.0, *) {
+//                backButton.contentHorizontalAlignment = .leading
+//            } else {
                 backButton.contentHorizontalAlignment = .left
-            }
-                
+//            }
+            
             selectButton.addTarget(self, action: #selector(didClickSelectButton(_:)), for: .touchUpInside)
         }
         

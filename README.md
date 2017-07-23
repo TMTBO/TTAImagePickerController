@@ -19,6 +19,7 @@ English | [中文](./README_zh.md)
 
 ## ScreenShot
 
+![ScreenShot](https://github.com/TMTBO/TTAImagePickerController/blob/master/TTAImagePicker_all.png)
 
 ## Example
 
