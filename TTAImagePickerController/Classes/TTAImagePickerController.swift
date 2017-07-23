@@ -247,4 +247,10 @@ extension UISplitViewController {
             let visibleVc = nav.visibleViewController else { return false }
         return visibleVc.prefersStatusBarHidden
     }
+    
+    open override var preferredStatusBarStyle: UIStatusBarStyle {
+        guard let nav = viewControllers.last as? UINavigationController,
+            let visibleVc = nav.visibleViewController else { return .default }
+        return visibleVc.preferredStatusBarStyle
+    }
 }
