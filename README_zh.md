@@ -1,6 +1,6 @@
 # TTAImagePickerController
 
-中文 | [English](./README.md)
+中文 | [English](https://github.com/TMTBO/TTAImagePickerController/blob/master/README.md)
 
 **一个轻量级图片选择框架**
 

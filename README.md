@@ -1,6 +1,6 @@
 # TTAImagePickerController
 
-English | [中文](./README_zh.md)
+English | [中文](https://github.com/TMTBO/TTAImagePickerController/blob/master/README_zh.md)
 
 **A Lightweight image selection framework**
 
