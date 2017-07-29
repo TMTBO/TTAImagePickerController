@@ -81,8 +81,8 @@ extension TTAPreviewToolBar {
     }
     
     static func height() -> CGFloat {
-        let orientation = UIDevice.current.orientation
-        return (orientation == .landscapeLeft || orientation == .landscapeRight) ? 32 : 44
+        let orientation = UIApplication.shared.statusBarOrientation
+        return orientation.isLandscape ? 32 : 44
     }
     
     func rightMargin() -> CGFloat {
@@ -95,10 +95,6 @@ extension TTAPreviewToolBar {
 extension TTAPreviewToolBar {
     func didClickDoneButton() {
         delegate?.previewToolBar(toolBar: self, didClickDone: doneButton)
-    }
-    
-    func orientationDidChanged() {
-        setNeedsLayout()
     }
 }
 

@@ -56,7 +56,6 @@ public class TTAPreviewViewController: UIViewController, TTAImagePickerControlle
         if previewDelegate != nil {
             TTACachingImageManager.destoryCachingManager()
         }
-        NotificationCenter.default.removeObserver(self)
         #if DEBUG
             print("TTAImagePickerController >>>>>> preview controller deinit")
         #endif
@@ -79,18 +78,24 @@ extension TTAPreviewViewController {
     override public func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         navigationController?.isNavigationBarHidden = true
-//        updateStatusBarApperance(isHidden: true)
     }
     
     override public func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         navigationController?.isNavigationBarHidden = false
-//        updateStatusBarApperance(isHidden: false)
     }
     
     override public func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         layoutViews()
+    }
+    
+    public override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
+        super.viewWillTransition(to: size, with: coordinator)
+        DispatchQueue.main.async { [weak self] in
+            guard let `self` = self else { return }
+            self.orientationDidChanged()
+        }
     }
     
     override public var prefersStatusBarHidden: Bool {
@@ -108,7 +113,6 @@ fileprivate extension TTAPreviewViewController {
     func setupUI() {
         _createViews()
         _configViews()
-        _addObserver()
         layoutViews()
         _ = updateBars(isHidden: isHiddenBars)
     }
@@ -133,10 +137,6 @@ fileprivate extension TTAPreviewViewController {
         previewToolBar.tintColor = tintColor
         previewToolBar.autoresizingMask = [.flexibleHeight, .flexibleWidth]
         _prepareCollectionView()
-    }
-    
-    func _addObserver() {
-        NotificationCenter.default.addObserver(self, selector: #selector(orientationDidChanged), name: NSNotification.Name.UIDeviceOrientationDidChange, object: nil)
     }
     
     func layoutViews() {
@@ -246,8 +246,7 @@ fileprivate extension TTAPreviewViewController {
 // MARK: - Actions
 
 extension TTAPreviewViewController {
-    func orientationDidChanged(notify: Notification) {
-        previewNavigationBar.orientationDidChanged(notify: notify)
+    func orientationDidChanged() {
         guard let cell = collectionView.visibleCells.first as? TTAPreviewCollectionViewCell else { return }
         cell.orientationDidChanged()
     }

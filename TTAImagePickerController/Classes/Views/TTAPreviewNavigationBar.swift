@@ -123,17 +123,13 @@ extension TTAPreviewNavigationBar {
         selectButton.selectState = selectButton.selectState == .selected ? .default : .selected
         delegate?.previewNavigationBar(self, asset: operateAsset, isSelected: selectButton.isSelected)
     }
-    
-    func orientationDidChanged(notify: Notification) {
-        setNeedsLayout()
-    }
 }
 
 // MARK: - Const
 
 extension TTAPreviewNavigationBar {
     static func height() -> CGFloat {
-        let orientation = UIDevice.current.orientation
-        return (orientation == .landscapeLeft || orientation == .landscapeRight) ? 52 : 64
+        let orientation = UIApplication.shared.statusBarOrientation
+        return orientation.isLandscape ? 52 : 64
     }
 }
