@@ -16,9 +16,6 @@ struct TTAAlbum {
 }
 
 extension TTAAlbum {
-    func albumID() -> String {
-        return original.localIdentifier
-    }
     
     func name() -> String? {
         return original.localizedTitle

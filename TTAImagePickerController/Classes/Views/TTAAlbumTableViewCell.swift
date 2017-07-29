@@ -17,9 +17,6 @@ class TTAAlbumTableViewCell: UITableViewCell {
         let imageViewBottomMargin: CGFloat = 10
     }
     
-    var assetID = ""
-    var imageRequestID: PHImageRequestID = 0
-    
     fileprivate let previewImageView = UIImageView()
     
     fileprivate let const = AlbumTableViewCellConst()
