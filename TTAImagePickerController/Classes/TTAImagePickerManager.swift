@@ -85,13 +85,11 @@ extension TTAImagePickerManager {
             let assetResult = PHAsset.fetchAssets(in: assetCollection, options: options)
             guard assetResult.count > 0 else { return }
             
-            var album = TTAAlbum()
-            album.original = assetCollection
-            album.assets = assetResult
+            let album = TTAAlbum(original: assetCollection, assets: assetResult)
             assetCollections.append(album)
         }
         assetCollections.sort { (collection1, collection2) -> Bool in
-            return collection1.name() ?? "" < collection2.name() ?? ""
+            return collection1.albumInfo.name < collection2.albumInfo.name
         }
         hud.dimiss()
         return assetCollections

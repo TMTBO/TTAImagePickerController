@@ -11,22 +11,14 @@ import Photos
 
 struct TTAAlbum {
     
-    var original: PHAssetCollection!
-    var assets: PHFetchResult<PHAsset> = PHFetchResult()
-}
-
-extension TTAAlbum {
+    let original: PHAssetCollection
+    let assets: PHFetchResult<PHAsset>
+    let albumInfo: TTAAlbumInfo
     
-    func name() -> String? {
-        return original.localizedTitle
-    }
-    
-    func assetCount() -> Int {
-        return assets.count
-    }
-    
-    func thumbnailAsset() -> PHAsset? {
-        return asset(at: 0)
+    init(original: PHAssetCollection, assets: PHFetchResult<PHAsset>) {
+        self.original = original
+        self.assets = assets
+        albumInfo = TTAAlbumInfo(album: original, assetCount: assets.count)
     }
 }
 
@@ -71,7 +63,7 @@ public struct TTAAsset {
     var original: PHAsset
 }
 
-public struct TTAAssetConfig {
+struct TTAAssetConfig {
     let tag: Int
     let delegate: TTAAssetCollectionViewCellDelegate?
     let selectItemTintColor: UIColor?
@@ -82,10 +74,6 @@ public struct TTAAssetConfig {
     private(set) var videoInfo = TTAAssetVideoInfo()
 
     init(asset: PHAsset, tag: Int, delegate: TTAAssetCollectionViewCellDelegate?, selectItemTintColor: UIColor?, isSelected: Bool, canSelect: Bool) {
-        func generateVideoInfo() -> TTAAssetVideoInfo {
-            return TTAAssetVideoInfo(asset: asset)
-        }
-        
         self.tag = tag
         self.delegate = delegate
         self.selectItemTintColor = selectItemTintColor
@@ -94,12 +82,24 @@ public struct TTAAssetConfig {
         
         guard asset.mediaType == .video else { return }
         self.isVideo = true
-        videoInfo = generateVideoInfo()
+        videoInfo = TTAAssetVideoInfo(asset: asset)
     }
     
 }
 
-public struct TTAAssetVideoInfo {
+struct TTAAlbumInfo {
+    let name: String
+    let countString: String
+    let isVideoAlbum: Bool
+    
+    init(album: PHAssetCollection, assetCount: Int) {
+        name = album.localizedTitle ?? ""
+        countString = "\(assetCount)"
+        isVideoAlbum = album.assetCollectionSubtype == .smartAlbumVideos || album.assetCollectionSubtype == .smartAlbumSlomoVideos
+    }
+}
+
+struct TTAAssetVideoInfo {
     private(set) var timeLength: String = "00:00"
     
     init(asset: PHAsset) {

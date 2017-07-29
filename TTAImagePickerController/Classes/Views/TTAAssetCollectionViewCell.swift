@@ -115,7 +115,7 @@ extension TTAAssetCollectionViewCell {
         self.selectItemTintColor = config.selectItemTintColor
     }
     
-    func configImage(with image: UIImage? = nil) {
+    func configImage(with image: UIImage?) {
         imageView.image = image
     }
     
