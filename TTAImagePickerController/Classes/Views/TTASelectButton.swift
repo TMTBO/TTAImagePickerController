@@ -100,7 +100,7 @@ extension TTASelectButton {
     func _selectItem() {
         isSelected = true
         circleLayer.isHidden = true
-        bgView.backgroundColor = selectItemTintColor ?? UIColor(colorLiteralRed: 0, green: 122.0 / 255.0, blue: 1, alpha: 1)
+        bgView.backgroundColor = selectItemTintColor ?? UIColor(red: 0, green: 122.0 / 255.0, blue: 1, alpha: 1)
         bgView.selectItemSpringAnimation()
     }
     

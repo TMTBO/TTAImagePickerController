@@ -18,7 +18,7 @@ public class TTAPreviewViewController: UIViewController, TTAImagePickerControlle
     /// Only for preview selected assets from outer
     fileprivate weak var previewDelegate: TTAImagePickerControllerDelegate?
     
-    var selectItemTintColor: UIColor? = UIColor(colorLiteralRed: 0, green: 122.0 / 255.0, blue: 1, alpha: 1)
+    var selectItemTintColor: UIColor? = UIColor(red: 0, green: 122.0 / 255.0, blue: 1, alpha: 1)
     var tintColor: UIColor?
     
     fileprivate(set) var album: TTAAlbum?

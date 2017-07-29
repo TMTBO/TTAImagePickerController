@@ -51,8 +51,8 @@ public class TTAImagePickerController: UINavigationController, TTAImagePickerCon
         }
     }
     
-    /// The tint color which item was selected, default is `UIColor(colorLiteralRed: 0, green: 122.0 / 255.0, blue: 1, alpha: 1)`
-    public var selectItemTintColor: UIColor? = UIColor(colorLiteralRed: 0, green: 122.0 / 255.0, blue: 1, alpha: 1) {
+    /// The tint color which item was selected, default is `UIColor(red: 0, green: 122.0 / 255.0, blue: 1, alpha: 1)`
+    public var selectItemTintColor: UIColor? = UIColor(red: 0, green: 122.0 / 255.0, blue: 1, alpha: 1) {
         didSet {
             configPicker { (albumVc, assetVc) in
                 albumVc?.selectItemTintColor = selectItemTintColor
@@ -62,7 +62,7 @@ public class TTAImagePickerController: UINavigationController, TTAImagePickerCon
     }
     
     /// NavigationBar tintColor
-    public var tintColor: UIColor = UIColor(colorLiteralRed: 0, green: 122.0 / 255.0, blue: 1, alpha: 1) {
+    public var tintColor: UIColor = UIColor(red: 0, green: 122.0 / 255.0, blue: 1, alpha: 1) {
         didSet {
             navigationBar.tintColor = tintColor
             navigationBar.titleTextAttributes = [NSForegroundColorAttributeName: tintColor]

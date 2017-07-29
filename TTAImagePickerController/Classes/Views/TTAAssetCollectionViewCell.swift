@@ -76,7 +76,7 @@ fileprivate extension TTAAssetCollectionViewCell {
         selectButton.autoresizingMask = [.flexibleTopMargin, .flexibleRightMargin]
         selectButton.addTarget(self, action: #selector(didClickSelectButton(_:)), for: .touchUpInside)
         
-        lightUpLayer.backgroundColor = UIColor(colorLiteralRed: 0.90, green: 0.90, blue: 0.90, alpha: 1).cgColor
+        lightUpLayer.backgroundColor = UIColor(red: 0.90, green: 0.90, blue: 0.90, alpha: 1).cgColor
         lightUpLayer.opacity = 0
         layer.addSublayer(lightUpLayer)
     }
