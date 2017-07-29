@@ -172,14 +172,12 @@ fileprivate extension TTAAssetPickerViewController {
     
     func setup(assetCell cell: TTAAssetCollectionViewCell, indexPath: IndexPath) {
         let tag = indexPath.item + 1
-        let isSelected: Bool
-        if let currentAsset = asset(at: indexPath) {
-            isSelected = selectedAsset.contains(currentAsset)
-        } else {
-            isSelected = false
+        guard let currentAsset = asset(at: indexPath) else { return }
+        let isSelected = selectedAsset.contains(currentAsset)
+        func generateAssetConfig() -> TTAAssetConfig {
+            return TTAAssetConfig(asset: currentAsset, tag: tag, delegate: self, selectItemTintColor: selectItemTintColor, isSelected: isSelected, canSelect: canSelect)
         }
-        cell.configState(isSelected: isSelected)
-        cell.configCell(tag: tag, delegate: self, selectItemTintColor: selectItemTintColor, canSelect: canSelect)
+        cell.configCell(with: generateAssetConfig())
         album.requestThumbnail(with: indexPath.item, size: cell.bounds.size.toPixel()) { (image) in
             guard let image = image, cell.tag == tag else { return }
             cell.configImage(with: image)

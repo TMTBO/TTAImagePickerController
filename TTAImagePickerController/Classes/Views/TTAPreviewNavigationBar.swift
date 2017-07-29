@@ -91,8 +91,11 @@ extension TTAPreviewNavigationBar {
     
     func updateImageInfo(with creationDate: Date?) {
         guard let creationDate = creationDate else { return }
-        dateFormatter.dateStyle = .medium
-        dateFormatter.timeStyle = .medium
+        if !hasConfigedDateFormatter {
+            dateFormatter.timeStyle = .medium
+            dateFormatter.dateStyle = .medium
+            hasConfigedDateFormatter = true
+        }
         timeLabel.text = dateFormatter.string(from: creationDate)
     }
     

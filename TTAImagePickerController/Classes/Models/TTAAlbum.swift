@@ -73,3 +73,48 @@ extension TTAAlbum {
 public struct TTAAsset {
     var original: PHAsset
 }
+
+public struct TTAAssetConfig {
+    let tag: Int
+    let delegate: TTAAssetCollectionViewCellDelegate?
+    let selectItemTintColor: UIColor?
+    let isSelected: Bool
+    let canSelect: Bool
+    
+    private(set) var isVideo: Bool = false
+    private(set) var videoInfo = TTAAssetVideoInfo()
+
+    init(asset: PHAsset, tag: Int, delegate: TTAAssetCollectionViewCellDelegate?, selectItemTintColor: UIColor?, isSelected: Bool, canSelect: Bool) {
+        func generateVideoInfo() -> TTAAssetVideoInfo {
+            return TTAAssetVideoInfo(asset: asset)
+        }
+        
+        self.tag = tag
+        self.delegate = delegate
+        self.selectItemTintColor = selectItemTintColor
+        self.isSelected = isSelected
+        self.canSelect = canSelect
+        
+        guard asset.mediaType == .video else { return }
+        self.isVideo = true
+        videoInfo = generateVideoInfo()
+    }
+    
+}
+
+public struct TTAAssetVideoInfo {
+    private(set) var timeLength: String = "00:00"
+    
+    init(asset: PHAsset) {
+        if !hasConfigedDateComponentsFormatter {
+            dateComponentsFormatter.zeroFormattingBehavior = .pad
+            dateComponentsFormatter.allowedUnits = [.second, .minute]
+            hasConfigedDateComponentsFormatter = true
+        }
+        timeLength = dateComponentsFormatter.string(from: asset.duration) ?? "00:00"
+    }
+    
+    init() {
+        // Do nothing here, for defatult
+    }
+}

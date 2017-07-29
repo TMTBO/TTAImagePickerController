@@ -9,6 +9,10 @@
 import Photos
 
 let dateFormatter = DateFormatter()
+let dateComponentsFormatter = DateComponentsFormatter()
+
+var hasConfigedDateFormatter = false
+var hasConfigedDateComponentsFormatter = false
 
 class TTAImagePickerManager {
     static func defaultOptions() -> PHImageRequestOptions {
@@ -72,13 +76,14 @@ extension TTAImagePickerManager {
         var assetCollections: [TTAAlbum] = []
         
         let options = PHFetchOptions()
-        options.predicate = NSPredicate(format: "mediaType == %d", PHAssetMediaType.image.rawValue)
+        let imagePredicate = NSPredicate(format: "mediaType == %d", PHAssetMediaType.image.rawValue)
+        let videoPredicate = NSPredicate(format: "mediaType == %d", PHAssetMediaType.video.rawValue)
+        options.predicate = NSCompoundPredicate(orPredicateWithSubpredicates: [imagePredicate, videoPredicate])
         options.sortDescriptors = [NSSortDescriptor(key: "creationDate", ascending: true)]
         
         fetchResult.enumerateObjects(options: .concurrent) { (assetCollection, _, _) in
             let assetResult = PHAsset.fetchAssets(in: assetCollection, options: options)
             guard assetResult.count > 0 else { return }
-            guard assetCollection.localizedTitle != "Videos" else { return }
             
             var album = TTAAlbum()
             album.original = assetCollection
