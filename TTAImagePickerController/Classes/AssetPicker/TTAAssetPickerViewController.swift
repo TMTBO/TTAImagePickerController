@@ -37,7 +37,7 @@ class TTAAssetPickerViewController: UIViewController {
             navigationItem.title = album.albumInfo.name
             collectionView.reloadData()
             scrollTo(assetCount() - 1)
-            _startCaching()
+            startCaching()
         }
     }
     
@@ -73,7 +73,7 @@ extension TTAAssetPickerViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        _setupUI()
+        setupUI()
         scrollTo(self.assetCount() - 1)
     }
     
@@ -96,46 +96,46 @@ extension TTAAssetPickerViewController {
 
 fileprivate extension TTAAssetPickerViewController {
     
-    func _setupUI() {
-        _createViews()
-        _configViews()
-        _layoutViews()
-        _prepareCancelItem()
-        _prepareToolBar()
-        _startCaching()
+    func setupUI() {
+        createViews()
+        configViews()
+        layoutViews()
+        prepareCancelItem()
+        prepareToolBar()
+        startCaching()
     }
     
-    func _createViews() {
+    func createViews() {
         view.addSubview(collectionView)
     }
     
-    func _configViews() {
+    func configViews() {
         view.backgroundColor = .white
         navigationItem.title = album.albumInfo.name
         navigationItem.leftBarButtonItem = splitViewController?.displayModeButtonItem
         navigationItem.leftItemsSupplementBackButton = true
         
-        _prepareCollectionView()
+        prepareCollectionView()
     }
     
-    func _layoutViews() {
+    func layoutViews() {
         collectionView.frame = view.bounds
     }
     
-    func _prepareCollectionView() {
+    func prepareCollectionView() {
         collectionView.dataSource = self
         collectionView.delegate = self
         collectionView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         collectionView.register(TTAAssetCollectionViewCell.self, forCellWithReuseIdentifier: "\(TTAAssetCollectionViewCell.self)")
     }
     
-    func _prepareCancelItem() {
+    func prepareCancelItem() {
         if UIDevice.current.userInterfaceIdiom == .pad { return }
         let cancelItem = UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(didClickCancelItem))
         self.navigationItem.rightBarButtonItem = cancelItem
     }
     
-    func _prepareToolBar() {
+    func prepareToolBar() {
         previewItem = UIBarButtonItem(title: Bundle.localizedString(for: "Preview"), style: .plain, target: self, action: #selector(didClickPreviewItem))
         previewItem.isEnabled = false
         doneItem = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(didClickDoneItem))
@@ -249,7 +249,7 @@ extension TTAAssetPickerViewController {
         updateCounter()
     }
     
-    func _startCaching() {
+    func startCaching() {
         guard let layout = collectionView.collectionViewLayout as? UICollectionViewFlowLayout else { return }
         TTACachingImageManager.shared?.startCachingImages(for: album.assets,
                                                           targetSize: layout.itemSize,

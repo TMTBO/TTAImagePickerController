@@ -96,10 +96,9 @@ extension TTAImagePickerManager {
     }
 }
 
-// MARK: - TTAAsset
+// MARK: - Fetch Image | Video | Gif
 
 extension TTAImagePickerManager {
-    
     static func fetchImages(for assets: [PHAsset], size: CGSize? = PHImageManagerMaximumSize, options: PHImageRequestOptions? = nil, progressHandler: PHAssetImageProgressHandler?,resultHandler: @escaping ([UIImage]) -> Void) {
         // Because of the `isSynchronous` is `true`, if call `fetchOriginalImage` to  download the image from icloud in mainThread, then the mainThread will be blocked and the progressHandler will not excuated
         DispatchQueue.global().async {
@@ -122,13 +121,28 @@ extension TTAImagePickerManager {
         }
     }
     
-    static func fetchPreviewImage(for asset: PHAsset?, progressHandler: PHAssetImageProgressHandler?, resultHandler: @escaping (UIImage?) -> Void) {
-        fetchImage(for: asset, size: fetchOriginalSize(with: asset), options: defaultOptions(), progressHandler:progressHandler) { (image, _) in
-            resultHandler(image)
-            guard let fileName = asset?.value(forKey: "filename") as? String,
-                fileName.hasSuffix("GIF") == true else { return }
-            fetchImageData(for: asset, size: fetchOriginalSize(with: asset), options: defaultOptions(), progressHandler: nil) { (image, isGif) in
-                resultHandler(image)
+    static func fetchPreview(for asset: PHAsset?, progressHandler: PHAssetImageProgressHandler?, resultHandler: @escaping (TTAFetchResult) -> Void) {
+        fetchImage(for: asset, size: fetchOriginalSize(with: asset), options: defaultOptions(), progressHandler:progressHandler) { (image, info) in
+            let result = TTAFetchResult(image: image, playerItem: nil, info: info)
+            resultHandler(result)
+            if let fileName = asset?.value(forKey: "filename") as? String,
+                fileName.hasSuffix("GIF") == true {
+                fetchImageData(for: asset, size: fetchOriginalSize(with: asset), options: defaultOptions(), progressHandler: nil) { (image, isGif, info) in
+                    let fetchInfo: [AnyHashable: Any]
+                    if var resultInfo = info {
+                        resultInfo[TTAFetchResult.TTAFetchResultInfoKey.isGif] = isGif
+                        fetchInfo = resultInfo
+                    } else {
+                        fetchInfo = [:]
+                    }
+                    let result = TTAFetchResult(image: image, playerItem: nil, info: fetchInfo)
+                    resultHandler(result)
+                }
+            } else if let isVideo = asset?.isVideo,
+                isVideo == true {
+                fetchVideoItem(for: asset, resultHandler: { (fetchResult) in
+                    resultHandler(fetchResult)
+                })
             }
         }
     }
@@ -138,6 +152,18 @@ extension TTAImagePickerManager {
             resultHandler(image)
         }
     }
+    
+    static func fetchVideoItem(for asset: PHAsset?, resultHandler: @escaping (TTAFetchResult) -> Void) {
+        fetchPlayerItem(for: asset, progressHandler: nil) { (playerItem, info) in
+            let result = TTAFetchResult(image: nil, playerItem: playerItem, info: info)
+            resultHandler(result)
+        }
+    }
+    
+}
+
+// MARK: - Fetch Asset
+extension TTAImagePickerManager {
     
     static func fetchImage(for asset: PHAsset?, size: CGSize, options: PHImageRequestOptions, progressHandler: PHAssetImageProgressHandler?, resultHandler: @escaping (UIImage?, [AnyHashable : Any]?) -> Void) {
         guard let asset = asset else { resultHandler(nil, nil); return }
@@ -180,11 +206,11 @@ extension TTAImagePickerManager {
         })
     }
     
-    static func fetchImageData(for asset: PHAsset?, size: CGSize, options: PHImageRequestOptions, progressHandler: PHAssetImageProgressHandler?, resultHandler: @escaping (UIImage?, Bool) -> Void) {
-        guard let asset = asset else { resultHandler(nil, false); return }
+    static func fetchImageData(for asset: PHAsset?, size: CGSize, options: PHImageRequestOptions, progressHandler: PHAssetImageProgressHandler?, resultHandler: @escaping (UIImage?, Bool, [AnyHashable: Any]?) -> Void) {
+        guard let asset = asset else { resultHandler(nil, false, nil); return }
         
-        func handlerResult(with data: Data?, resultHandler: (UIImage?, Bool) -> Void) {
-            guard let imageData = data else { resultHandler(nil, false); return }
+        func handlerResult(with data: Data?, info: [AnyHashable: Any]?, resultHandler: (UIImage?, Bool, [AnyHashable: Any]?) -> Void) {
+            guard let imageData = data else { resultHandler(nil, false, nil); return }
             let isGif = imageData.imageContentType == .gif
             let image: UIImage?
             if isGif {
@@ -192,7 +218,26 @@ extension TTAImagePickerManager {
             } else {
                 image = UIImage(data: imageData, scale: UIScreen.main.scale)
             }
-            resultHandler(image, isGif)
+            resultHandler(image, isGif, info)
+            /*
+            DispatchQueue.global().async {
+                guard let fixedImage = fixOrientation(aImage: image) else {
+                    DispatchQueue.main.async {
+                        resultHandler(image, isGif)
+                    }
+                    return
+                }
+                guard let scaledImage = scaleImage(image: fixedImage, to: size.toPixel()) else {
+                    DispatchQueue.main.async {
+                        resultHandler(fixedImage, isGif)
+                    }
+                    return
+                }
+                DispatchQueue.main.async {
+                    resultHandler(scaledImage, isGif)
+                }
+            }
+            */
         }
         
         TTACachingImageManager.shared?.manager.requestImageData(for: asset, options: options, resultHandler: { (data, dataUTI, orientation, info) in
@@ -205,33 +250,28 @@ extension TTAImagePickerManager {
                     }
                 }
                 TTACachingImageManager.shared?.manager.requestImageData(for: asset, options: options, resultHandler: { (data, dataUTI, orientation, info) in
-                    handlerResult(with: data, resultHandler: resultHandler)
+                    handlerResult(with: data, info: info, resultHandler: resultHandler)
                 })
             } else {
                 if let cancelled = info?[PHImageCancelledKey] as? Bool, info?[PHImageErrorKey] != nil && cancelled {
                     return
                 }
-                handlerResult(with: data, resultHandler: resultHandler)
-                /*
-                DispatchQueue.global().async {
-                    guard let fixedImage = fixOrientation(aImage: image) else {
-                        DispatchQueue.main.async {
-                            resultHandler(image, isGif)
-                        }
-                        return
-                    }
-                    guard let scaledImage = scaleImage(image: fixedImage, to: size.toPixel()) else {
-                        DispatchQueue.main.async {
-                            resultHandler(fixedImage, isGif)
-                        }
-                        return
-                    }
-                    DispatchQueue.main.async {
-                        resultHandler(scaledImage, isGif)
-                    }
-                }
-                */
+                handlerResult(with: data, info: info, resultHandler: resultHandler)
             }
+        })
+    }
+    
+    static func fetchPlayerItem(for asset: PHAsset?, progressHandler: PHAssetVideoProgressHandler?, resultHandler: @escaping (AVPlayerItem?, [AnyHashable : Any]?) -> Void) {
+        guard let asset = asset else { resultHandler(nil, nil); return }
+        let options = PHVideoRequestOptions()
+        options.isNetworkAccessAllowed = true
+        options.progressHandler = { (progress, error, stop, info) in
+            DispatchQueue.main.sync {
+                progressHandler?(progress, error, stop, info)
+            }
+        }
+        TTACachingImageManager.shared?.manager.requestPlayerItem(forVideo: asset, options: options, resultHandler: { (playerItem, info) in
+            resultHandler(playerItem, info)
         })
     }
 }

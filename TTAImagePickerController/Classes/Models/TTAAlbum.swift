@@ -86,7 +86,7 @@ struct TTAAssetConfig {
             self.isGif = fileName.hasSuffix("GIF")
         }
         
-        guard asset.mediaType == .video else { return }
+        guard asset.isVideo else { return }
         self.isVideo = true
         videoInfo = TTAAssetVideoInfo(asset: asset)
     }
@@ -119,5 +119,30 @@ struct TTAAssetVideoInfo {
     
     init() {
         // Do nothing here, for defatult
+    }
+}
+
+struct TTAFetchResult {
+    enum TTAFetchResultInfoKey {
+        case isGif
+    }
+    
+    let image: UIImage?
+    let playerItem: AVPlayerItem?
+    let info: [AnyHashable: Any]?
+}
+
+extension TTAFetchResult {
+    var hasImage: Bool {
+        return image != nil
+    }
+    var hasPlayerItem: Bool {
+        return playerItem != nil
+    }
+}
+
+extension PHAsset {
+    var isVideo: Bool {
+        return mediaType == .video
     }
 }

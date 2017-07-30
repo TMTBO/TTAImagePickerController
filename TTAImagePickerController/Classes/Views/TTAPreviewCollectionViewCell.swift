@@ -5,7 +5,7 @@
 //  Created by TobyoTenma on 02/07/2017.
 //
 
-import UIKit
+import Photos
 
 protocol TTAPreviewCollectionViewCellDelegate: class {
     func tappedPreviewCell(_ cell: TTAPreviewCollectionViewCell)
@@ -48,20 +48,20 @@ extension TTAPreviewCollectionViewCell {
 
 fileprivate extension TTAPreviewCollectionViewCell {
     func setupUI() {
-        func _createViews() {
+        func createViews() {
             contentView.addSubview(zoomView)
             contentView.addSubview(progressView)
         }
         
-        func _configViews() {
+        func configViews() {
             backgroundColor = .white
             zoomView.tapDelegate = self
             zoomView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
             progressView.isHidden = true
         }
         
-        _createViews()
-        _configViews()
+        createViews()
+        configViews()
         layoutViews()
     }
     
@@ -72,16 +72,21 @@ fileprivate extension TTAPreviewCollectionViewCell {
 }
 
 extension TTAPreviewCollectionViewCell {
-    func configImage(with image: UIImage? = nil) {
-        zoomView.config(image: image)
-        progressView.isHidden = true
-    }
     
     func configCell(tag: Int, delegate: TTAPreviewCollectionViewCellDelegate?, isHiddenBars: Bool, image: UIImage? = nil) {
         self.tag = tag;
         self.delegate = delegate;
         configImage(with: image)
         configCell(isHiddenBars: isHiddenBars)
+    }
+    
+    func configImage(with image: UIImage?) {
+        zoomView.config(image: image)
+        progressView.isHidden = true
+    }
+    
+    func configVideo(with playerItem: AVPlayerItem?) {
+        //TODO: Add video player
     }
     
     func configCell(isHiddenBars: Bool) {

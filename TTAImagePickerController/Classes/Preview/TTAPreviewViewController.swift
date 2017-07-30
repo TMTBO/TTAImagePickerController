@@ -111,20 +111,20 @@ extension TTAPreviewViewController {
 
 fileprivate extension TTAPreviewViewController {
     func setupUI() {
-        _createViews()
-        _configViews()
+        createViews()
+        configViews()
         layoutViews()
         _ = updateBars(isHidden: isHiddenBars)
     }
     
-    func _createViews() {
+    func createViews() {
         view.backgroundColor = .clear
         view.addSubview(collectionView)
         view.addSubview(previewNavigationBar)
         view.addSubview(previewToolBar)
     }
     
-    func _configViews() {
+    func configViews() {
         automaticallyAdjustsScrollViewInsets = false
         previewNavigationBar.delegate = self
         previewNavigationBar.selectItemTintColor = selectItemTintColor
@@ -136,7 +136,7 @@ fileprivate extension TTAPreviewViewController {
         previewToolBar.selectItemTintColor = selectItemTintColor
         previewToolBar.tintColor = tintColor
         previewToolBar.autoresizingMask = [.flexibleHeight, .flexibleWidth]
-        _prepareCollectionView()
+        prepareCollectionView()
     }
     
     func layoutViews() {
@@ -147,7 +147,7 @@ fileprivate extension TTAPreviewViewController {
         layout?.itemSize = collectionView.bounds.size
     }
     
-    func _prepareCollectionView() {
+    func prepareCollectionView() {
         collectionView.dataSource = self
         collectionView.delegate = self
         collectionView.autoresizingMask = [.flexibleHeight, .flexibleWidth]
@@ -194,12 +194,16 @@ fileprivate extension TTAPreviewViewController {
     func setup(assetCell cell: TTAPreviewCollectionViewCell, indexPath: IndexPath) {
         let tag = indexPath.item + 1
         cell.configCell(tag: tag, delegate: self, isHiddenBars: isHiddenBars)
-        TTAImagePickerManager.fetchPreviewImage(for: asset(at: indexPath), progressHandler: { (progress, error, stop, info) in
+        TTAImagePickerManager.fetchPreview(for: asset(at: indexPath), progressHandler: { (progress, error, stop, info) in
             guard cell.tag == tag else { return }
             cell.updateProgress(progress, error: error)
-        }) { (image) in
-            guard let image = image, cell.tag == tag else { return }
-            cell.configImage(with: image)
+        }) { (fetchResult) in
+            guard cell.tag == tag else { return }
+            if fetchResult.hasImage {
+                cell.configImage(with: fetchResult.image)
+            } else if fetchResult.hasPlayerItem {
+                cell.configVideo(with: fetchResult.playerItem)
+            }
         }
     }
 }
