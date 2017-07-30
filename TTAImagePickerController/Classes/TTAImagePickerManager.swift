@@ -125,6 +125,11 @@ extension TTAImagePickerManager {
     static func fetchPreviewImage(for asset: PHAsset?, progressHandler: PHAssetImageProgressHandler?, resultHandler: @escaping (UIImage?) -> Void) {
         fetchImage(for: asset, size: fetchOriginalSize(with: asset), options: defaultOptions(), progressHandler:progressHandler) { (image, _) in
             resultHandler(image)
+            guard let fileName = asset?.value(forKey: "filename") as? String,
+                fileName.hasSuffix("GIF") == true else { return }
+            fetchImageData(for: asset, size: fetchOriginalSize(with: asset), options: defaultOptions(), progressHandler: nil) { (image, isGif) in
+                resultHandler(image)
+            }
         }
     }
     
@@ -146,8 +151,7 @@ extension TTAImagePickerManager {
                         progressHandler?(progress, error, stop, info)
                     }
                 }
-                PHImageManager.default().requestImage(for: asset, targetSize: size.toPixel(), contentMode: defaultMode(), options: options, resultHandler: resultHandler)
-//                fetchImageData(for: asset, size: size, options: options, progressHandler: progressHandler, resultHandler: resultHandler)
+                TTACachingImageManager.shared?.manager.requestImage(for: asset, targetSize: size.toPixel(), contentMode: defaultMode(), options: options, resultHandler: resultHandler)
             } else {
                 if let cancelled = info?[PHImageCancelledKey] as? Bool, info?[PHImageErrorKey] != nil && cancelled {
                     return
@@ -176,15 +180,58 @@ extension TTAImagePickerManager {
         })
     }
     
-    static func fetchImageData(for asset: PHAsset?, size: CGSize, options: PHImageRequestOptions, progressHandler: PHAssetImageProgressHandler?, resultHandler: @escaping (UIImage?, [AnyHashable : Any]?) -> Void) {
-        guard let asset = asset else { resultHandler(nil, nil); return }
+    static func fetchImageData(for asset: PHAsset?, size: CGSize, options: PHImageRequestOptions, progressHandler: PHAssetImageProgressHandler?, resultHandler: @escaping (UIImage?, Bool) -> Void) {
+        guard let asset = asset else { resultHandler(nil, false); return }
+        
+        func handlerResult(with data: Data?, resultHandler: (UIImage?, Bool) -> Void) {
+            guard let imageData = data else { resultHandler(nil, false); return }
+            let isGif = imageData.imageContentType == .gif
+            let image: UIImage?
+            if isGif {
+                image = imageData.animatedGIF
+            } else {
+                image = UIImage(data: imageData, scale: UIScreen.main.scale)
+            }
+            resultHandler(image, isGif)
+        }
         
         TTACachingImageManager.shared?.manager.requestImageData(for: asset, options: options, resultHandler: { (data, dataUTI, orientation, info) in
-            guard let imageData = data,
-                let image = UIImage(data: imageData, scale: UIScreen.main.scale),
-                let scaledImage = scaleImage(image: image, to: size),
-                let resultImage = fixOrientation(aImage: scaledImage) else { resultHandler(nil, nil); return }
-            resultHandler(resultImage, info)
+            if let isInCloud = info?[PHImageResultIsInCloudKey] as? Bool
+                , data == nil && isInCloud {
+                options.isNetworkAccessAllowed = true
+                options.progressHandler = { (progress, error, stop, info) in
+                    DispatchQueue.main.async {
+                        progressHandler?(progress, error, stop, info)
+                    }
+                }
+                TTACachingImageManager.shared?.manager.requestImageData(for: asset, options: options, resultHandler: { (data, dataUTI, orientation, info) in
+                    handlerResult(with: data, resultHandler: resultHandler)
+                })
+            } else {
+                if let cancelled = info?[PHImageCancelledKey] as? Bool, info?[PHImageErrorKey] != nil && cancelled {
+                    return
+                }
+                handlerResult(with: data, resultHandler: resultHandler)
+                /*
+                DispatchQueue.global().async {
+                    guard let fixedImage = fixOrientation(aImage: image) else {
+                        DispatchQueue.main.async {
+                            resultHandler(image, isGif)
+                        }
+                        return
+                    }
+                    guard let scaledImage = scaleImage(image: fixedImage, to: size.toPixel()) else {
+                        DispatchQueue.main.async {
+                            resultHandler(fixedImage, isGif)
+                        }
+                        return
+                    }
+                    DispatchQueue.main.async {
+                        resultHandler(scaledImage, isGif)
+                    }
+                }
+                */
+            }
         })
     }
 }

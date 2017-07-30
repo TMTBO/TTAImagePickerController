@@ -77,7 +77,11 @@ extension TTAPreviewToolBar {
     
     func width() -> CGFloat {
         guard let text = doneButton.titleLabel?.text else { return 0 }
-        return (text as NSString).boundingRect(with: CGSize(width: CGFloat.greatestFiniteMagnitude, height: type(of: self).height()), options: .usesLineFragmentOrigin, attributes: [NSFontAttributeName: doneButton.titleLabel?.font ?? UIFont.systemFont(ofSize: 17)], context: nil).size.width + 3
+        return (text as NSString).boundingRect(with: CGSize(width: CGFloat.greatestFiniteMagnitude,
+                                                            height: type(of: self).height()),
+                                               options: .usesLineFragmentOrigin,
+                                               attributes: [NSFontAttributeName: doneButton.titleLabel?.font ?? UIFont.systemFont(ofSize: 17)],
+                                               context: nil).size.width + 3
     }
     
     static func height() -> CGFloat {

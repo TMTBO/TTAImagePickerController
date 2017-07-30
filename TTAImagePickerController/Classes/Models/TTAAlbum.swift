@@ -70,6 +70,8 @@ struct TTAAssetConfig {
     let isSelected: Bool
     let canSelect: Bool
     
+    private(set) var isGif: Bool = false
+    
     private(set) var isVideo: Bool = false
     private(set) var videoInfo = TTAAssetVideoInfo()
 
@@ -79,6 +81,10 @@ struct TTAAssetConfig {
         self.selectItemTintColor = selectItemTintColor
         self.isSelected = isSelected
         self.canSelect = canSelect
+        
+        if let fileName = asset.value(forKey: "filename") as? String {
+            self.isGif = fileName.hasSuffix("GIF")
+        }
         
         guard asset.mediaType == .video else { return }
         self.isVideo = true
