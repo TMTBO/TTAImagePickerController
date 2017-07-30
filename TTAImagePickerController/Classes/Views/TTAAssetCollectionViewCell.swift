@@ -31,6 +31,7 @@ class TTAAssetCollectionViewCell: UICollectionViewCell {
     
     fileprivate let imageView = UIImageView()
     fileprivate let selectButton = TTASelectButton()
+    fileprivate let videoComponentView = TTAAssetVideoComponentView()
     fileprivate let lightUpLayer = CALayer()
     
     fileprivate let const = AssetCollectionViewCellConst()
@@ -62,6 +63,8 @@ fileprivate extension TTAAssetCollectionViewCell {
     func _createViews() {
         contentView.addSubview(imageView)
         contentView.addSubview(selectButton)
+        contentView.addSubview(videoComponentView)
+        layer.addSublayer(lightUpLayer)
     }
     
     func _configViews() {
@@ -78,7 +81,6 @@ fileprivate extension TTAAssetCollectionViewCell {
         
         lightUpLayer.backgroundColor = UIColor(red: 0.90, green: 0.90, blue: 0.90, alpha: 1).cgColor
         lightUpLayer.opacity = 0
-        layer.addSublayer(lightUpLayer)
     }
     
     func _layoutViews() {
@@ -87,6 +89,7 @@ fileprivate extension TTAAssetCollectionViewCell {
                                     y: const.selectButtonMargin,
                                 width: const.selectButtonWidth,
                                height: const.selectButtonHeight)
+        videoComponentView.frame = CGRect(x: 0, y: bounds.height - TTAAssetVideoComponentView.height(), width: bounds.width, height: TTAAssetVideoComponentView.height())
         lightUpLayer.frame = contentView.bounds
     }
 }
@@ -95,24 +98,35 @@ fileprivate extension TTAAssetCollectionViewCell {
 
 extension TTAAssetCollectionViewCell {
     
+    func configCell(with config: TTAAssetConfig) {
+        self.tag = config.tag;
+        self.delegate = config.delegate;
+        configState(isSelected: config.isSelected)
+        configImage(with: nil)
+        configVideoComponentView(with: config)
+        guard config.canSelect else {
+            selectButton.isHidden = !config.canSelect
+            return
+        }
+        self.selectItemTintColor = config.selectItemTintColor
+    }
+    
     func configState(isSelected: Bool) {
         guard selectButton.isSelected != isSelected else { return }
         selectButton.selectState = isSelected ? .selected : .default
     }
     
-    func configImage(with image: UIImage? = nil) {
+    func configImage(with image: UIImage?) {
         imageView.image = image
     }
     
-    func configCell(tag: Int, delegate: TTAAssetCollectionViewCellDelegate?, selectItemTintColor: UIColor?, canSelect: Bool, image: UIImage? = nil) {
-        self.tag = tag;
-        self.delegate = delegate;
-        configImage(with: image)
-        guard canSelect else {
-            selectButton.isHidden = !canSelect
-            return
+    func configVideoComponentView(with config: TTAAssetConfig) {
+        if config.isVideo {
+            videoComponentView.isHidden = false
+            videoComponentView.update(with: config.videoInfo)
+        } else {
+            videoComponentView.isHidden = true
         }
-        self.selectItemTintColor = selectItemTintColor
     }
     
     func lightUp() {

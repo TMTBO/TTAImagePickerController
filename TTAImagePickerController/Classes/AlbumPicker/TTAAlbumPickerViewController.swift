@@ -46,7 +46,7 @@ extension TTAAlbumPickerViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        _setupUI()
+        setupUI()
     }
     
 }
@@ -55,27 +55,27 @@ extension TTAAlbumPickerViewController {
 
 extension TTAAlbumPickerViewController {
     
-    func _setupUI() {
-        _createViews()
-        _configViews()
-        _layoutViews()
+    func setupUI() {
+        createViews()
+        configViews()
+        layoutViews()
     }
     
-    func _createViews() {
+    func createViews() {
         view.addSubview(tableView)
-        _prepareCancelItem()
+        prepareCancelItem()
     }
     
-    func _configViews() {
+    func configViews() {
         view.backgroundColor = .white
-        _prepareTableView()
+        prepareTableView()
     }
     
-    func _layoutViews() {
+    func layoutViews() {
         tableView.frame = view.bounds
     }
     
-    func _prepareTableView() {
+    func prepareTableView() {
         tableView.rowHeight = 100
         tableView.dataSource = self
         tableView.delegate = self
@@ -85,9 +85,19 @@ extension TTAAlbumPickerViewController {
         tableView.register(TTAAlbumTableViewCell.self, forCellReuseIdentifier: "\(TTAAlbumTableViewCell.self)")
     }
     
-    func _prepareCancelItem() {
+    func prepareCancelItem() {
         let cancelItem = UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(didClickCancelItem))
         self.navigationItem.rightBarButtonItem = cancelItem
+    }
+    
+    func setup(cell: TTAAlbumTableViewCell, indexPath: IndexPath) {
+        guard let currentAlbum = album(at: indexPath) else { return }
+        let tag = indexPath.item + 1
+        cell.update(cell: tag, with: currentAlbum.albumInfo)
+        currentAlbum.requestThumbnail(with: 0, size: cell.contentView.bounds.size.toPixel()) { (image) in
+            guard let image = image, cell.tag == tag else { return }
+            cell.update(image: image)
+        }        
     }
 }
 
@@ -99,7 +109,8 @@ extension TTAAlbumPickerViewController {
         return albums.count
     }
     
-    func album(at indexPath: IndexPath) -> TTAAlbum {
+    func album(at indexPath: IndexPath) -> TTAAlbum? {
+        guard indexPath.row < albumCount() && indexPath.row >= 0 else { return nil }
         return albums[indexPath.row]
     }
 }
@@ -128,7 +139,7 @@ extension TTAAlbumPickerViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "\(TTAAlbumTableViewCell.self)", for: indexPath) as! TTAAlbumTableViewCell
-        cell.album = album(at: indexPath)
+        setup(cell: cell, indexPath: indexPath)
         return cell
     }
 }
@@ -139,9 +150,10 @@ extension TTAAlbumPickerViewController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
-        guard let splitViewController = splitViewController else { return }
-        guard let pickerController = assetPickerController.topViewController as? TTAAssetPickerViewController else { return }
-        pickerController.album = album(at: indexPath)
+        guard let splitViewController = splitViewController ,
+            let pickerController = assetPickerController.topViewController as? TTAAssetPickerViewController,
+            let album = album(at: indexPath) else { return }
+        pickerController.album = album
         splitViewController.showDetailViewController(assetPickerController, sender: nil)
     }
 }

@@ -47,6 +47,7 @@ extension UIFont {
         case warningMark = "\u{e62a}"
         case photoMark = "\u{e605}"
         case cameraMark = "\u{e623}"
+        case videoMark = "\u{e628}"
     }
     
     struct IconFontSize {
@@ -55,5 +56,6 @@ extension UIFont {
         static let warningMark: CGFloat = 20
         static let photoMark: CGFloat = 80
         static let cameraMark: CGFloat = 30
+        static let videoMark: CGFloat = 20
     }
 }

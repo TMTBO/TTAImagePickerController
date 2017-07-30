@@ -17,31 +17,14 @@ class TTAAlbumTableViewCell: UITableViewCell {
         let imageViewBottomMargin: CGFloat = 10
     }
     
-    var assetID = ""
-    var imageRequestID: PHImageRequestID = 0
-    
     fileprivate let previewImageView = UIImageView()
+    fileprivate let videoMarkLabel = UILabel()
     
     fileprivate let const = AlbumTableViewCellConst()
     
-    var album: TTAAlbum? {
-        didSet {
-            previewImageView.image = nil
-            
-            guard let album = album else { return }
-            textLabel?.text = album.name()
-            detailTextLabel?.text = String(describing: album.assetCount())
-            
-            album.requestThumbnail(with: 0, size: TTAImagePickerManager.defaultSize().toPixel()) { [weak self] (image) in
-                guard let `self` = self else { return }
-                self.previewImageView.image = image;
-            }
-        }
-    }
-    
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style: .subtitle, reuseIdentifier: reuseIdentifier)
-        _configViews()
+        configViews()
         layoutViews()
     }
     
@@ -59,17 +42,21 @@ class TTAAlbumTableViewCell: UITableViewCell {
 
 extension TTAAlbumTableViewCell {
     
-    func _configViews() {
+    func configViews() {
         layer.shouldRasterize = true
         layer.rasterizationScale = UIScreen.main.scale
         layer.drawsAsynchronously = true
         
         contentView.addSubview(previewImageView)
+        contentView.addSubview(videoMarkLabel)
         
         detailTextLabel?.textColor = .lightGray
         accessoryType = .disclosureIndicator
         previewImageView.contentMode = .scaleAspectFill
         previewImageView.clipsToBounds = true
+        videoMarkLabel.font = UIFont.iconfont(size: UIFont.IconFontSize.videoMark)
+        videoMarkLabel.text = UIFont.IconFont.videoMark.rawValue
+        videoMarkLabel.textColor = .white
     }
     
     func layoutViews() {
@@ -82,5 +69,26 @@ extension TTAAlbumTableViewCell {
         textLabel?.frame.origin.x = textLabelX
         detailTextLabel?.frame.origin.x = textLabelX
         detailTextLabel?.frame.origin.y += 5
+        
+        let videoMarkSize = UIFont.IconFontSize.videoMark
+        videoMarkLabel.frame = CGRect(x: previewImageView.frame.minX + 2,
+                                      y: previewImageView.frame.maxY - videoMarkSize,
+                                      width: videoMarkSize,
+                                      height: videoMarkSize)
+    }
+}
+
+// MARK: - Public Methods
+
+extension TTAAlbumTableViewCell {
+    func update(cell tag: Int, with albumInfo: TTAAlbumInfo) {
+        self.tag = tag
+        textLabel?.text = albumInfo.name
+        detailTextLabel?.text = albumInfo.countString
+        videoMarkLabel.isHidden = !albumInfo.isVideoAlbum
+    }
+    
+    func update(image: UIImage?) {
+        previewImageView.image = image
     }
 }

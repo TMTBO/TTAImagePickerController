@@ -34,7 +34,7 @@ class TTAAssetPickerViewController: UIViewController {
             TTACachingImageManager.shared?.stopCachingImagesForAllAssets()
         }
         didSet {
-            navigationItem.title = album.name()
+            navigationItem.title = album.albumInfo.name
             collectionView.reloadData()
             scrollTo(assetCount() - 1)
             _startCaching()
@@ -111,7 +111,7 @@ fileprivate extension TTAAssetPickerViewController {
     
     func _configViews() {
         view.backgroundColor = .white
-        navigationItem.title = album.name()
+        navigationItem.title = album.albumInfo.name
         navigationItem.leftBarButtonItem = splitViewController?.displayModeButtonItem
         navigationItem.leftItemsSupplementBackButton = true
         
@@ -171,15 +171,16 @@ fileprivate extension TTAAssetPickerViewController {
     }
     
     func setup(assetCell cell: TTAAssetCollectionViewCell, indexPath: IndexPath) {
+        guard let currentAsset = asset(at: indexPath) else { return }
+        let isSelected = selectedAsset.contains(currentAsset)
         let tag = indexPath.item + 1
-        let isSelected: Bool
-        if let currentAsset = asset(at: indexPath) {
-            isSelected = selectedAsset.contains(currentAsset)
-        } else {
-            isSelected = false
-        }
-        cell.configState(isSelected: isSelected)
-        cell.configCell(tag: tag, delegate: self, selectItemTintColor: selectItemTintColor, canSelect: canSelect)
+        let assetConfig = TTAAssetConfig(asset: currentAsset,
+                                         tag: tag,
+                                         delegate: self,
+                                         selectItemTintColor: selectItemTintColor,
+                                         isSelected: isSelected,
+                                         canSelect: canSelect)
+        cell.configCell(with: assetConfig)
         album.requestThumbnail(with: indexPath.item, size: cell.bounds.size.toPixel()) { (image) in
             guard let image = image, cell.tag == tag else { return }
             cell.configImage(with: image)
@@ -201,7 +202,10 @@ fileprivate extension TTAAssetPickerViewController {
     }
     
     func showPreviewViewController(from index: Int, isPreview: Bool) {
-        let previewVc = TTAPreviewViewController(album: isPreview ? nil : album, selected: selectedAsset, maxPickerNum: maxPickerNum, index: index)
+        let previewVc = TTAPreviewViewController(album: isPreview ? nil : album,
+                                                 selected: selectedAsset,
+                                                 maxPickerNum: maxPickerNum,
+                                                 index: index)
         previewVc.delegate = self
         previewVc.selectItemTintColor = selectItemTintColor
         previewVc.tintColor = navigationController?.navigationBar.tintColor
@@ -247,7 +251,10 @@ extension TTAAssetPickerViewController {
     
     func _startCaching() {
         guard let layout = collectionView.collectionViewLayout as? UICollectionViewFlowLayout else { return }
-        TTACachingImageManager.shared?.startCachingImages(for: album.assets, targetSize: layout.itemSize, contentMode: nil, options: nil)
+        TTACachingImageManager.shared?.startCachingImages(for: album.assets,
+                                                          targetSize: layout.itemSize,
+                                                          contentMode: nil,
+                                                          options: nil)
     }
     
 }
