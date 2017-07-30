@@ -98,14 +98,10 @@ fileprivate extension TTAAssetCollectionViewCell {
 
 extension TTAAssetCollectionViewCell {
     
-    func configState(isSelected: Bool) {
-        guard selectButton.isSelected != isSelected else { return }
-        selectButton.selectState = isSelected ? .selected : .default
-    }
-    
     func configCell(with config: TTAAssetConfig) {
         self.tag = config.tag;
         self.delegate = config.delegate;
+        configState(isSelected: config.isSelected)
         configImage(with: nil)
         configVideoComponentView(with: config)
         guard config.canSelect else {
@@ -113,6 +109,11 @@ extension TTAAssetCollectionViewCell {
             return
         }
         self.selectItemTintColor = config.selectItemTintColor
+    }
+    
+    func configState(isSelected: Bool) {
+        guard selectButton.isSelected != isSelected else { return }
+        selectButton.selectState = isSelected ? .selected : .default
     }
     
     func configImage(with image: UIImage?) {
