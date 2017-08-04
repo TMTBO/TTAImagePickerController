@@ -271,7 +271,9 @@ extension TTAImagePickerManager {
             }
         }
         TTACachingImageManager.shared?.manager.requestPlayerItem(forVideo: asset, options: options, resultHandler: { (playerItem, info) in
-            resultHandler(playerItem, info)
+            DispatchQueue.main.async {
+                resultHandler(playerItem, info)
+            }
         })
     }
 }

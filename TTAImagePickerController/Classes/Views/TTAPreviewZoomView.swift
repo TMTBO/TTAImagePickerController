@@ -7,13 +7,9 @@
 
 import UIKit
 
-protocol TTAPreviewZoomViewDelegate: class {
-    func tappedPreviewZoomView(_ zoomView: TTAPreviewZoomView)
-}
-
 class TTAPreviewZoomView: UIScrollView {
     
-    weak var tapDelegate: TTAPreviewZoomViewDelegate?
+    weak var tapDelegate: TTAPreviewContentViewDelegate?
     
     fileprivate let imageView = UIImageView()
     
@@ -131,7 +127,7 @@ fileprivate extension TTAPreviewZoomView {
 extension TTAPreviewZoomView {
     
     func tapGestureAction(tap: UITapGestureRecognizer) {
-        tapDelegate?.tappedPreviewZoomView(self)
+        tapDelegate?.tappedPreviewContentView(self)
     }
     
     func doubleTapGestureAction(doubleTap: UITapGestureRecognizer) {
@@ -147,7 +143,7 @@ extension TTAPreviewZoomView {
             let zoomToRect = CGRect(x: touchPoint.x - width / 2, y: touchPoint.y - height / 2, width: width, height: height)
             zoom(to: zoomToRect, animated: true)
         }
-        tapDelegate?.tappedPreviewZoomView(self)
+        tapDelegate?.tappedPreviewContentView(self)
     }
     
     func orientationDidChanged() {
@@ -172,3 +168,7 @@ extension TTAPreviewZoomView: UIScrollViewDelegate {
         refreshImageViewCenter()
     }
 }
+
+// MARK: - TTAPreviewContentViewCompatiable
+
+extension TTAPreviewZoomView: TTAPreviewContentViewCompatiable {}

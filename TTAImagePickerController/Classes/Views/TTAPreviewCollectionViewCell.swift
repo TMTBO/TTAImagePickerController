@@ -7,6 +7,12 @@
 
 import Photos
 
+protocol TTAPreviewContentViewDelegate: class {
+    func tappedPreviewContentView(_ contentView: TTAPreviewContentViewCompatiable)
+}
+
+protocol TTAPreviewContentViewCompatiable {}
+
 protocol TTAPreviewCollectionViewCellDelegate: class {
     func tappedPreviewCell(_ cell: TTAPreviewCollectionViewCell)
 }
@@ -16,11 +22,11 @@ class TTAPreviewCollectionViewCell: UICollectionViewCell {
     fileprivate(set) weak var delegate: TTAPreviewCollectionViewCellDelegate?
     fileprivate(set) var isToolBarHidden = false
     
-    fileprivate var zoomView: TTAPreviewZoomView
-    fileprivate var progressView = TTAProgressView()
+    fileprivate let zoomView = TTAPreviewZoomView()
+    fileprivate let videoView = TTAPreviewVideoView()
+    fileprivate let progressView = TTAProgressView()
     
     override init(frame: CGRect) {
-        zoomView =  TTAPreviewZoomView(frame: frame)
         super.init(frame: frame)
         setupUI()
     }
@@ -49,12 +55,15 @@ extension TTAPreviewCollectionViewCell {
 fileprivate extension TTAPreviewCollectionViewCell {
     func setupUI() {
         func createViews() {
+            contentView.addSubview(videoView)
             contentView.addSubview(zoomView)
             contentView.addSubview(progressView)
         }
         
         func configViews() {
             backgroundColor = .white
+            videoView.tapDelegate = self
+            videoView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
             zoomView.tapDelegate = self
             zoomView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
             progressView.isHidden = true
@@ -66,7 +75,8 @@ fileprivate extension TTAPreviewCollectionViewCell {
     }
     
     func layoutViews() {
-        zoomView.frame = CGRect(x: 0, y: 0, width: bounds.width - TTAPreviewCollectionViewCell.cellMargin(), height: bounds.height)
+        videoView.frame = CGRect(x: 0, y: 0, width: bounds.width - TTAPreviewCollectionViewCell.cellMargin(), height: bounds.height)
+        zoomView.frame = videoView.frame
         progressView.frame = CGRect(x: zoomView.bounds.width - TTAProgressView.rightMargin() - TTAProgressView.widthAndHeight(), y: zoomView.progressViewY(isToolBarHidden: isToolBarHidden), width: TTAProgressView.widthAndHeight(), height: TTAProgressView.widthAndHeight())
     }
 }
@@ -82,11 +92,16 @@ extension TTAPreviewCollectionViewCell {
     
     func configImage(with image: UIImage?) {
         zoomView.config(image: image)
+        videoView.isHidden = true
+        zoomView.isHidden = false
         progressView.isHidden = true
     }
     
     func configVideo(with playerItem: AVPlayerItem?) {
-        //TODO: Add video player
+        videoView.update(with: playerItem)
+        videoView.isHidden = false
+        zoomView.isHidden = true
+        progressView.isHidden = true
     }
     
     func configCell(isHiddenBars: Bool) {
@@ -132,8 +147,8 @@ extension TTAPreviewCollectionViewCell {
 
 // MARK: - TTAPreviewZoomViewDelegate
 
-extension TTAPreviewCollectionViewCell: TTAPreviewZoomViewDelegate {
-    func tappedPreviewZoomView(_ zoomView: TTAPreviewZoomView) {
+extension TTAPreviewCollectionViewCell: TTAPreviewContentViewDelegate {
+    func tappedPreviewContentView(_ contentView: TTAPreviewContentViewCompatiable) {
         delegate?.tappedPreviewCell(self)
     }
 }
