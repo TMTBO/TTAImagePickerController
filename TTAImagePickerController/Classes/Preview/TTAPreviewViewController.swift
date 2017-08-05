@@ -199,11 +199,7 @@ fileprivate extension TTAPreviewViewController {
             cell.updateProgress(progress, error: error)
         }) { (fetchResult) in
             guard cell.tag == tag else { return }
-            if fetchResult.hasImage {
-                cell.configImage(with: fetchResult.image)
-            } else if fetchResult.hasPlayerItem {
-                cell.configVideo(with: fetchResult.playerItem)
-            }
+            cell.configResult(fetchResult)
         }
     }
 }

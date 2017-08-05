@@ -202,13 +202,20 @@ fileprivate extension TTAAssetPickerViewController {
     }
     
     func showPreviewViewController(from index: Int, isPreview: Bool) {
-        let previewVc = TTAPreviewViewController(album: isPreview ? nil : album,
-                                                 selected: selectedAsset,
-                                                 maxPickerNum: maxPickerNum,
-                                                 index: index)
-        previewVc.delegate = self
-        previewVc.selectItemTintColor = selectItemTintColor
-        previewVc.tintColor = navigationController?.navigationBar.tintColor
+        guard let currentAsset = asset(at: IndexPath(item: index, section: 0)) else { return }
+        let previewVc: UIViewController
+        if currentAsset.isVideo {
+            previewVc = TTAVideoPreviewViewController(asset: currentAsset)
+        } else {
+            let imagePreviewVc = TTAPreviewViewController(album: isPreview ? nil : album,
+                                                     selected: selectedAsset,
+                                                     maxPickerNum: maxPickerNum,
+                                                     index: index)
+            imagePreviewVc.delegate = self
+            imagePreviewVc.selectItemTintColor = selectItemTintColor
+            imagePreviewVc.tintColor = navigationController?.navigationBar.tintColor
+            previewVc = imagePreviewVc
+        }
         navigationController?.pushViewController(previewVc, animated: true)
     }
 }
