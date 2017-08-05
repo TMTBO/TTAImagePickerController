@@ -18,6 +18,7 @@ class TTAVideoProgressView: UIView {
     fileprivate let playTimeLabel = UILabel()
     fileprivate let totalTimeLabel = UILabel()
     fileprivate let sliderView = UISlider()
+    fileprivate let gradientLayer = CAGradientLayer()
 
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -40,15 +41,21 @@ class TTAVideoProgressView: UIView {
 extension TTAVideoProgressView {
     func setupUI() {
         func createViews() {
+            layer.addSublayer(gradientLayer)
             addSubview(playTimeLabel)
             addSubview(sliderView)
             addSubview(totalTimeLabel)
         }
         
         func configViews() {
+            gradientLayer.startPoint = CGPoint(x: 0, y: 0)
+            gradientLayer.endPoint = CGPoint(x: 0, y: 1)
+            gradientLayer.colors = [UIColor.clear.cgColor, UIColor.black.cgColor]
+            
             playTimeLabel.text = "00:00"
             playTimeLabel.textColor = .white
             playTimeLabel.font = UIFont.systemFont(ofSize: 15)
+            playTimeLabel.textAlignment = .right
             
             totalTimeLabel.text = "00:00"
             totalTimeLabel.textColor = .white
@@ -70,11 +77,22 @@ extension TTAVideoProgressView {
         playTimeLabel.sizeToFit()
         totalTimeLabel.sizeToFit()
         
-        playTimeLabel.frame = CGRect(x: margin(), y: (type(of: self).height() - playTimeLabel.bounds.height) / 2, width: playTimeLabel.bounds.width, height: playTimeLabel.bounds.height)
+        gradientLayer.frame = bounds
         
-        totalTimeLabel.frame = CGRect(x: bounds.width - margin() - totalTimeLabel.bounds.width, y: (type(of: self).height() - totalTimeLabel.bounds.height) / 2, width: totalTimeLabel.bounds.width, height: totalTimeLabel.bounds.height)
+        playTimeLabel.frame = CGRect(x: margin(),
+                                     y: (type(of: self).height() - playTimeLabel.bounds.height) / 2,
+                                     width: playTimeLabel.bounds.width,
+                                     height: playTimeLabel.bounds.height)
         
-        sliderView.frame = CGRect(x: playTimeLabel.frame.maxX + margin(), y: 0, width: totalTimeLabel.frame.minX - playTimeLabel.frame.maxX - 2 * margin(), height: bounds.height)
+        totalTimeLabel.frame = CGRect(x: bounds.width - margin() - totalTimeLabel.bounds.width,
+                                      y: (type(of: self).height() - totalTimeLabel.bounds.height) / 2,
+                                      width: totalTimeLabel.bounds.width,
+                                      height: totalTimeLabel.bounds.height)
+        
+        sliderView.frame = CGRect(x: playTimeLabel.frame.maxX + margin(),
+                                  y: 0,
+                                  width: totalTimeLabel.frame.minX - playTimeLabel.frame.maxX - 2 * margin(),
+                                  height: bounds.height)
     }
 }
 

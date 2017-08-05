@@ -55,12 +55,15 @@ fileprivate extension TTAPreviewVideoView {
             let tap = UITapGestureRecognizer(target: self, action: #selector(didTap(tap:)))
             addGestureRecognizer(tap)
             
-            player.addPeriodicTimeObserver(forInterval: CMTime(seconds: 1, preferredTimescale: 1), queue: DispatchQueue.main) { [weak self] (cmtime) in
-                guard let `self` = self, let currentItem = self.player.currentItem else { return }
-                let currentTime = CMTimeGetSeconds(cmtime)
-                let duration = CMTimeGetSeconds(currentItem.duration)
-                let videoInfo = TTAVideoProgressViewInfo(current: currentTime, duration: duration)
-                self.videoProgressView.update(with: videoInfo)
+            player.addPeriodicTimeObserver(forInterval: CMTime(seconds: 1, preferredTimescale: 1),
+                                           queue: DispatchQueue.main) { [weak self] (cmtime) in
+                                            guard let `self` = self,
+                                                self.player.status == .readyToPlay,
+                                                let currentItem = self.player.currentItem else { return }
+                                            let currentTime = CMTimeGetSeconds(cmtime)
+                                            let duration = CMTimeGetSeconds(currentItem.asset.duration)
+                                            let videoInfo = TTAVideoProgressViewInfo(current: currentTime, duration: duration)
+                                            self.videoProgressView.update(with: videoInfo)
             }
         }
         createViews()
@@ -69,8 +72,14 @@ fileprivate extension TTAPreviewVideoView {
     
     func layoutViews() {
         playerLayer.frame = bounds
-        playPauseButton.frame = CGRect(x: (bounds.width - UIFont.IconFontSize.playMark) / 2, y: (bounds.height - UIFont.IconFontSize.playMark) / 2, width: UIFont.IconFontSize.playMark, height: UIFont.IconFontSize.playMark)
-        videoProgressView.frame = CGRect(x: 0, y: bounds.height - TTAVideoProgressView.height(), width: bounds.width, height: TTAVideoProgressView.height())
+        playPauseButton.frame = CGRect(x: (bounds.width - UIFont.IconFontSize.playMark) / 2,
+                                       y: (bounds.height - UIFont.IconFontSize.playMark) / 2,
+                                       width: UIFont.IconFontSize.playMark,
+                                       height: UIFont.IconFontSize.playMark)
+        videoProgressView.frame = CGRect(x: 0,
+                                         y: bounds.height - TTAVideoProgressView.height(),
+                                         width: bounds.width,
+                                         height: TTAVideoProgressView.height())
     }
 }
 
@@ -102,7 +111,10 @@ extension TTAPreviewVideoView {
     
     func playVideo() {
         player.play()
-        NotificationCenter.default.addObserver(self, selector: #selector(didVideoPlayToEnd), name: .AVPlayerItemDidPlayToEndTime, object: nil)
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(didVideoPlayToEnd),
+                                               name: .AVPlayerItemDidPlayToEndTime,
+                                               object: nil)
         hiddenPlayPauseButton()
     }
     
@@ -118,7 +130,10 @@ extension TTAPreviewVideoView {
 extension TTAPreviewVideoView {
     func hiddenPlayPauseButton() {
         guard playPauseButton.isSelected else { return }
-        UIView.animate(withDuration: animationDuration(), delay: animationDelay(), options: .allowUserInteraction, animations: { [weak self] in
+        UIView.animate(withDuration: animationDuration(),
+                       delay: animationDelay(),
+                       options: .allowUserInteraction,
+                       animations: { [weak self] in
             guard let `self` = self else { return }
             self.playPauseButton.alpha = 0
         })
