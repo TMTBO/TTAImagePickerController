@@ -125,8 +125,7 @@ extension TTAImagePickerManager {
         fetchImage(for: asset, size: fetchOriginalSize(with: asset), options: defaultOptions(), progressHandler:progressHandler) { (image, info) in
             let result = TTAFetchResult(image: image, playerItem: nil, info: info)
             resultHandler(result)
-            if let fileName = asset?.value(forKey: "filename") as? String,
-                fileName.hasSuffix("GIF") == true {
+            if let asset = asset, asset.isGif {
                 fetchImageData(for: asset, size: fetchOriginalSize(with: asset), options: defaultOptions(), progressHandler: nil) { (image, isGif, info) in
                     let fetchInfo: [AnyHashable: Any]
                     if var resultInfo = info {
@@ -148,8 +147,14 @@ extension TTAImagePickerManager {
     }
     
     static func fetchOriginalImage(for asset: PHAsset?, options: PHImageRequestOptions, progressHandler: PHAssetImageProgressHandler?, resultHandler: @escaping (UIImage?) -> Void) {
-        fetchImage(for: asset, size: fetchOriginalSize(with: asset), options: options, progressHandler: progressHandler) { (image, info) in
-            resultHandler(image)
+        if let asset = asset, asset.isGif {
+            fetchImageData(for: asset, size: fetchOriginalSize(with: asset), options: defaultOptions(), progressHandler: nil) { (image, isGif, info) in
+                resultHandler(image)
+            }
+        } else {
+            fetchImage(for: asset, size: fetchOriginalSize(with: asset), options: options, progressHandler: progressHandler) { (image, info) in
+                resultHandler(image)
+            }
         }
     }
     

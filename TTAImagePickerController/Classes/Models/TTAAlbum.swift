@@ -145,6 +145,12 @@ extension PHAsset {
     var isVideo: Bool {
         return mediaType == .video
     }
+    
+    var isGif: Bool {
+        guard let fileName = value(forKey: "filename") as? String,
+            fileName.hasSuffix("GIF") == true else  { return false }
+        return true
+    }
 } /* PHAsset */
 
 struct TTAVideoProgressViewInfo {
