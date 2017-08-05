@@ -50,6 +50,7 @@ extension UIFont {
         case backMark = "\u{e60a}"
         case selectMark = "\u{e60b}"
         case playMark = "\u{e60c}"
+        case dotMark = "\u{e60d}"
     }
     
     struct IconFontSize {
@@ -60,5 +61,6 @@ extension UIFont {
         static let cameraMark: CGFloat = 30
         static let videoMark: CGFloat = 20
         static let playMark: CGFloat = 60
+        static let dotMark: CGFloat = 20
     }
 }

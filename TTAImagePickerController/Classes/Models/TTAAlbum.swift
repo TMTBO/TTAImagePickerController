@@ -56,12 +56,12 @@ extension TTAAlbum {
                          resultHandler: @escaping (UIImage?, [AnyHashable : Any]?) -> Void) {
             TTAImagePickerManager.fetchImage(for: asset, size: size, options: options, progressHandler: progressHandler, resultHandler: resultHandler)
     }
-}
+} /* TTAAlbum */
 
 /// The Main user for this model is to avoid the user to `import Photos` in the file when they use `TTAImagePickerController`
 public struct TTAAsset {
     var original: PHAsset
-}
+} /* TTAAsset */
 
 struct TTAAssetConfig {
     let tag: Int
@@ -91,7 +91,7 @@ struct TTAAssetConfig {
         videoInfo = TTAAssetVideoInfo(asset: asset)
     }
     
-}
+} /* TTAAssetConfig */
 
 struct TTAAlbumInfo {
     let name: String
@@ -103,7 +103,7 @@ struct TTAAlbumInfo {
         countString = "\(assetCount)"
         isVideoAlbum = album.assetCollectionSubtype == .smartAlbumVideos || album.assetCollectionSubtype == .smartAlbumSlomoVideos
     }
-}
+} /* TTAAlbumInfo */
 
 struct TTAAssetVideoInfo {
     private(set) var timeLength: String = "00:00"
@@ -120,7 +120,7 @@ struct TTAAssetVideoInfo {
     init() {
         // Do nothing here, for defatult
     }
-}
+} /* TTAFetchResult */
 
 struct TTAFetchResult {
     enum TTAFetchResultInfoKey {
@@ -139,10 +139,22 @@ extension TTAFetchResult {
     var hasPlayerItem: Bool {
         return playerItem != nil
     }
-}
+} /* TTAFetchResult */
 
 extension PHAsset {
     var isVideo: Bool {
         return mediaType == .video
     }
-}
+} /* PHAsset */
+
+struct TTAVideoProgressViewInfo {
+    let currentString: String
+    let durationString: String
+    let progress: Float
+    
+    init(current: TimeInterval, duration: TimeInterval) {
+        currentString = dateComponentsFormatter.string(from: current) ?? "00:00"
+        durationString = dateComponentsFormatter.string(from: duration) ?? "00:00"
+        progress = Float(current / duration)
+    }
+} /* TTAVideoProgressViewInfo */

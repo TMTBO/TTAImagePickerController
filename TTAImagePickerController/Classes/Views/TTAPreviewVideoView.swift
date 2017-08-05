@@ -14,6 +14,7 @@ class TTAPreviewVideoView: UIControl {
     fileprivate let player = AVPlayer()
     fileprivate let playerLayer = AVPlayerLayer()
     fileprivate let playPauseButton = UIButton(type: .custom)
+    fileprivate let videoProgressView = TTAVideoProgressView()
     
     override init(frame: CGRect) {
         super.init(frame: .zero)
@@ -36,7 +37,9 @@ class TTAPreviewVideoView: UIControl {
 fileprivate extension TTAPreviewVideoView {
     func setupUI() {
         func createViews() {
-            
+            layer.addSublayer(playerLayer)
+            addSubview(playPauseButton)
+            addSubview(videoProgressView)
         }
         
         func configViews() {
@@ -47,11 +50,18 @@ fileprivate extension TTAPreviewVideoView {
             playPauseButton.setTitle(UIFont.IconFont.pauseMark.rawValue, for: .selected)
             playPauseButton.titleLabel?.font = UIFont.iconfont(size: UIFont.IconFontSize.playMark)
             
+            videoProgressView.delegate = self
+            
             let tap = UITapGestureRecognizer(target: self, action: #selector(didTap(tap:)))
             addGestureRecognizer(tap)
             
-            layer.addSublayer(playerLayer)
-            addSubview(playPauseButton)
+            player.addPeriodicTimeObserver(forInterval: CMTime(seconds: 1, preferredTimescale: 1), queue: DispatchQueue.main) { [weak self] (cmtime) in
+                guard let `self` = self, let currentItem = self.player.currentItem else { return }
+                let currentTime = CMTimeGetSeconds(cmtime)
+                let duration = CMTimeGetSeconds(currentItem.duration)
+                let videoInfo = TTAVideoProgressViewInfo(current: currentTime, duration: duration)
+                self.videoProgressView.update(with: videoInfo)
+            }
         }
         createViews()
         configViews()
@@ -60,6 +70,7 @@ fileprivate extension TTAPreviewVideoView {
     func layoutViews() {
         playerLayer.frame = bounds
         playPauseButton.frame = CGRect(x: (bounds.width - UIFont.IconFontSize.playMark) / 2, y: (bounds.height - UIFont.IconFontSize.playMark) / 2, width: UIFont.IconFontSize.playMark, height: UIFont.IconFontSize.playMark)
+        videoProgressView.frame = CGRect(x: 0, y: bounds.height - TTAVideoProgressView.height(), width: bounds.width, height: TTAVideoProgressView.height())
     }
 }
 
@@ -139,6 +150,14 @@ extension TTAPreviewVideoView {
     
     func animationDuration() -> TimeInterval {
         return 1
+    }
+}
+
+extension TTAPreviewVideoView: TTAVideoProgressViewDelegate {
+    func videoProgressView(_ progressView: TTAVideoProgressView, seekTo percent: Double) {
+        guard player.status == .readyToPlay,
+            let currentItem = player.currentItem else { return }
+        player.seek(to: CMTime(seconds: percent * CMTimeGetSeconds(currentItem.duration), preferredTimescale: 1))
     }
 }
 
