@@ -13,7 +13,7 @@ protocol TTAPreviewViewControllerDelegate: class {
 }
 
 public class TTAPreviewViewController: UIViewController, TTAImagePickerControllerCompatiable {
-    
+
     weak var delegate: TTAPreviewViewControllerDelegate?
     /// Only for preview selected assets from outer
     fileprivate weak var previewDelegate: TTAImagePickerControllerDelegate?
@@ -21,10 +21,10 @@ public class TTAPreviewViewController: UIViewController, TTAImagePickerControlle
     var selectItemTintColor: UIColor? = UIColor(red: 0, green: 122.0 / 255.0, blue: 1, alpha: 1)
     var tintColor: UIColor?
     
+    internal var selected: [PHAsset]
+    internal let maxPickerNum: Int
     fileprivate(set) var album: TTAAlbum?
-    fileprivate var selected: [PHAsset]
     fileprivate let previewAssets: [PHAsset]
-    fileprivate let maxPickerNum: Int
     fileprivate var currentIndex: Int
     
     fileprivate let collectionView = UICollectionView(frame: .zero, collectionViewLayout: TTAPreviewCollectionViewLayout())
@@ -161,10 +161,6 @@ fileprivate extension TTAPreviewViewController {
         UIApplication.shared.isStatusBarHidden = isHidden
     }
     
-    func updateCounter() {
-        previewToolBar.update(count: selected.count, with: maxPickerNum <= 1)
-    }
-    
     func updateNavigationBar() {
         let isSelected: Bool
         if let currentAsset = asset(at: IndexPath(item: currentIndex, section: 0)) {
@@ -222,24 +218,6 @@ fileprivate extension TTAPreviewViewController {
         guard let indexPath = collectionView.indexPath(for: cell),
             let operateAsset = asset(at: indexPath) else { return nil }
         return operateAsset
-    }
-    
-    func canOperateAsset(_ asset: PHAsset) -> Bool {
-        guard !selected.contains(asset) else { return true }
-        if selected.count >= maxPickerNum {
-            return false
-        }
-        return true
-    }
-    
-    func operateAsset(_ asset: PHAsset, isSelected: Bool) {
-        if isSelected {
-            selected.append(asset)
-        } else {
-            guard let index = selected.index(of: asset) else { return }
-            selected.remove(at: index)
-        }
-        updateCounter()
     }
 }
 
@@ -334,5 +312,14 @@ extension TTAPreviewViewController: TTAPreviewCollectionViewCellDelegate {
         cell.configCell(isHiddenBars: isHiddenBars)
         let reloadItems = collectionView.nearIndexPaths(for: cell, in: 0, sideCount: 1)
         collectionView.reloadItems(at: reloadItems)
+    }
+}
+
+// MARK: - TTAOperateAssetProtocol
+
+extension TTAPreviewViewController: TTAOperateAssetProtocol {
+    
+    func updateCounter() {
+        previewToolBar.update(count: selected.count, with: maxPickerNum <= 1)
     }
 }

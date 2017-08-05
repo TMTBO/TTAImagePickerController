@@ -27,7 +27,7 @@ class TTAAssetPickerViewController: UIViewController {
     public var selectItemTintColor: UIColor?
     
     /// The asset that already seleted
-    public var selectedAsset: [PHAsset] = []
+    public var selected: [PHAsset] = []
     
     var album: TTAAlbum! {
         willSet {
@@ -49,7 +49,7 @@ class TTAAssetPickerViewController: UIViewController {
     
     init(album: TTAAlbum, selectedAsset: [PHAsset]) {
         self.album = album
-        self.selectedAsset = selectedAsset
+        self.selected = selectedAsset
         super.init(nibName: nil, bundle: nil)
         TTACachingImageManager.prepareCachingManager()
     }
@@ -172,7 +172,7 @@ fileprivate extension TTAAssetPickerViewController {
     
     func setup(assetCell cell: TTAAssetCollectionViewCell, indexPath: IndexPath) {
         guard let currentAsset = asset(at: indexPath) else { return }
-        let isSelected = selectedAsset.contains(currentAsset)
+        let isSelected = selected.contains(currentAsset)
         let tag = indexPath.item + 1
         let assetConfig = TTAAssetConfig(asset: currentAsset,
                                          tag: tag,
@@ -187,14 +187,8 @@ fileprivate extension TTAAssetPickerViewController {
         }
     }
     
-    func updateCounter() {
-        countLabel.config(with: selectedAsset.count)
-        previewItem.isEnabled = selectedAsset.count > 0
-        doneItem.isEnabled = selectedAsset.count > 0
-    }
-    
     func lightupCell(with index: Int, isPreview: Bool) {
-        let correctIndex = isPreview ? album.index(for: selectedAsset[index]) : index
+        let correctIndex = isPreview ? album.index(for: selected[index]) : index
         let indexPath = IndexPath(item: correctIndex, section: 0)
         scrollTo(correctIndex)
         guard let cell = collectionView.cellForItem(at: indexPath) as? TTAAssetCollectionViewCell else { return }
@@ -208,7 +202,7 @@ fileprivate extension TTAAssetPickerViewController {
             previewVc = TTAVideoPreviewViewController(asset: currentAsset)
         } else {
             let imagePreviewVc = TTAPreviewViewController(album: isPreview ? nil : album,
-                                                     selected: selectedAsset,
+                                                     selected: selected,
                                                      maxPickerNum: maxPickerNum,
                                                      index: index)
             imagePreviewVc.delegate = self
@@ -238,24 +232,6 @@ extension TTAAssetPickerViewController {
         return operateAsset
     }
     
-    func canOperateAsset(_ asset: PHAsset) -> Bool {
-        guard !selectedAsset.contains(asset) else { return true }
-        if selectedAsset.count >= maxPickerNum {
-            return false
-        }
-        return true
-    }
-    
-    func operateAsset(_ asset: PHAsset, isSelected: Bool) {
-        if isSelected {
-            selectedAsset.append(asset)
-        } else {
-            guard let index = selectedAsset.index(of: asset) else { return }
-            selectedAsset.remove(at: index)
-        }
-        updateCounter()
-    }
-    
     func startCaching() {
         guard let layout = collectionView.collectionViewLayout as? UICollectionViewFlowLayout else { return }
         TTACachingImageManager.shared?.startCachingImages(for: album.assets,
@@ -278,7 +254,7 @@ extension TTAAssetPickerViewController {
     }
     
     func didClickDoneItem() {
-        delegate?.assetPickerController(self, didFinishPicking: selectedAsset)
+        delegate?.assetPickerController(self, didFinishPicking: selected)
     }
 }
 
@@ -338,16 +314,26 @@ extension TTAAssetPickerViewController: TTAPreviewViewControllerDelegate {
     
     func previewViewController(_ previewVc: TTAPreviewViewController, backToAssetPickerControllerWith currentIndex: Int, selectedAsset: [PHAsset]) {
         lightupCell(with: currentIndex, isPreview: previewVc.album == nil)
-        guard self.selectedAsset != selectedAsset else { return }
+        guard self.selected != selectedAsset else { return }
         DispatchQueue.global().async { [weak self] in
             guard let `self` = self else { return }
-            let assets = Set(self.selectedAsset).symmetricDifference(Set(selectedAsset))
+            let assets = Set(self.selected).symmetricDifference(Set(selectedAsset))
             let indexPaths = assets.map { IndexPath(item: self.album.index(for: $0), section: 0) }
-            self.selectedAsset = selectedAsset
+            self.selected = selectedAsset
             DispatchQueue.main.async {
                 self.collectionView.reloadItems(at: indexPaths)
                 self.updateCounter()
             }
         }
+    }
+}
+
+// MARK: - TTAOperateAssetProtocol
+
+extension TTAAssetPickerViewController: TTAOperateAssetProtocol {
+    func updateCounter() {
+        countLabel.config(with: selected.count)
+        previewItem.isEnabled = selected.count > 0
+        doneItem.isEnabled = selected.count > 0
     }
 }

@@ -8,28 +8,6 @@
 
 import Photos
 
-public protocol TTAImagePickerControllerDelegate: class {
-    func imagePickerController(_ picker: TTAImagePickerControllerCompatiable, didFinishPicking images: [UIImage], assets: [TTAAsset])
-}
-
-// MARK: - Option Functions
-public protocol TTAImagePickerControllerCompatiable {
-    func fetchImages(with assets: [PHAsset], completionHandler: @escaping ([UIImage]) -> ())
-}
-
-public extension TTAImagePickerControllerCompatiable {
-    func fetchImages(with assets: [PHAsset], completionHandler: @escaping ([UIImage]) -> ()) {
-        let hud = TTAHUD.showIndicator(with: .indicator)
-        TTAImagePickerManager.fetchImages(for: assets, progressHandler: { (progress, error, stop, info) -> Void in
-            hud.updateTip(Bundle.localizedString(for: "Loading from icloud..."))
-            hud.updateProgress(progress)
-        }) { (images) in
-            completionHandler(images)
-            hud.dimiss()
-        }
-    }
-}
-
 public class TTAImagePickerController: UINavigationController, TTAImagePickerControllerCompatiable {
     
     public weak var pickerDelegate: TTAImagePickerControllerDelegate?
@@ -126,7 +104,7 @@ extension TTAImagePickerController {
     
     func updateSelectedAsset() {
         configPicker { (_, assetVc) in
-            assetVc?.selectedAsset = selectedAsset.map { $0.original }
+            assetVc?.selected = selectedAsset.map { $0.original }
         }
     }
 }
