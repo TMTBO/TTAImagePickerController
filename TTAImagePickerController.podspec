@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |s|
   s.name             = 'TTAImagePickerController'
-  s.version          = '0.1.1'
+  s.version          = '0.2.0'
   s.summary          = 'A Lightweight image selection framework/一个轻量级图片选择框架'
 
 # This description is used to generate tags and improve search results.
@@ -49,6 +49,6 @@ A Lightweight image selection framework
   }
 
   # s.public_header_files = 'Pod/Classes/**/*.h'
-  s.frameworks = 'UIKit', 'Photos'
+  s.frameworks = 'UIKit', 'Photos', 'AVFoundation'
   # s.dependency 'AFNetworking', '~> 2.3'
 end

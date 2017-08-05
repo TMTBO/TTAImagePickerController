@@ -12,6 +12,7 @@
 		607FACDB1AFB9204008FA782 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 607FACD91AFB9204008FA782 /* Main.storyboard */; };
 		607FACDD1AFB9204008FA782 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 607FACDC1AFB9204008FA782 /* Images.xcassets */; };
 		607FACE01AFB9204008FA782 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 607FACDE1AFB9204008FA782 /* LaunchScreen.xib */; };
+		7952A6D01F361B2E0021B28E /* CHANGELOG.md in Resources */ = {isa = PBXBuildFile; fileRef = 7952A6CF1F361B2E0021B28E /* CHANGELOG.md */; };
 		79DF75791F24CFA200A888FD /* TTAImagePickerController_ExampleTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79DF75781F24CFA200A888FD /* TTAImagePickerController_ExampleTests.swift */; };
 		AE9BDBF74E251189AB4F672E /* Pods_TTAImagePickerController_Example.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 50D7AFBE3B9D3DC28BA7A96A /* Pods_TTAImagePickerController_Example.framework */; };
 /* End PBXBuildFile section */
@@ -42,6 +43,7 @@
 		607FACDF1AFB9204008FA782 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
 		607FACEA1AFB9204008FA782 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		607FACEB1AFB9204008FA782 /* Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tests.swift; sourceTree = "<group>"; };
+		7952A6CF1F361B2E0021B28E /* CHANGELOG.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; name = CHANGELOG.md; path = ../CHANGELOG.md; sourceTree = "<group>"; };
 		79DF75691F24A14B00A888FD /* README_zh.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; name = README_zh.md; path = ../README_zh.md; sourceTree = "<group>"; };
 		79DF75761F24CFA200A888FD /* TTAImagePickerController_ExampleTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TTAImagePickerController_ExampleTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		79DF75781F24CFA200A888FD /* TTAImagePickerController_ExampleTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TTAImagePickerController_ExampleTests.swift; sourceTree = "<group>"; };
@@ -145,6 +147,7 @@
 		607FACF51AFB993E008FA782 /* Podspec Metadata */ = {
 			isa = PBXGroup;
 			children = (
+				7952A6CF1F361B2E0021B28E /* CHANGELOG.md */,
 				0CDCA37F0C5A1E0F20A60260 /* TTAImagePickerController.podspec */,
 				7CA4E56DCDE312B4F1D9F5F3 /* README.md */,
 				79DF75691F24A14B00A888FD /* README_zh.md */,
@@ -260,6 +263,7 @@
 				607FACDB1AFB9204008FA782 /* Main.storyboard in Resources */,
 				607FACE01AFB9204008FA782 /* LaunchScreen.xib in Resources */,
 				607FACDD1AFB9204008FA782 /* Images.xcassets in Resources */,
+				7952A6D01F361B2E0021B28E /* CHANGELOG.md in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -85,10 +85,13 @@ extension ViewController: UICollectionViewDelegate {
 }
 ```
 
+## Recnet Add
+
+> Gif Support
+> Video Support
+
 ## What to do next
-1. Add the Camera
-2. Support Vedio
-3. Support Gif
+1. Add Camera Support
 
 ## Author
 
