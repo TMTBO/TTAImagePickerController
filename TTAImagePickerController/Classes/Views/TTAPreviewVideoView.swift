@@ -51,6 +51,7 @@ fileprivate extension TTAPreviewVideoView {
             playPauseButton.titleLabel?.font = UIFont.iconfont(size: UIFont.IconFontSize.playMark)
             
             videoProgressView.delegate = self
+            videoProgressView.autoresizingMask = [.flexibleHeight, .flexibleWidth]
             
             let tap = UITapGestureRecognizer(target: self, action: #selector(didTap(tap:)))
             addGestureRecognizer(tap)

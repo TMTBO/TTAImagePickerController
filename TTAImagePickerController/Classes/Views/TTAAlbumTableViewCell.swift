@@ -54,7 +54,7 @@ extension TTAAlbumTableViewCell {
         accessoryType = .disclosureIndicator
         previewImageView.contentMode = .scaleAspectFill
         previewImageView.clipsToBounds = true
-        videoMarkLabel.font = UIFont.iconfont(size: UIFont.IconFontSize.videoMark)
+        videoMarkLabel.font = UIFont.iconfont(size: UIFont.IconFontSize.videoAndGifMark)
         videoMarkLabel.text = UIFont.IconFont.videoMark.rawValue
         videoMarkLabel.textColor = .white
     }
@@ -70,7 +70,7 @@ extension TTAAlbumTableViewCell {
         detailTextLabel?.frame.origin.x = textLabelX
         detailTextLabel?.frame.origin.y += 5
         
-        let videoMarkSize = UIFont.IconFontSize.videoMark
+        let videoMarkSize = UIFont.IconFontSize.videoAndGifMark
         videoMarkLabel.frame = CGRect(x: previewImageView.frame.minX + 2,
                                       y: previewImageView.frame.maxY - videoMarkSize,
                                       width: videoMarkSize,

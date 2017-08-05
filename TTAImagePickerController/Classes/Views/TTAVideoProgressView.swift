@@ -56,10 +56,12 @@ extension TTAVideoProgressView {
             playTimeLabel.textColor = .white
             playTimeLabel.font = UIFont.systemFont(ofSize: 15)
             playTimeLabel.textAlignment = .right
+            playTimeLabel.autoresizingMask = [.flexibleWidth, .flexibleHeight]
             
             totalTimeLabel.text = "00:00"
             totalTimeLabel.textColor = .white
             totalTimeLabel.font = UIFont.systemFont(ofSize: 15)
+            totalTimeLabel.autoresizingMask = [.flexibleWidth, .flexibleHeight]
             
             let normalImage = UIImage.image(with: .dotMark, size: UIFont.IconFontSize.dotMark, tintColor: .white)
             let highlightImage = UIImage.image(with: .dotMark, size: UIFont.IconFontSize.dotMark)
@@ -67,6 +69,7 @@ extension TTAVideoProgressView {
             sliderView.minimumTrackTintColor = .white
             sliderView.setThumbImage(normalImage, for: .normal)
             sliderView.setThumbImage(highlightImage, for: .highlighted)
+            sliderView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         }
         
         createViews()

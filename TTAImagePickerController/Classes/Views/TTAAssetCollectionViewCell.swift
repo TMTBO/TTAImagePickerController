@@ -31,7 +31,7 @@ class TTAAssetCollectionViewCell: UICollectionViewCell {
     
     fileprivate let imageView = UIImageView()
     fileprivate let selectButton = TTASelectButton()
-    fileprivate let videoComponentView = TTAAssetVideoComponentView()
+    fileprivate let videoComponentView = TTAAssetComponentView()
     fileprivate let lightUpLayer = CALayer()
     
     fileprivate let const = AssetCollectionViewCellConst()
@@ -89,7 +89,7 @@ fileprivate extension TTAAssetCollectionViewCell {
                                     y: const.selectButtonMargin,
                                 width: const.selectButtonWidth,
                                height: const.selectButtonHeight)
-        videoComponentView.frame = CGRect(x: 0, y: bounds.height - TTAAssetVideoComponentView.height(), width: bounds.width, height: TTAAssetVideoComponentView.height())
+        videoComponentView.frame = CGRect(x: 0, y: bounds.height - TTAAssetComponentView.height(), width: bounds.width, height: TTAAssetComponentView.height())
         lightUpLayer.frame = contentView.bounds
     }
 }
@@ -103,7 +103,7 @@ extension TTAAssetCollectionViewCell {
         self.delegate = config.delegate;
         configState(isSelected: config.isSelected)
         configImage(with: nil)
-        configVideoComponentView(with: config)
+        configComponentView(with: config)
         guard config.canSelect else {
             selectButton.isHidden = !config.canSelect
             return
@@ -120,10 +120,13 @@ extension TTAAssetCollectionViewCell {
         imageView.image = image
     }
     
-    func configVideoComponentView(with config: TTAAssetConfig) {
+    func configComponentView(with config: TTAAssetConfig) {
         if config.isVideo {
             videoComponentView.isHidden = false
             videoComponentView.update(with: config.videoInfo)
+        } else if config.isGif {
+            videoComponentView.isHidden = false
+            videoComponentView.update(isGif: true)
         } else {
             videoComponentView.isHidden = true
         }

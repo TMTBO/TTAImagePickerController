@@ -42,15 +42,16 @@ extension UIFont {
 extension UIFont {
     
     enum IconFont: String {
-        case photoMark = "\u{e605}"
-        case cameraMark = "\u{e606}"
-        case videoMark = "\u{e607}"
-        case warningMark = "\u{e608}"
-        case pauseMark = "\u{e609}"
-        case backMark = "\u{e60a}"
-        case selectMark = "\u{e60b}"
-        case playMark = "\u{e60c}"
-        case dotMark = "\u{e60d}"
+        case photoMark      =    "\u{e605}"
+        case cameraMark     =    "\u{e606}"
+        case videoMark      =    "\u{e607}"
+        case warningMark    =    "\u{e608}"
+        case pauseMark      =    "\u{e609}"
+        case backMark       =    "\u{e60a}"
+        case selectMark     =    "\u{e60b}"
+        case playMark       =    "\u{e60c}"
+        case dotMark        =    "\u{e60d}"
+        case gifMark        =    "\u{e60e}"
     }
     
     struct IconFontSize {
@@ -59,7 +60,7 @@ extension UIFont {
         static let warningMark: CGFloat = 20
         static let photoMark: CGFloat = 80
         static let cameraMark: CGFloat = 30
-        static let videoMark: CGFloat = 20
+        static let videoAndGifMark: CGFloat = 20
         static let playMark: CGFloat = 60
         static let dotMark: CGFloat = 20
     }

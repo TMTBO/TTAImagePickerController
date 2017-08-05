@@ -7,7 +7,7 @@
 
 import UIKit
 
-class TTAAssetVideoComponentView: UIView {
+class TTAAssetComponentView: UIView {
 
     fileprivate let iconLabel = UILabel()
     fileprivate let timeLabel = UILabel()
@@ -30,11 +30,11 @@ class TTAAssetVideoComponentView: UIView {
 
 // MARK: - UI
 
-fileprivate extension TTAAssetVideoComponentView {
+fileprivate extension TTAAssetComponentView {
     func setupUI() {
         func configViews() {
             iconLabel.text = UIFont.IconFont.videoMark.rawValue
-            iconLabel.font = UIFont.iconfont(size: UIFont.IconFontSize.videoMark)
+            iconLabel.font = UIFont.iconfont(size: UIFont.IconFontSize.videoAndGifMark)
             iconLabel.textColor = .white
             iconLabel.autoresizingMask = [.flexibleHeight, .flexibleWidth]
             
@@ -60,7 +60,7 @@ fileprivate extension TTAAssetVideoComponentView {
     func layoutViews() {
         iconLabel.frame = CGRect(x: type(of: self).sideMargin(),
                                  y: 0,
-                                 width: UIFont.IconFontSize.videoMark,
+                                 width: UIFont.IconFontSize.videoAndGifMark,
                                  height: type(of: self).height())
         timeLabel.frame = CGRect(x: iconLabel.frame.maxX + type(of: self).sideMargin(),
                                  y: 0,
@@ -70,22 +70,35 @@ fileprivate extension TTAAssetVideoComponentView {
     }
 }
 
+// MARK: - Update Views
+
+fileprivate extension TTAAssetComponentView {
+    func updateViews(iconfont: UIFont.IconFont, timeString: String?) {
+        iconLabel.text = iconfont.rawValue
+        timeLabel.text = timeString
+    }
+}
+
 // MARK: - Public Methods
 
-extension TTAAssetVideoComponentView {
+extension TTAAssetComponentView {
     func update(with videoInfo: TTAAssetVideoInfo) {
-        timeLabel.text = videoInfo.timeLength
+        updateViews(iconfont: .videoMark, timeString: videoInfo.timeLength)
+    }
+    
+    func update(isGif: Bool) {
+        updateViews(iconfont: .gifMark, timeString: nil)
     }
 }
 
 // MARK: - Const
 
-extension TTAAssetVideoComponentView {
+extension TTAAssetComponentView {
     static func height() -> CGFloat {
         return 17
     }
     
     fileprivate static func sideMargin() -> CGFloat {
-        return 5
+        return 2
     }
 }
