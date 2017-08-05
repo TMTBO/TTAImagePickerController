@@ -49,6 +49,6 @@ A Lightweight image selection framework
   }
 
   # s.public_header_files = 'Pod/Classes/**/*.h'
-  s.frameworks = 'UIKit', 'Photos', 'AVFoundation'
+  s.frameworks = 'UIKit', 'Photos', 'AVFoundation', 'CoreGraphics'
   # s.dependency 'AFNetworking', '~> 2.3'
 end
