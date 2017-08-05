@@ -46,6 +46,18 @@ extension ViewController: TTAImagePickerControllerDelegate {
         print("got the images")
         selectedImages = images
         selectedAssets = assets
+        
+        // Export Video and get the path
+        var filePaths = [String?]()
+        _ = assets.map {
+            if $0.assetInfo.isVideo {
+                TTAImagePickerController.fetchVideo(with: $0, completionHandler: { (outputPath) in
+                    filePaths.append(outputPath)
+                })
+            }
+        }
+        
+        
         imagesCollectionView.reloadData()
     }
 }

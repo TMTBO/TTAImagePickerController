@@ -11,4 +11,6 @@
 
 "Done" = "完成";
 
+"NO supported file types" = "没有支持导出的视频类型";
+
 "Allow %@ to access your %@ in \"Settings -> Privacy -> %@\"" = "允许 %@ 访问你的 %@ 请在 \n\"设置 -> 隐私 -> %@\" 中设置";

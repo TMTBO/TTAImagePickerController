@@ -14,6 +14,7 @@ public protocol TTAImagePickerControllerDelegate: class {
 // MARK: - Option Functions
 public protocol TTAImagePickerControllerCompatiable {
     func fetchImages(with assets: [PHAsset], completionHandler: @escaping ([UIImage]) -> ())
+    static func fetchVideo(with asset: TTAAsset, completionHandler: ((String?) -> ())?)
 }
 
 public extension TTAImagePickerControllerCompatiable {
@@ -25,6 +26,14 @@ public extension TTAImagePickerControllerCompatiable {
         }) { (images) in
             completionHandler(images)
             hud.dimiss()
+        }
+    }
+    
+    static func fetchVideo(with asset: TTAAsset, completionHandler: ((String?) -> ())?) {
+        TTAImagePickerManager.fetchVideo(for: asset.original, progressHandler: { (progress, error, stop, info) in
+            
+        }) { (outputPath) in
+            completionHandler?(outputPath)
         }
     }
 } /* TTAImagePickerControllerCompatiable */

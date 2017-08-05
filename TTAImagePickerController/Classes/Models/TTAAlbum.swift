@@ -60,7 +60,13 @@ extension TTAAlbum {
 
 /// The Main user for this model is to avoid the user to `import Photos` in the file when they use `TTAImagePickerController`
 public struct TTAAsset {
-    var original: PHAsset
+    let original: PHAsset
+    public let assetInfo: TTAAssetInfo
+    
+    init(asset: PHAsset) {
+        original = asset
+        assetInfo = TTAAssetInfo(asset: asset)
+    }
 } /* TTAAsset */
 
 struct TTAAssetConfig {
@@ -105,8 +111,19 @@ struct TTAAlbumInfo {
     }
 } /* TTAAlbumInfo */
 
-struct TTAAssetVideoInfo {
-    private(set) var timeLength: String = "00:00"
+public struct TTAAssetInfo {
+    public let isVideo: Bool
+    public private(set) var videoInfo: TTAAssetVideoInfo? = nil
+    init(asset: PHAsset) {
+        isVideo = asset.isVideo
+        if isVideo {
+            videoInfo = TTAAssetVideoInfo(asset: asset)
+        }
+    }
+}
+
+public struct TTAAssetVideoInfo {
+    public private(set) var timeLength: String = "00:00"
     
     init(asset: PHAsset) {
         if !hasConfigedDateComponentsFormatter {
