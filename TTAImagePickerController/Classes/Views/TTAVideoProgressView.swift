@@ -84,12 +84,12 @@ extension TTAVideoProgressView {
         
         playTimeLabel.frame = CGRect(x: margin(),
                                      y: (type(of: self).height() - playTimeLabel.bounds.height) / 2,
-                                     width: playTimeLabel.bounds.width,
+                                     width: playTimeLabel.bounds.width + 2,
                                      height: playTimeLabel.bounds.height)
         
         totalTimeLabel.frame = CGRect(x: bounds.width - margin() - totalTimeLabel.bounds.width,
                                       y: (type(of: self).height() - totalTimeLabel.bounds.height) / 2,
-                                      width: totalTimeLabel.bounds.width,
+                                      width: totalTimeLabel.bounds.width + 2,
                                       height: totalTimeLabel.bounds.height)
         
         sliderView.frame = CGRect(x: playTimeLabel.frame.maxX + margin(),
