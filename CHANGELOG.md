@@ -1,6 +1,13 @@
 #Change Log
 
 ---------
+## [0.2.0]
+
+### Add
+
+* Add the support for Gif and Video
+
+---------
 ## [0.1.1]
 
 ### Fix

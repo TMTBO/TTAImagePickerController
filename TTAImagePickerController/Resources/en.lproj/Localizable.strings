@@ -11,5 +11,7 @@
 
 "Done" = "Done";
 
+"NO supported file types" = "NO supported file types";
+
 // PermissionTip
 "Allow %@ to access your %@ in \"Settings -> Privacy -> %@\"" = "Allow %@ to access your %@ in \n\"Settings -> Privacy -> %@\"";

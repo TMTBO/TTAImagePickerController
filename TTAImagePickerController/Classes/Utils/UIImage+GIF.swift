@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import ImageIO
 
 extension Data {
     var animatedGIF: UIImage? {

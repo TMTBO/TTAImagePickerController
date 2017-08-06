@@ -84,10 +84,13 @@ extension ViewController: UICollectionViewDelegate {
 }
 ```
 
-## What to do next
-1. Add the Camera
-2. Support Vedio
-3. Support Gif
+## 最近添加
+
+> Gif 预览支持
+> 视频预览支持
+
+## 接下来
+1. 添加拍照支持
 
 ## Author
 

@@ -125,8 +125,7 @@ extension TTAImagePickerManager {
         fetchImage(for: asset, size: fetchOriginalSize(with: asset), options: defaultOptions(), progressHandler:progressHandler) { (image, info) in
             let result = TTAFetchResult(image: image, playerItem: nil, info: info)
             resultHandler(result)
-            if let fileName = asset?.value(forKey: "filename") as? String,
-                fileName.hasSuffix("GIF") == true {
+            if let asset = asset, asset.isGif {
                 fetchImageData(for: asset, size: fetchOriginalSize(with: asset), options: defaultOptions(), progressHandler: nil) { (image, isGif, info) in
                     let fetchInfo: [AnyHashable: Any]
                     if var resultInfo = info {
@@ -148,8 +147,14 @@ extension TTAImagePickerManager {
     }
     
     static func fetchOriginalImage(for asset: PHAsset?, options: PHImageRequestOptions, progressHandler: PHAssetImageProgressHandler?, resultHandler: @escaping (UIImage?) -> Void) {
-        fetchImage(for: asset, size: fetchOriginalSize(with: asset), options: options, progressHandler: progressHandler) { (image, info) in
-            resultHandler(image)
+        if let asset = asset, asset.isGif {
+            fetchImageData(for: asset, size: fetchOriginalSize(with: asset), options: defaultOptions(), progressHandler: nil) { (image, isGif, info) in
+                resultHandler(image)
+            }
+        } else {
+            fetchImage(for: asset, size: fetchOriginalSize(with: asset), options: options, progressHandler: progressHandler) { (image, info) in
+                resultHandler(image)
+            }
         }
     }
     
@@ -276,6 +281,91 @@ extension TTAImagePickerManager {
             }
         })
     }
+    
+    static func fetchVideo(for asset: PHAsset?, progressHandler: PHAssetVideoProgressHandler?, resultHandler: @escaping (String?) -> Void) {
+        guard let asset = asset else { resultHandler(nil); return }
+        let options = PHVideoRequestOptions()
+        options.version = .original
+        options.deliveryMode = .automatic
+        options.isNetworkAccessAllowed = true
+        options.progressHandler = { (progress, error, stop, info) in
+            DispatchQueue.main.sync {
+                progressHandler?(progress, error, stop, info)
+            }
+        }
+        TTACachingImageManager.shared?.manager.requestAVAsset(forVideo: asset, options: options, resultHandler: { (asset, audioMix, info) in
+            guard let asset = asset as? AVURLAsset else { return }
+            exportVideo(with: asset, resultHandler: resultHandler)
+        })
+    }
+}
+
+// MARK: - Export Video
+
+extension TTAImagePickerManager {
+    static func exportVideo(with asset: AVURLAsset, resultHandler: ((String?) -> Void)?) {
+        let presets = AVAssetExportSession.exportPresets(compatibleWith: asset)
+        guard presets.contains(AVAssetExportPreset640x480),
+            let session = AVAssetExportSession(asset: asset, presetName: AVAssetExportPreset640x480) else { return }
+        
+        let formatter = DateFormatter()
+//        formatter.dateFormat = "yyyy-MM-dd-HH:mm:ss"
+        let outputPath = NSHomeDirectory().appending("/tmp/output-\(formatter.string(from: Date())).mp4")
+        session.outputURL = URL(fileURLWithPath: outputPath)
+        session.shouldOptimizeForNetworkUse = true
+        
+        let supportTypes = session.supportedFileTypes
+        if supportTypes.contains(AVFileTypeMPEG4) {
+            session.outputFileType = AVFileTypeMPEG4
+        } else if supportTypes.count == 0 {
+            #if DEBUG
+                print(Bundle.localizedString(for: "NO supported file types"))
+            #endif
+        } else {
+            session.outputFileType = supportTypes.first
+        }
+        
+        let tmpPath = NSHomeDirectory().appending("/tmp")
+        if !FileManager.default.fileExists(atPath: tmpPath) {
+            try? FileManager.default.createDirectory(atPath: tmpPath, withIntermediateDirectories: true, attributes: nil)
+        }
+        
+        let videoCompostion = fixedComposition(with: asset)
+        
+        if videoCompostion.renderSize.width != 0 {
+            session.videoComposition = videoCompostion
+        }
+        
+        session.exportAsynchronously {
+            switch session.status {
+            case .unknown:
+                #if DEBUG
+                    print(Bundle.localizedString(for: "Export Video status unknown"))
+                #endif
+            case .waiting:
+                #if DEBUG
+                    print(Bundle.localizedString(for: "Export Video status waiting"))
+                #endif
+            case .exporting:
+                #if DEBUG
+                    print(Bundle.localizedString(for: "Export Video status exporting"))
+                #endif
+            case .failed:
+                #if DEBUG
+                    print(Bundle.localizedString(for: "Export Video status failed : \(String(describing: session.error))"))
+                #endif
+            case .completed:
+                #if DEBUG
+                    print(Bundle.localizedString(for: "Export Video status completed"))
+                #endif
+                DispatchQueue.main.async {
+                    resultHandler?(outputPath)
+                }
+            default:
+                break
+            }
+        }
+    }
 }
 
 // MARK: - Image Fix
@@ -340,6 +430,64 @@ extension TTAImagePickerManager {
         guard let cgImg = ctx.makeImage() else { return aImage}
         let resultImage = UIImage(cgImage: cgImg)
         return resultImage
+    }
+}
+
+// MARK: - Video Asset Fix
+
+extension TTAImagePickerManager {
+    static func fixedComposition(with asset: AVAsset) -> AVMutableVideoComposition {
+        let videoComposition = AVMutableVideoComposition()
+        let degrees = degressFromVideoFile(with: asset)
+        guard degrees != 0 else { return videoComposition }
+        let translateToCenter: CGAffineTransform
+        let mixedTransform: CGAffineTransform
+        videoComposition.frameDuration = CMTime(seconds: 1, preferredTimescale: 30)
+        
+        let tracks = asset.tracks(withMediaType: AVMediaTypeVideo)
+        guard let videoTrack = tracks.first else { return videoComposition }
+        
+        let roateInstruction = AVMutableVideoCompositionInstruction()
+        roateInstruction.timeRange = CMTimeRange(start: kCMTimeZero, duration: asset.duration)
+        let roateLayerInstruction = AVMutableVideoCompositionLayerInstruction(assetTrack: videoTrack)
+        
+        if degrees == 90 {
+            translateToCenter = CGAffineTransform(translationX: videoTrack.naturalSize.height, y: 0)
+            mixedTransform = translateToCenter.rotated(by: CGFloat.pi / 2)
+            videoComposition.renderSize = CGSize(width: videoTrack.naturalSize.height, height: videoTrack.naturalSize.width)
+            roateLayerInstruction.setTransform(mixedTransform, at: kCMTimeZero)
+        } else if degrees == 180 {
+            translateToCenter = CGAffineTransform(translationX: videoTrack.naturalSize.width, y: videoTrack.naturalSize.height)
+            mixedTransform = translateToCenter.rotated(by: CGFloat.pi)
+            videoComposition.renderSize = CGSize(width: videoTrack.naturalSize.width, height: videoTrack.naturalSize.height)
+            roateLayerInstruction.setTransform(mixedTransform, at: kCMTimeZero)
+        } else if degrees == 270 {
+            translateToCenter = CGAffineTransform(translationX: 0, y: videoTrack.naturalSize.width)
+            mixedTransform = translateToCenter.rotated(by: CGFloat.pi * 3 / 2)
+            videoComposition.renderSize = CGSize(width: videoTrack.naturalSize.height, height: videoTrack.naturalSize.width)
+            roateLayerInstruction.setTransform(mixedTransform, at: kCMTimeZero)
+        }
+        roateInstruction.layerInstructions = [roateLayerInstruction]
+        videoComposition.instructions = [roateInstruction]
+        return videoComposition
+    }
+    
+    static func degressFromVideoFile(with asset: AVAsset) -> Int {
+        var degress = 0
+        let tracks = asset.tracks(withMediaType: AVMediaTypeVideo)
+        guard tracks.count > 0,
+            let videoTrack = tracks.first else { return degress}
+        let t = videoTrack.preferredTransform
+        if t.a == 0 && t.b == 1 && t.c == -1 && t.d == 0 {
+            degress = 90
+        } else if t.a == 0 && t.b == -1 && t.c == 1 && t.d == 0 {
+            degress = 270
+        } else if t.a == 1 && t.b == 0 && t.c == 0 && t.d == 1 {
+            degress = 0
+        } else if t.a == -1 && t.b == 0 && t.c == 0 && t.d == -1 {
+            degress = 180
+        }
+        return degress
     }
 }
 
