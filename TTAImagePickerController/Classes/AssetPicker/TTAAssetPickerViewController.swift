@@ -288,7 +288,7 @@ extension TTAAssetPickerViewController: UICollectionViewDataSource {
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return assetCount() + (allowTakePicture ? 1 : 0)
+        return assetCount() + (allowTakePicture && album.albumInfo.canShowCamera ? 1 : 0)
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
