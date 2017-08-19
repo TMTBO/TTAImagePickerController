@@ -225,7 +225,6 @@ fileprivate extension TTAAssetPickerViewController {
             let photoTaker = UIImagePickerController()
             photoTaker.delegate = self
             photoTaker.sourceType = .camera
-            photoTaker.modalPresentationStyle = .overCurrentContext
             present(photoTaker, animated: true, completion: nil)
         }
         
