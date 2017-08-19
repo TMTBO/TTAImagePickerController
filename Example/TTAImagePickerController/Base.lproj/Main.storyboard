@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13156.6" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="vXZ-lx-hvc">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13178.6" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="vXZ-lx-hvc">
     <device id="retina4_0" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13137.5"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13156.2"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -62,7 +62,7 @@
                                     <inset key="sectionInset" minX="16" minY="10" maxX="16" maxY="10"/>
                                 </collectionViewFlowLayout>
                                 <cells>
-                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="YES" reuseIdentifier="UICollectionViewCell" id="yCy-RW-WrF">
+                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="UICollectionViewCell" id="yCy-RW-WrF">
                                         <rect key="frame" x="16" y="10" width="140" height="140"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
@@ -76,13 +76,27 @@
                                     <outlet property="delegate" destination="vXZ-lx-hvc" id="eqd-2l-ZFk"/>
                                 </connections>
                             </collectionView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="允许拍照" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="xIX-7c-elT">
+                                <rect key="frame" x="78" y="67" width="70" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="hWm-06-80i">
+                                <rect key="frame" x="172" y="62" width="51" height="31"/>
+                            </switch>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
                             <constraint firstAttribute="trailingMargin" secondItem="yAB-8V-COp" secondAttribute="trailing" constant="7" id="1Xl-o9-lKW"/>
                             <constraint firstItem="xU4-GK-ILB" firstAttribute="leading" secondItem="dgd-S2-gOR" secondAttribute="trailing" constant="24" id="44h-sm-Iy6"/>
+                            <constraint firstItem="xIX-7c-elT" firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="dgd-S2-gOR" secondAttribute="trailing" id="GRV-0t-nwW"/>
+                            <constraint firstItem="hWm-06-80i" firstAttribute="leading" secondItem="xU4-GK-ILB" secondAttribute="leading" id="PT2-cR-YZ4"/>
                             <constraint firstItem="peI-o3-dUI" firstAttribute="top" secondItem="yAB-8V-COp" secondAttribute="bottom" constant="21" id="R9v-W6-3Iw"/>
+                            <constraint firstItem="xIX-7c-elT" firstAttribute="top" secondItem="dgd-S2-gOR" secondAttribute="bottom" constant="5" id="RTC-uD-jgc"/>
+                            <constraint firstItem="hWm-06-80i" firstAttribute="centerY" secondItem="xIX-7c-elT" secondAttribute="centerY" id="Tw8-7W-EDc"/>
                             <constraint firstItem="xU4-GK-ILB" firstAttribute="top" secondItem="jyV-Pf-zRb" secondAttribute="bottom" constant="10" id="Uyv-Dz-KBS"/>
+                            <constraint firstItem="xIX-7c-elT" firstAttribute="leading" secondItem="kh9-bI-dsS" secondAttribute="leading" constant="78" id="VEj-sR-yLh"/>
                             <constraint firstItem="dgd-S2-gOR" firstAttribute="top" secondItem="jyV-Pf-zRb" secondAttribute="bottom" constant="8" symbolic="YES" id="YHS-ej-OYY"/>
                             <constraint firstItem="peI-o3-dUI" firstAttribute="bottom" secondItem="2fi-mo-0CV" secondAttribute="top" id="b2K-Or-OH4"/>
                             <constraint firstItem="dgd-S2-gOR" firstAttribute="centerY" secondItem="xU4-GK-ILB" secondAttribute="centerY" id="hoC-Cw-Zxc"/>
@@ -94,6 +108,7 @@
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="allowTakePickerSwitch" destination="hWm-06-80i" id="Gnc-Qu-lmj"/>
                         <outlet property="imagesCollectionView" destination="peI-o3-dUI" id="WIT-NI-CQl"/>
                         <outlet property="maxImageCountTextField" destination="xU4-GK-ILB" id="R7L-Ku-rar"/>
                     </connections>
