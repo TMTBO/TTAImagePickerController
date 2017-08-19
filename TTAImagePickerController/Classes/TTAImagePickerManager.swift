@@ -7,6 +7,7 @@
 //
 
 import Photos
+import AssetsLibrary
 
 let dateFormatter = DateFormatter()
 let dateComponentsFormatter = DateComponentsFormatter()
@@ -14,7 +15,7 @@ let dateComponentsFormatter = DateComponentsFormatter()
 var hasConfigedDateFormatter = false
 var hasConfigedDateComponentsFormatter = false
 
-class TTAImagePickerManager {
+final class TTAImagePickerManager {
     static func defaultOptions() -> PHImageRequestOptions {
         let options = PHImageRequestOptions()
         options.resizeMode = .fast
@@ -43,24 +44,52 @@ class TTAImagePickerManager {
     }
 }
 
-// MARK: - PhotoLibraryPermission
+// MARK: - Permission
 
 extension TTAImagePickerManager {
+    
     static func checkPhotoLibraryPermission(_ resultHandler: @escaping (_ isAuthorized: Bool) -> Swift.Void) {
         func hasPermission() -> Bool {
             return PHPhotoLibrary.authorizationStatus() == .authorized
         }
+        
         func needToRequestPermission() -> Bool {
             return PHPhotoLibrary.authorizationStatus() == .notDetermined
         }
+        
         func requestPermission(_ resultHandler: @escaping (_ isAuthorized: Bool) -> Swift.Void) {
-            PHPhotoLibrary.requestAuthorization { (status) in
+            PHPhotoLibrary.requestAuthorization { (_) in
                 DispatchQueue.main.async {
                     self.checkPhotoLibraryPermission(resultHandler)
                 }
             }
         }
+        
         hasPermission() ? resultHandler(true) : (needToRequestPermission() ? requestPermission(resultHandler) : resultHandler(false))
+    }
+    
+    static func checkCameraPermission(_ resultHandler: @escaping (_ isAuthorized: Bool) -> Swift.Void) {
+        func hasCameraPermission() -> Bool {
+            return AVCaptureDevice.authorizationStatus(forMediaType: AVMediaTypeVideo) == .authorized
+        }
+        
+        func needToRequestCameraPermission() -> Bool {
+            return AVCaptureDevice.authorizationStatus(forMediaType: AVMediaTypeVideo) == .notDetermined
+        }
+        
+        func requestPermission(_ resultHandler: @escaping (_ isAuthorized: Bool) -> Swift.Void) {
+            #if arch(i386) || arch(x86_64)
+                TTAHUD.showTip(Bundle.localizedString(for: "PHONE SIMULATOR NOT Support Camera"))
+            #else
+                AVCaptureDevice.requestAccess(forMediaType: AVMediaTypeVideo) { (_) in
+                    DispatchQueue.main.async {
+                        self.checkCameraPermission(resultHandler)
+                    }
+                }
+            #endif
+        }
+        
+        hasCameraPermission() ? resultHandler(true) : (needToRequestCameraPermission() ? requestPermission(resultHandler) : resultHandler(false))
     }
 }
 
@@ -368,7 +397,39 @@ extension TTAImagePickerManager {
     }
 }
 
-// MARK: - Image Fix
+// MARK: - Save Image
+
+extension TTAImagePickerManager {
+    static func save(image: UIImage, completionHandler: @escaping (Bool) -> ()) {
+        if #available(iOS 9.0, *) {
+            PHPhotoLibrary.shared().performChanges({
+                let request = PHAssetCreationRequest.creationRequestForAsset(from: image)
+                request.creationDate = Date()
+            }) { (isSuccess, error) in
+                DispatchQueue.main.async {
+                    completionHandler(isSuccess)
+                }
+                #if DEBUG
+                    if let err = error {
+                        print("Save Image error! \n \(err.localizedDescription)")
+                    }
+                #endif
+            }
+        } else {
+            ALAssetsLibrary().writeImage(toSavedPhotosAlbum: image.cgImage, orientation: ALAssetOrientation(rawValue: image.imageOrientation.rawValue)!, completionBlock: { (assetUrl, error) in
+                if let err = error {
+                    #if DEBUG
+                        print("Save Image error! \n \(err.localizedDescription)")
+                    #endif
+                } else {
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.5, execute: {
+                        completionHandler(assetUrl != nil)
+                    })
+                }
+            })
+        }
+    }
+}
 
 extension TTAImagePickerManager {
     
@@ -491,50 +552,99 @@ extension TTAImagePickerManager {
     }
 }
 
-// MARK: - Caching
+// MARK: - TTACachingImageManager
 
-struct TTACachingImageManager {
+final class TTACachingImageManager: NSObject {
     
-    static var shared: TTACachingImageManager? = TTACachingImageManager()
+    static fileprivate var shared: TTACachingImageManager?
     let manager = PHCachingImageManager()
-    
-    func startCachingImages(for assets: PHFetchResult<PHAsset>, targetSize: CGSize?, contentMode: PHImageContentMode?, options: PHImageRequestOptions?) {
-        DispatchQueue.global().async {
-            var originalAssets: [PHAsset] = []
-            assets.enumerateObjects({ (asset, index, isStop) in
-                originalAssets.append(asset)
-            })
-            let options = options ?? TTAImagePickerManager.defaultOptions()
-            let contentMode = contentMode ?? TTAImagePickerManager.defaultMode()
-            let targetSize = targetSize ?? TTAImagePickerManager.defaultSize()
-            self.manager.startCachingImages(for: originalAssets, targetSize: targetSize.toPixel(), contentMode: contentMode, options: options)
-        }
-    }
-    
-    func stopCachingImages(for assets: PHFetchResult<PHAsset>, targetSize: CGSize?, contentMode: PHImageContentMode?, options: PHImageRequestOptions?) {
-        DispatchQueue.global().async {
-            var originalAssets: [PHAsset] = []
-            assets.enumerateObjects({ (asset, index, isStop) in
-                originalAssets.append(asset)
-            })
-            let options = options ?? TTAImagePickerManager.defaultOptions()
-            let contentMode = contentMode ?? TTAImagePickerManager.defaultMode()
-            let targetSize = targetSize ?? TTAImagePickerManager.defaultSize()
-            self.manager.stopCachingImages(for: originalAssets, targetSize: targetSize.toPixel(), contentMode: contentMode, options: options)
-        }
-    }
-    
-    func stopCachingImagesForAllAssets() {
-        manager.stopCachingImagesForAllAssets()
-    }
+    fileprivate let observers = NSHashTable<AnyObject>.weakObjects()
     
     static func prepareCachingManager() {
-        if shared != nil { return }
+        guard shared == nil else  { return }
         shared = TTACachingImageManager()
+        PHPhotoLibrary.shared().register(shared!)
     }
     
     static func destoryCachingManager() {
-        shared?.manager.stopCachingImagesForAllAssets()
+        guard let sharedInstance = shared else { return }
+        sharedInstance.manager.stopCachingImagesForAllAssets()
+        sharedInstance.observers.removeAllObjects()
+        PHPhotoLibrary.shared().unregisterChangeObserver(sharedInstance)
         shared = nil
     }
+}
+
+// MARK: - Observers
+
+extension TTACachingImageManager {
+    static func addObserver(_ object: AnyObject) {
+        shared?.observers.add(object)
+    }
+    
+    static func removeObserver(_ object: AnyObject) {
+        shared?.observers.remove(object)
+    }
+    
+    func notifyObersvers() {
+        for object in observers.allObjects {
+            DispatchQueue.main.async {
+                let _ = object.perform(
+                    #selector(TTACachingImageManagerObserver.cachingImageManager(_:photoLibraryDidChangeObserver:)),
+                    with: self,
+                    with: object)
+            }
+        }
+    }
+}
+
+// MARK: - Caching
+
+extension TTACachingImageManager {
+    
+    static func startCachingImages(for assets: PHFetchResult<PHAsset>, targetSize: CGSize?, contentMode: PHImageContentMode?, options: PHImageRequestOptions?) {
+        guard let sharedInstance = shared else { return }
+        DispatchQueue.global().async {
+            var originalAssets: [PHAsset] = []
+            assets.enumerateObjects({ (asset, index, isStop) in
+                originalAssets.append(asset)
+            })
+            let options = options ?? TTAImagePickerManager.defaultOptions()
+            let contentMode = contentMode ?? TTAImagePickerManager.defaultMode()
+            let targetSize = targetSize ?? TTAImagePickerManager.defaultSize()
+            sharedInstance.manager.startCachingImages(for: originalAssets, targetSize: targetSize.toPixel(), contentMode: contentMode, options: options)
+        }
+    }
+    
+    static func stopCachingImages(for assets: PHFetchResult<PHAsset>, targetSize: CGSize?, contentMode: PHImageContentMode?, options: PHImageRequestOptions?) {
+        guard let sharedInstance = shared else { return }
+        DispatchQueue.global().async {
+            var originalAssets: [PHAsset] = []
+            assets.enumerateObjects({ (asset, index, isStop) in
+                originalAssets.append(asset)
+            })
+            let options = options ?? TTAImagePickerManager.defaultOptions()
+            let contentMode = contentMode ?? TTAImagePickerManager.defaultMode()
+            let targetSize = targetSize ?? TTAImagePickerManager.defaultSize()
+            sharedInstance.manager.stopCachingImages(for: originalAssets, targetSize: targetSize.toPixel(), contentMode: contentMode, options: options)
+        }
+    }
+    
+    static func stopCachingImagesForAllAssets() {
+        guard let sharedInstance = shared else { return }
+        sharedInstance.manager.stopCachingImagesForAllAssets()
+    }
+}
+
+// MARK: - PHPhotoLibraryChangeObserver
+
+extension TTACachingImageManager: PHPhotoLibraryChangeObserver {
+    func photoLibraryDidChange(_ changeInstance: PHChange) {
+        type(of: self).stopCachingImagesForAllAssets()
+        notifyObersvers()
+    }
+}
+
+@objc protocol TTACachingImageManagerObserver: NSObjectProtocol {
+    @objc func cachingImageManager(_ manager: TTACachingImageManager, photoLibraryDidChangeObserver: AnyObject)
 }

@@ -18,7 +18,8 @@ class TTAAlbumPickerViewController: UIViewController {
     /// The tint color which item was selected, default is `UIColor(colorLiteralRed: 0, green: 122.0 / 255.0, blue: 1, alpha: 1)`
     public var selectItemTintColor: UIColor?
     
-    let albums: [TTAAlbum]
+    fileprivate var albums: [TTAAlbum]
+    fileprivate var currentAlbumIndex = 0
     
     let assetPickerController: UINavigationController
 
@@ -154,6 +155,17 @@ extension TTAAlbumPickerViewController: UITableViewDelegate {
             let pickerController = assetPickerController.topViewController as? TTAAssetPickerViewController,
             let album = album(at: indexPath) else { return }
         pickerController.album = album
+        currentAlbumIndex = indexPath.item
         splitViewController.showDetailViewController(assetPickerController, sender: nil)
+    }
+}
+
+extension TTAAlbumPickerViewController: TTACachingImageManagerObserver {
+    func cachingImageManager(_ manager: TTACachingImageManager, photoLibraryDidChangeObserver: AnyObject) {
+        albums = TTAImagePickerManager.fetchAssetCollections()
+        tableView.reloadData()
+        guard let pickerController = assetPickerController.topViewController as? TTAAssetPickerViewController,
+        let album = album(at: IndexPath(item: currentAlbumIndex, section: 0)) else { return }
+        pickerController.album = album
     }
 }

@@ -318,7 +318,6 @@ extension TTAPreviewViewController: TTAPreviewCollectionViewCellDelegate {
 // MARK: - TTAOperateAssetProtocol
 
 extension TTAPreviewViewController: TTAOperateAssetProtocol {
-    
     func updateCounter() {
         previewToolBar.update(count: selected.count, with: maxPickerNum <= 1)
     }

@@ -12,6 +12,14 @@ public class TTAImagePickerController: UINavigationController, TTAImagePickerCon
     
     public weak var pickerDelegate: TTAImagePickerControllerDelegate?
     
+    public var allowTakePicture = true {
+        didSet {
+            configPicker { (_, assetVc) in
+                assetVc?.allowTakePicture = allowTakePicture
+            }
+        }
+    }
+    
     /// The max num image of the image picker can pick, default is 9
     public var maxPickerNum = 9 {
         didSet {
@@ -44,6 +52,7 @@ public class TTAImagePickerController: UINavigationController, TTAImagePickerCon
         didSet {
             navigationBar.tintColor = tintColor
             navigationBar.titleTextAttributes = [NSForegroundColorAttributeName: tintColor]
+            guard let splitController = splitController else { return }
             _ = splitController.viewControllers.map { (viewController) in
                 guard let viewController = viewController as? UINavigationController else { return }
                 viewController.toolbar.tintColor = tintColor
@@ -57,6 +66,7 @@ public class TTAImagePickerController: UINavigationController, TTAImagePickerCon
     public var barTintColor: UIColor? {
         didSet {
             navigationBar.barTintColor = barTintColor
+            guard let splitController = splitController else { return }
             _ = splitController.viewControllers.map { (viewController) in
                 guard let viewController = viewController as? UINavigationController else { return }
                 viewController.navigationBar.barTintColor = barTintColor
@@ -65,7 +75,7 @@ public class TTAImagePickerController: UINavigationController, TTAImagePickerCon
         }
     }
     
-    fileprivate let splitController = UISplitViewController()
+    fileprivate(set) var splitController: UISplitViewController? = UISplitViewController()
     
     public convenience init(selectedAsset: [TTAAsset]?) {
         type(of: self).prepareIconFont()
@@ -76,14 +86,16 @@ public class TTAImagePickerController: UINavigationController, TTAImagePickerCon
         self.selectedAsset = selectedAsset ?? []
         updateSelectedAsset()
         
+        guard let splitController = splitController else { return }
         addChildViewController(splitController)
-        view.addSubview(splitController.view)
+        rootVc.view.addSubview(splitController.view)
         splitController.view.backgroundColor = .clear
         splitController.preferredDisplayMode = .allVisible
         splitController.view.autoresizingMask = [.flexibleWidth, .flexibleHeight]
     }
     
     deinit {
+        splitController = nil
         #if DEBUG
             print("TTAImagePickerController >>>>>> deinit")
         #endif
@@ -121,6 +133,7 @@ extension TTAImagePickerController {
     
     public override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
+        guard let splitController = splitController else { return }
         splitController.view.frame = view.bounds
     }
 }
@@ -129,6 +142,7 @@ extension TTAImagePickerController {
 
 fileprivate extension TTAImagePickerController {
     func configPicker(_ handler: (_ albumVc: TTAAlbumPickerViewController?, _ assetVc: TTAAssetPickerViewController?) -> ()) {
+        guard let splitController = splitController else { return }
         _ = splitController.viewControllers.map { (vc) in
             guard let nav = vc as? UINavigationController,
                 let rootVc = nav.topViewController else { return }
@@ -172,6 +186,8 @@ extension TTAImagePickerController {
 extension TTAImagePickerController {
     
     func prepareSplitController() {
+        guard let splitController = splitController else { return }
+        TTACachingImageManager.prepareCachingManager()
         let albums = TTAImagePickerManager.fetchAssetCollections()
         if let album = albums.first {
             let pickerController = _generateAssetController(with: album, selectedAsset: selectedAsset)
@@ -184,6 +200,7 @@ extension TTAImagePickerController {
         let assetCollectionController = TTAAlbumPickerViewController(albums: collections, pickerController: pickerController)
         assetCollectionController.maxPickerNum = maxPickerNum
         assetCollectionController.selectItemTintColor = selectItemTintColor
+        TTACachingImageManager.addObserver(assetCollectionController)
         let nav = UINavigationController(rootViewController: assetCollectionController)
         return nav
     }

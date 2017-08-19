@@ -16,6 +16,10 @@ class TTAVideoPreviewViewController: UIViewController {
         self.init(nibName: nil, bundle: nil)
         self.asset = asset
     }
+    
+    deinit {
+        TTACachingImageManager.removeObserver(self)
+    }
 }
 
 // MARK: - Life Cycle
