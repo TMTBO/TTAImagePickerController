@@ -292,11 +292,11 @@ extension TTAAssetPickerViewController: UICollectionViewDataSource {
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        guard !allowTakePicture || indexPath.item < assetCount() else {
-            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "\(TTACameraCell.self)", for: indexPath)
+        guard allowTakePicture && album.albumInfo.canShowCamera && indexPath.item == assetCount() else {
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "\(TTAAssetCollectionViewCell.self)", for: indexPath)
             return cell
         }
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "\(TTAAssetCollectionViewCell.self)", for: indexPath)
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "\(TTACameraCell.self)", for: indexPath)
         return cell
     }
 }
