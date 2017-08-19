@@ -95,7 +95,7 @@ extension TTAAlbumPickerViewController {
         guard let currentAlbum = album(at: indexPath) else { return }
         let tag = indexPath.item + 1
         cell.update(cell: tag, with: currentAlbum.albumInfo)
-        currentAlbum.requestThumbnail(with: 0, size: cell.contentView.bounds.size.toPixel()) { (image) in
+        currentAlbum.requestThumbnail(with: currentAlbum.assets.count - 1, size: cell.contentView.bounds.size.toPixel()) { (image) in
             guard let image = image, cell.tag == tag else { return }
             cell.update(image: image)
         }        
