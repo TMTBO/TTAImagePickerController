@@ -13,5 +13,7 @@
 
 "NO supported file types" = "没有支持导出的视频类型";
 
+"Video Preview" = "视频预览";
+
 "Allow %@ to access your %@ in \"Settings -> Privacy -> %@\"" = "允许 %@ 访问你的 %@ 请在 \n\"设置 -> 隐私 -> %@\" 中设置";
 "PHONE SIMULATOR NOT Support Camera" = "模拟器不支持相机";

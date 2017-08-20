@@ -13,6 +13,8 @@
 
 "NO supported file types" = "NO supported file types";
 
+"Video Preview" = "Video Preview";
+
 // PermissionTip
 "Allow %@ to access your %@ in \"Settings -> Privacy -> %@\"" = "Allow %@ to access your %@ in \n\"Settings -> Privacy -> %@\"";\
 "PHONE SIMULATOR NOT Support Camera" = "PHONE SIMULATOR NOT Support Camera";

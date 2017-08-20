@@ -5,10 +5,11 @@
 //  Created by TobyoTenma on 02/07/2017.
 //
 
-import UIKit
+import Photos
 
 protocol TTAPreviewToolBarDelegate: class {
     func previewToolBar(toolBar: TTAPreviewToolBar, didClickDone button: UIButton)
+    func previewToolBar(toolBar: TTAPreviewToolBar, didClickVideoPreview button: UIButton)
 }
 
 class TTAPreviewToolBar: UIView {
@@ -21,9 +22,10 @@ class TTAPreviewToolBar: UIView {
         }
     }
     
-    fileprivate var doneButton = UIButton(type: .system)
+    fileprivate let doneButton = UIButton(type: .system)
     fileprivate let countLabel = TTASelectCountLabel()
-    fileprivate var bgView = UIVisualEffectView(effect: UIBlurEffect(style: .dark))
+    fileprivate let previewVideoButton = UIButton(type: .system)
+    fileprivate let bgView = UIVisualEffectView(effect: UIBlurEffect(style: .dark))
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -47,6 +49,7 @@ extension TTAPreviewToolBar {
         func _createViews() {
             addSubview(bgView)
             bgView.contentView.addSubview(doneButton)
+            bgView.contentView.addSubview(previewVideoButton)
             bgView.contentView.addSubview(countLabel)
         }
         
@@ -58,6 +61,9 @@ extension TTAPreviewToolBar {
             doneButton.setTitleColor(.lightGray, for: .disabled)
             doneButton.contentHorizontalAlignment = .right
             doneButton.isEnabled = false
+            previewVideoButton.addTarget(self, action: #selector(didClickVideoPreviewButton), for: .touchUpInside)
+            previewVideoButton.setTitle(Bundle.localizedString(for: "Preview"), for: .normal)
+            previewVideoButton.isHidden = true
             countLabel.isHidden = true
         }
         
@@ -67,20 +73,21 @@ extension TTAPreviewToolBar {
     }
     
     func layoutViews() {
-        let doneButtonWidth = self.width()
-        let doneButtonX = bounds.width - rightMargin() - doneButtonWidth
-        doneButton.frame = CGRect(x: doneButtonX, y: 0, width: doneButtonWidth, height: type(of: self).height())
-        let countLabelWH: CGFloat = 26
-        countLabel.frame = CGRect(x: doneButtonX - countLabelWH, y: (bounds.height - countLabelWH) / 2, width: countLabelWH, height: countLabelWH)
         bgView.frame = bounds
+        let doneButtonWidth = width(doneButton)
+        let doneButtonX = bounds.width - rightMargin() - doneButtonWidth
+        let countLabelWH: CGFloat = 26
+        doneButton.frame = CGRect(x: doneButtonX, y: 0, width: doneButtonWidth, height: type(of: self).height())
+        countLabel.frame = CGRect(x: doneButtonX - countLabelWH, y: (bounds.height - countLabelWH) / 2, width: countLabelWH, height: countLabelWH)
+        previewVideoButton.frame = CGRect(x: rightMargin(), y: 0, width: width(previewVideoButton), height: type(of: self).height())
     }
     
-    func width() -> CGFloat {
-        guard let text = doneButton.titleLabel?.text else { return 0 }
+    func width(_ button: UIButton) -> CGFloat {
+        guard let text = button.titleLabel?.text else { return 0 }
         return (text as NSString).boundingRect(with: CGSize(width: CGFloat.greatestFiniteMagnitude,
                                                             height: type(of: self).height()),
                                                options: .usesLineFragmentOrigin,
-                                               attributes: [NSFontAttributeName: doneButton.titleLabel?.font ?? UIFont.systemFont(ofSize: 17)],
+                                               attributes: [NSFontAttributeName: button.titleLabel?.font ?? UIFont.systemFont(ofSize: 17)],
                                                context: nil).size.width + 3
     }
     
@@ -100,6 +107,10 @@ extension TTAPreviewToolBar {
     func didClickDoneButton() {
         delegate?.previewToolBar(toolBar: self, didClickDone: doneButton)
     }
+    
+    func didClickVideoPreviewButton() {
+        delegate?.previewToolBar(toolBar: self, didClickVideoPreview: previewVideoButton)
+    }
 }
 
 // MARK: - Public Method
@@ -113,5 +124,9 @@ extension TTAPreviewToolBar {
         }
         countLabel.config(with: count)
         doneButton.isEnabled = count > 0
+    }
+    
+    func showVideoPreviewOrNot(_ isShow: Bool) {
+        previewVideoButton.isHidden = !isShow
     }
 }

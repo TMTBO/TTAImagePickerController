@@ -40,6 +40,7 @@ public class TTAPreviewViewController: UIViewController, TTAImagePickerControlle
         self.maxPickerNum = maxPickerNum
         self.currentIndex = index
         super.init(nibName: nil, bundle: nil)
+        navigationItem.title = Bundle.localizedString(for: "Preview")
     }
     
     public convenience init(selected: [TTAAsset], index: Int, delegate: TTAImagePickerControllerDelegate?) {
@@ -71,7 +72,7 @@ extension TTAPreviewViewController {
         super.viewDidLoad()
         setupUI()
         scroll(to: currentIndex)
-        updateNavigationBar()
+        configBars()
         updateCounter()
     }
     
@@ -161,15 +162,19 @@ fileprivate extension TTAPreviewViewController {
         UIApplication.shared.isStatusBarHidden = isHidden
     }
     
-    func updateNavigationBar() {
+    func configBars() {
         let isSelected: Bool
+        let isShowPreviewVideo: Bool
         if let currentAsset = asset(at: IndexPath(item: currentIndex, section: 0)) {
             isSelected = selected.contains(currentAsset)
+            isShowPreviewVideo = currentAsset.isVideo
             previewNavigationBar.updateImageInfo(with: currentAsset.creationDate)
         } else {
             isSelected = false
+            isShowPreviewVideo = false
         }
         previewNavigationBar.configNavigationBar(isSelected: isSelected)
+        previewToolBar.showVideoPreviewOrNot(isShowPreviewVideo)
     }
     
     func updateBars(isHidden: Bool) {
@@ -253,7 +258,7 @@ extension TTAPreviewViewController: UICollectionViewDelegate {
         let index: Int = Int(offsetWidth / (view.bounds.width + 30))
         if index < assetCount() && currentIndex != index {
             currentIndex = index
-            updateNavigationBar()
+            configBars()
         }
     }
 }
@@ -301,6 +306,12 @@ extension TTAPreviewViewController: TTAPreviewToolBarDelegate {
                 self.dismiss(animated: true, completion: nil)
             })
         }
+    }
+    
+    func previewToolBar(toolBar: TTAPreviewToolBar, didClickVideoPreview button: UIButton) {
+        guard let asset = asset(at: IndexPath(item: currentIndex, section: 0)) else { return }
+        let videoPreviewVc = TTAVideoPreviewViewController(asset: asset)
+        navigationController?.pushViewController(videoPreviewVc, animated: true)
     }
 }
 

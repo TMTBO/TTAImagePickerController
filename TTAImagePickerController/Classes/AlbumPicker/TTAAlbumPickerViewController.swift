@@ -35,6 +35,7 @@ class TTAAlbumPickerViewController: UIViewController {
     }
     
     deinit {
+        TTACachingImageManager.removeObserver(self)
         #if DEBUG
             print("TTAImagePickerController >>>>>> Album Picker Controller deinit")
         #endif

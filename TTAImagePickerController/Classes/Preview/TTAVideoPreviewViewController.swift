@@ -10,7 +10,7 @@ import Photos
 class TTAVideoPreviewViewController: UIViewController {
     
     fileprivate let videoView = TTAPreviewVideoView()
-    fileprivate var asset = PHAsset()
+    fileprivate var asset: PHAsset?
     
     convenience init(asset: PHAsset) {
         self.init(nibName: nil, bundle: nil)
@@ -18,7 +18,9 @@ class TTAVideoPreviewViewController: UIViewController {
     }
     
     deinit {
-        TTACachingImageManager.removeObserver(self)
+        #if DEBUG
+            print("TTAImagePickerController Video preview controller deinit")
+        #endif
     }
 }
 
@@ -45,7 +47,7 @@ extension TTAVideoPreviewViewController {
         }
         
         func configViews() {
-            view.backgroundColor = .white
+            view.backgroundColor = .black
             videoView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
             
             TTAImagePickerManager.fetchPreview(for: asset, progressHandler: { (progress, error, stop, info) in

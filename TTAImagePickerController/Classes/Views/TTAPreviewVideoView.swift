@@ -15,6 +15,7 @@ class TTAPreviewVideoView: UIControl {
     fileprivate let playerLayer = AVPlayerLayer()
     fileprivate let playPauseButton = UIButton(type: .custom)
     fileprivate let videoProgressView = TTAVideoProgressView()
+    fileprivate var hud: TTAHUD?
     
     override init(frame: CGRect) {
         super.init(frame: .zero)
@@ -29,6 +30,10 @@ class TTAPreviewVideoView: UIControl {
     override func layoutSubviews() {
         super.layoutSubviews()
         layoutViews()
+    }
+    
+    deinit {
+        hud?.dimiss()
     }
 }
 
@@ -65,6 +70,9 @@ fileprivate extension TTAPreviewVideoView {
                                             let duration = CMTimeGetSeconds(currentItem.asset.duration)
                                             let videoInfo = TTAVideoProgressViewInfo(current: currentTime, duration: duration)
                                             self.videoProgressView.update(with: videoInfo)
+                                            if currentTime > 0 {
+                                                self.hud?.dimiss()
+                                            }
             }
         }
         createViews()
@@ -117,6 +125,7 @@ extension TTAPreviewVideoView {
                                                name: .AVPlayerItemDidPlayToEndTime,
                                                object: nil)
         hiddenPlayPauseButton()
+        hud = TTAHUD.showIndicator(with: .indicator)
     }
     
     func pauseVideo() {
