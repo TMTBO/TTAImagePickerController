@@ -12,6 +12,14 @@ public class TTAImagePickerController: UINavigationController, TTAImagePickerCon
     
     public weak var pickerDelegate: TTAImagePickerControllerDelegate?
     
+    public var allowDeleteImage = false {
+        didSet {
+            configPicker { (_, assetVc) in
+                assetVc?.allowDeleteImage = allowDeleteImage
+            }
+        }
+    }
+    
     public var allowTakePicture = true {
         didSet {
             configPicker { (_, assetVc) in

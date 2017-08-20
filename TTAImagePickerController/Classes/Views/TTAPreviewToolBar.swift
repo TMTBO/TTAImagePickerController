@@ -10,12 +10,14 @@ import Photos
 protocol TTAPreviewToolBarDelegate: class {
     func previewToolBar(toolBar: TTAPreviewToolBar, didClickDone button: UIButton)
     func previewToolBar(toolBar: TTAPreviewToolBar, didClickVideoPreview button: UIButton)
+    func previewToolBar(toolBar: TTAPreviewToolBar, didClickDelete button: UIButton)
 }
 
 class TTAPreviewToolBar: UIView {
     
     weak var delegate: TTAPreviewToolBarDelegate?
     
+    var allowDeleteImage = false
     var selectItemTintColor: UIColor? {
         didSet {
             countLabel.selectItemTintColor = selectItemTintColor
@@ -25,6 +27,7 @@ class TTAPreviewToolBar: UIView {
     fileprivate let doneButton = UIButton(type: .system)
     fileprivate let countLabel = TTASelectCountLabel()
     fileprivate let previewVideoButton = UIButton(type: .system)
+    fileprivate let deleteButton = UIButton(type: .system)
     fileprivate let bgView = UIVisualEffectView(effect: UIBlurEffect(style: .dark))
     
     override init(frame: CGRect) {
@@ -51,6 +54,7 @@ extension TTAPreviewToolBar {
             bgView.contentView.addSubview(doneButton)
             bgView.contentView.addSubview(previewVideoButton)
             bgView.contentView.addSubview(countLabel)
+            bgView.contentView.addSubview(deleteButton)
         }
         
         func _configViews() {
@@ -65,6 +69,10 @@ extension TTAPreviewToolBar {
             previewVideoButton.setTitle(Bundle.localizedString(for: "Preview"), for: .normal)
             previewVideoButton.isHidden = true
             countLabel.isHidden = true
+            deleteButton.addTarget(self, action: #selector(didClickDeleteButton), for: .touchUpInside)
+            deleteButton.setTitleColor(.lightGray, for: .disabled)
+            deleteButton.setTitle(UIFont.IconFont.trashMark.rawValue, for: .normal)
+            deleteButton.titleLabel?.font = UIFont.iconfont(size: UIFont.IconFontSize.trashMark)
         }
         
         _createViews()
@@ -77,9 +85,11 @@ extension TTAPreviewToolBar {
         let doneButtonWidth = width(doneButton)
         let doneButtonX = bounds.width - rightMargin() - doneButtonWidth
         let countLabelWH: CGFloat = 26
+        let deleteButtonW = allowDeleteImage ? countLabelWH : 0
         doneButton.frame = CGRect(x: doneButtonX, y: 0, width: doneButtonWidth, height: type(of: self).height())
         countLabel.frame = CGRect(x: doneButtonX - countLabelWH, y: (bounds.height - countLabelWH) / 2, width: countLabelWH, height: countLabelWH)
-        previewVideoButton.frame = CGRect(x: rightMargin(), y: 0, width: width(previewVideoButton), height: type(of: self).height())
+        deleteButton.frame = CGRect(x: rightMargin(), y: 0, width: deleteButtonW, height: type(of: self).height())
+        previewVideoButton.frame = CGRect(x: deleteButton.frame.maxX + margin(), y: 0, width: width(previewVideoButton), height: type(of: self).height())
     }
     
     func width(_ button: UIButton) -> CGFloat {
@@ -99,6 +109,10 @@ extension TTAPreviewToolBar {
     func rightMargin() -> CGFloat {
         return 16
     }
+    
+    func margin() -> CGFloat {
+        return 8
+    }
 }
 
 // MARK: - Actions
@@ -110,6 +124,10 @@ extension TTAPreviewToolBar {
     
     func didClickVideoPreviewButton() {
         delegate?.previewToolBar(toolBar: self, didClickVideoPreview: previewVideoButton)
+    }
+    
+    func didClickDeleteButton() {
+        delegate?.previewToolBar(toolBar: self, didClickDelete: deleteButton)
     }
 }
 

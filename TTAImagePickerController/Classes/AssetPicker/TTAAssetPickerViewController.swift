@@ -16,6 +16,7 @@ class TTAAssetPickerViewController: UIViewController {
     
     weak var delegate: TTAAssetPickerViewControllerDelegate?
     
+    var allowDeleteImage = false
     var allowTakePicture = true
     
     /// The max num image of the image picker can pick, default is 9
@@ -39,15 +40,19 @@ class TTAAssetPickerViewController: UIViewController {
             navigationItem.title = album.albumInfo.name
             collectionView.reloadData()
             scrollTo(assetCount() - 1)
+            imagePreviewViewController?.album = imagePreviewViewController?.album == nil ? nil : album
             startCaching()
         }
     }
     
     fileprivate let collectionView = UICollectionView(frame: .zero, collectionViewLayout: TTAAssetCollectionViewLayout())
+    fileprivate var deleteItem = UIBarButtonItem()
     fileprivate var previewItem = UIBarButtonItem()
     fileprivate var doneItem = UIBarButtonItem()
     fileprivate var countLabel = TTASelectCountLabel()
     fileprivate var canSelect = true
+    
+    fileprivate var imagePreviewViewController: TTAPreviewViewController?
     
     init(album: TTAAlbum, selectedAsset: [PHAsset]) {
         self.album = album
@@ -140,6 +145,8 @@ fileprivate extension TTAAssetPickerViewController {
     func prepareToolBar() {
         previewItem = UIBarButtonItem(title: Bundle.localizedString(for: "Preview"), style: .plain, target: self, action: #selector(didClickPreviewItem))
         previewItem.isEnabled = false
+        deleteItem = UIBarButtonItem(barButtonSystemItem: .trash, target: self, action: #selector(didClickDeleteItem))
+        deleteItem.isEnabled = false
         doneItem = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(didClickDoneItem))
         doneItem.isEnabled = false
         let spaceItem = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
@@ -147,7 +154,11 @@ fileprivate extension TTAAssetPickerViewController {
         countLabel = TTASelectCountLabel(frame: CGRect(x: 0, y: 0, width: countLabelWH, height: countLabelWH))
         countLabel.selectItemTintColor = selectItemTintColor
         let countItem = UIBarButtonItem(customView: countLabel)
-        self.toolbarItems = [previewItem, spaceItem, countItem, doneItem]
+        var toolBarItems = [previewItem, spaceItem, countItem, doneItem]
+        if allowDeleteImage {
+            toolBarItems.insert(deleteItem, at: 0)
+        }
+        self.toolbarItems = toolBarItems
         updateCounter()
     }
     
@@ -203,14 +214,16 @@ fileprivate extension TTAAssetPickerViewController {
         if currentAsset.isVideo {
             previewVc = TTAVideoPreviewViewController(asset: currentAsset)
         } else {
-            let imagePreviewVc = TTAPreviewViewController(album: isPreview ? nil : album,
+            imagePreviewViewController = TTAPreviewViewController(album: isPreview ? nil : album,
                                                      selected: selected,
                                                      maxPickerNum: maxPickerNum,
                                                      index: index)
-            imagePreviewVc.delegate = self
-            imagePreviewVc.selectItemTintColor = selectItemTintColor
-            imagePreviewVc.tintColor = navigationController?.navigationBar.tintColor
-            previewVc = imagePreviewVc
+            guard let imagePreviewViewController = imagePreviewViewController else { return }
+            imagePreviewViewController.delegate = self
+            imagePreviewViewController.selectItemTintColor = selectItemTintColor
+            imagePreviewViewController.tintColor = navigationController?.navigationBar.tintColor
+            imagePreviewViewController.allowDeleteImage = allowDeleteImage
+            previewVc = imagePreviewViewController
         }
         navigationController?.pushViewController(previewVc, animated: true)
     }
@@ -271,6 +284,18 @@ extension TTAAssetPickerViewController {
     
     func didClickPreviewItem() {
         showPreviewViewController(from: 0, isPreview: true)
+    }
+    
+    func didClickDeleteItem() {
+        TTAImagePickerManager.delete(assets: selected) { [weak self] (isSuccess) in
+            if isSuccess {
+                self?.selected.removeAll()
+                self?.updateCounter()
+            }
+            #if DEBUG
+                print("Delete PHAssets \(isSuccess ? "Success" : "Failed")!")
+            #endif
+        }
     }
     
     func didClickDoneItem() {
@@ -362,6 +387,7 @@ extension TTAAssetPickerViewController: TTAOperateAssetProtocol {
     func updateCounter() {
         countLabel.config(with: selected.count)
         previewItem.isEnabled = selected.count > 0
+        deleteItem.isEnabled = selected.count > 0
         doneItem.isEnabled = selected.count > 0
     }
 }

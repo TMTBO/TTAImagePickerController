@@ -85,11 +85,21 @@
                             <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="hWm-06-80i">
                                 <rect key="frame" x="172" y="62" width="51" height="31"/>
                             </switch>
+                            <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="OKg-Tq-R2V">
+                                <rect key="frame" x="172" y="98" width="51" height="31"/>
+                            </switch>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="允许删除照片" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="87p-Ay-qoX">
+                                <rect key="frame" x="44" y="103" width="104" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
                             <constraint firstAttribute="trailingMargin" secondItem="yAB-8V-COp" secondAttribute="trailing" constant="7" id="1Xl-o9-lKW"/>
                             <constraint firstItem="xU4-GK-ILB" firstAttribute="leading" secondItem="dgd-S2-gOR" secondAttribute="trailing" constant="24" id="44h-sm-Iy6"/>
+                            <constraint firstItem="87p-Ay-qoX" firstAttribute="centerY" secondItem="OKg-Tq-R2V" secondAttribute="centerY" id="EaF-HP-XVu"/>
                             <constraint firstItem="xIX-7c-elT" firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="dgd-S2-gOR" secondAttribute="trailing" id="GRV-0t-nwW"/>
                             <constraint firstItem="hWm-06-80i" firstAttribute="leading" secondItem="xU4-GK-ILB" secondAttribute="leading" id="PT2-cR-YZ4"/>
                             <constraint firstItem="peI-o3-dUI" firstAttribute="top" secondItem="yAB-8V-COp" secondAttribute="bottom" constant="21" id="R9v-W6-3Iw"/>
@@ -99,15 +109,20 @@
                             <constraint firstItem="xIX-7c-elT" firstAttribute="leading" secondItem="kh9-bI-dsS" secondAttribute="leading" constant="78" id="VEj-sR-yLh"/>
                             <constraint firstItem="dgd-S2-gOR" firstAttribute="top" secondItem="jyV-Pf-zRb" secondAttribute="bottom" constant="8" symbolic="YES" id="YHS-ej-OYY"/>
                             <constraint firstItem="peI-o3-dUI" firstAttribute="bottom" secondItem="2fi-mo-0CV" secondAttribute="top" id="b2K-Or-OH4"/>
+                            <constraint firstItem="OKg-Tq-R2V" firstAttribute="top" secondItem="hWm-06-80i" secondAttribute="bottom" constant="5" id="bbz-5R-7LP"/>
                             <constraint firstItem="dgd-S2-gOR" firstAttribute="centerY" secondItem="xU4-GK-ILB" secondAttribute="centerY" id="hoC-Cw-Zxc"/>
+                            <constraint firstItem="87p-Ay-qoX" firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="xIX-7c-elT" secondAttribute="trailing" id="ilU-Pp-Qr4"/>
                             <constraint firstItem="yAB-8V-COp" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="kh9-bI-dsS" secondAttribute="leadingMargin" id="lWK-iz-Eum"/>
+                            <constraint firstItem="OKg-Tq-R2V" firstAttribute="leading" secondItem="hWm-06-80i" secondAttribute="leading" id="moS-FU-SnT"/>
                             <constraint firstItem="peI-o3-dUI" firstAttribute="leading" secondItem="kh9-bI-dsS" secondAttribute="leading" id="nRd-y6-s31"/>
+                            <constraint firstItem="87p-Ay-qoX" firstAttribute="leading" secondItem="kh9-bI-dsS" secondAttribute="leading" constant="44" id="oyS-Fj-DcR"/>
                             <constraint firstAttribute="trailingMargin" relation="greaterThanOrEqual" secondItem="xU4-GK-ILB" secondAttribute="trailing" id="x5W-s7-djw"/>
                             <constraint firstItem="dgd-S2-gOR" firstAttribute="leading" secondItem="kh9-bI-dsS" secondAttribute="leadingMargin" constant="40" id="zCi-53-UGw"/>
                             <constraint firstAttribute="trailing" secondItem="peI-o3-dUI" secondAttribute="trailing" id="zjg-Tb-WGR"/>
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="allowDeleteImageSwitch" destination="OKg-Tq-R2V" id="MPa-5g-6v9"/>
                         <outlet property="allowTakePickerSwitch" destination="hWm-06-80i" id="Gnc-Qu-lmj"/>
                         <outlet property="imagesCollectionView" destination="peI-o3-dUI" id="WIT-NI-CQl"/>
                         <outlet property="maxImageCountTextField" destination="xU4-GK-ILB" id="R7L-Ku-rar"/>

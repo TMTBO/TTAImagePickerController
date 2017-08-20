@@ -14,6 +14,7 @@ class ViewController: UIViewController {
     @IBOutlet weak var maxImageCountTextField: UITextField!
     @IBOutlet weak var imagesCollectionView: UICollectionView!
     @IBOutlet weak var allowTakePickerSwitch: UISwitch!
+    @IBOutlet weak var allowDeleteImageSwitch: UISwitch!
     
     var selectedImages = [UIImage]()
     var selectedAssets = [TTAAsset]()
@@ -29,6 +30,8 @@ class ViewController: UIViewController {
         imagePicker.pickerDelegate = self
         // Set allow take picture in the picker
         imagePicker.allowTakePicture = allowTakePickerSwitch.isOn
+        // Set allow user delete images in the picker
+        imagePicker.allowDeleteImage = allowDeleteImageSwitch.isOn
         // Set the max pick number, default is 9
         imagePicker.maxPickerNum = Int(maxImageCountTextField.text ?? "9") ?? 9
         

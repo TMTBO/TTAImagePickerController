@@ -429,6 +429,31 @@ extension TTAImagePickerManager {
     }
 }
 
+// MARK: - Delete Image
+
+extension TTAImagePickerManager {
+    static func delete(asset: PHAsset, completionHandler: @escaping (Bool) -> ()) {
+        delete(assets: [asset], completionHandler: completionHandler)
+    }
+    
+    static func delete(assets: [PHAsset], completionHandler: @escaping (Bool) -> ()) {
+        PHPhotoLibrary.shared().performChanges({
+            PHAssetChangeRequest.deleteAssets(assets as NSArray)
+        }) { (isSuccess, error) in
+            DispatchQueue.main.async {
+                completionHandler(isSuccess)
+            }
+            #if DEBUG
+                if let err = error {
+                    print("Save Image error! \n \(err.localizedDescription)")
+                }
+            #endif
+        }
+    }
+}
+
+// MARK: - Fix Image
+
 extension TTAImagePickerManager {
     
     static func scaleImage(image: UIImage, to size: CGSize) -> UIImage? {
