@@ -64,6 +64,6 @@ extension UIFont {
         static let videoAndGifMark: CGFloat = 20
         static let playMark: CGFloat = 60
         static let dotMark: CGFloat = 20
-        static let trashMark: CGFloat = 30
+        static let trashMark: CGFloat = 28
     }
 }
