@@ -188,7 +188,7 @@ extension TTAImagePickerController {
     func prepareSplitController() {
         guard let splitController = splitController else { return }
         TTACachingImageManager.prepareCachingManager()
-        let albums = TTAImagePickerManager.fetchAssetCollections()
+        let albums = TTAImagePickerManager.fetchAlbums()
         if let album = albums.first {
             let pickerController = _generateAssetController(with: album, selectedAsset: selectedAsset)
             let collectionController = _generateCollectionController(with: albums, pickerController: pickerController)

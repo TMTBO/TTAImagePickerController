@@ -163,7 +163,7 @@ extension TTAAlbumPickerViewController: UITableViewDelegate {
 
 extension TTAAlbumPickerViewController: TTACachingImageManagerObserver {
     func cachingImageManager(_ manager: TTACachingImageManager, photoLibraryDidChangeObserver: AnyObject) {
-        albums = TTAImagePickerManager.fetchAssetCollections()
+        albums = TTAImagePickerManager.fetchAlbums(isLoading: false)
         tableView.reloadData()
         guard let pickerController = assetPickerController.topViewController as? TTAAssetPickerViewController,
         let album = album(at: IndexPath(item: currentAlbumIndex, section: 0)) else { return }

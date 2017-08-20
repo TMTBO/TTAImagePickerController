@@ -96,9 +96,8 @@ extension TTAImagePickerManager {
 // MARK: - TTAAssetCollection
 
 extension TTAImagePickerManager {
-    
-    static func fetchAssetCollections() -> [TTAAlbum] {
-        let hud = TTAHUD.showIndicator(with: .indicator)
+    static func fetchAlbums(isLoading: Bool = true) -> [TTAAlbum] {
+        let hud: TTAHUD? = isLoading ? TTAHUD.showIndicator(with: .indicator) : nil
         let fetchResult = PHAssetCollection.fetchAssetCollections(with: .smartAlbum, subtype: .any, options: nil)
         guard fetchResult.count > 0 else { return [TTAAlbum]() }
         
@@ -113,14 +112,13 @@ extension TTAImagePickerManager {
         fetchResult.enumerateObjects(options: .concurrent) { (assetCollection, _, _) in
             let assetResult = PHAsset.fetchAssets(in: assetCollection, options: options)
             guard assetResult.count > 0 else { return }
-            
             let album = TTAAlbum(original: assetCollection, assets: assetResult)
             assetCollections.append(album)
         }
         assetCollections.sort { (collection1, collection2) -> Bool in
             return collection1.albumInfo.name < collection2.albumInfo.name
         }
-        hud.dimiss()
+        hud?.dimiss()
         return assetCollections
     }
 }
