@@ -46,6 +46,10 @@
 let imagePicker = TTAImagePickerController(selectedAsset: selectedAssets)
 // 设置代理
 imagePicker.pickerDelegate = self
+// 设置是否允许用户在选择器的拍照, 默认允许
+imagePicker.allowTakePicture = allowTakePickerSwitch.isOn
+// 设置是否允许用户在选择器的删除照片, 默认不允许
+imagePicker.allowDeleteImage = allowDeleteImageSwitch.isOn
 // 设置最大可选图片个数, 默认为 9 张
 imagePicker.maxPickerNum = Int(maxImageCountTextField.text ?? "9") ?? 9
         
@@ -86,11 +90,16 @@ extension ViewController: UICollectionViewDelegate {
 
 ## 最近添加
 
+* 20170820
+> 添加拍照支持
+> 允许用户在选择器的删除图片
+
+* 20170806
 > Gif 预览支持
 > 视频预览支持
 
 ## 接下来
-1. 添加拍照支持
+1.期待你的建议
 
 ## Author
 
