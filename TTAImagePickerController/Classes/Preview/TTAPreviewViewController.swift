@@ -309,10 +309,9 @@ extension TTAPreviewViewController: TTAPreviewToolBarDelegate {
         if previewDelegate != nil {
             fetchImages(with: selected, completionHandler: { [weak self] (images) in
                 guard let `self` = self else { return }
-                self.previewDelegate?.
-                imagePickerController(self,
-                                      didFinishPicking: images,
-                                      assets: self.selected.map { TTAAsset(asset: $0) })
+                self.previewDelegate?.imagePickerController(self,
+                                                            didFinishPicking: images,
+                                                            assets: self.selected.map { TTAAsset(asset: $0) })
                 self.dismiss(animated: true, completion: nil)
             })
         }
