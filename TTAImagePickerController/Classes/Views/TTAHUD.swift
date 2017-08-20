@@ -24,7 +24,7 @@ class TTAHUD: UIView {
     fileprivate var type = TTAHUDType.indicator
     
     init(with type: TTAHUDType) {
-        super.init(frame: CGRect(x: x(), y: y(), width: widthAndHeight(), height: widthAndHeight()))
+        super.init(frame: CGRect(x: type(of: self).x(), y: type(of: self).y(), width: type(of: self).widthAndHeight(), height: type(of: self).widthAndHeight()))
         self.type = type
         prepareUI(with: type)
     }
@@ -181,17 +181,15 @@ extension TTAHUD {
         return UIScreen.main.bounds.width - 8 * margin()
     }
     func maxHeight() -> CGFloat {
-        return widthAndHeight()
+        return type(of: self).widthAndHeight()
     }
-    func widthAndHeight() -> CGFloat {
+    static func widthAndHeight() -> CGFloat {
         return min(UIScreen.main.bounds.width / 3, 150)
     }
-    
-    func x() -> CGFloat {
+    static func x() -> CGFloat {
         return (UIScreen.main.bounds.width - widthAndHeight()) / 2
     }
-    
-    func y() -> CGFloat {
+    static func y() -> CGFloat {
         return (UIScreen.main.bounds.height - widthAndHeight()) / 2
     }
 }
