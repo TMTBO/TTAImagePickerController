@@ -1,6 +1,21 @@
 #Change Log
 
 ---------
+## [0.3.1] / 20170820
+
+### Fix
+
+* Fix build error
+
+---------
+## [0.3.0] / 20170820
+
+### Add
+
+* Add Camera Support
+* Add image delete ability
+
+---------
 ## [0.2.0] / 20170806
 
 ### Add

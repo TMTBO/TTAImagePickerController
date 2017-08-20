@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |s|
   s.name             = 'TTAImagePickerController'
-  s.version          = '0.3.0'
+  s.version          = '0.3.1'
   s.summary          = 'A Lightweight image selection framework/一个轻量级图片选择框架'
 
 # This description is used to generate tags and improve search results.
