@@ -47,6 +47,10 @@ it, simply add the following line to your Podfile:`pod "TTAImagePickerController
 let imagePicker = TTAImagePickerController(selectedAsset: selectedAssets)
 // Set pickerDelegate
 imagePicker.pickerDelegate = self
+// Set allow take picture in the picker, default: true
+imagePicker.allowTakePicture = allowTakePickerSwitch.isOn
+// Set allow user delete images in the picker, default: false
+imagePicker.allowDeleteImage = allowDeleteImageSwitch.isOn
 // Set the max pick number, default is 9
 imagePicker.maxPickerNum = Int(maxImageCountTextField.text ?? "9") ?? 9
         
@@ -87,11 +91,16 @@ extension ViewController: UICollectionViewDelegate {
 
 ## Recnet Add
 
+* 20170820
+> Add Camera Support
+> Support Image deleteation in picker
+
+* 20170806
 > Gif Support
 > Video Support
 
 ## What to do next
-1. Add Camera Support
+1. Your advice is welcome
 
 ## Author
 

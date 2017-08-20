@@ -18,7 +18,8 @@ class TTAAlbumPickerViewController: UIViewController {
     /// The tint color which item was selected, default is `UIColor(colorLiteralRed: 0, green: 122.0 / 255.0, blue: 1, alpha: 1)`
     public var selectItemTintColor: UIColor?
     
-    let albums: [TTAAlbum]
+    fileprivate var albums: [TTAAlbum]
+    fileprivate var currentAlbumIndex = 0
     
     let assetPickerController: UINavigationController
 
@@ -34,6 +35,7 @@ class TTAAlbumPickerViewController: UIViewController {
     }
     
     deinit {
+        TTACachingImageManager.removeObserver(self)
         #if DEBUG
             print("TTAImagePickerController >>>>>> Album Picker Controller deinit")
         #endif
@@ -94,7 +96,7 @@ extension TTAAlbumPickerViewController {
         guard let currentAlbum = album(at: indexPath) else { return }
         let tag = indexPath.item + 1
         cell.update(cell: tag, with: currentAlbum.albumInfo)
-        currentAlbum.requestThumbnail(with: 0, size: cell.contentView.bounds.size.toPixel()) { (image) in
+        currentAlbum.requestThumbnail(with: currentAlbum.assets.count - 1, size: cell.contentView.bounds.size.toPixel()) { (image) in
             guard let image = image, cell.tag == tag else { return }
             cell.update(image: image)
         }        
@@ -154,6 +156,22 @@ extension TTAAlbumPickerViewController: UITableViewDelegate {
             let pickerController = assetPickerController.topViewController as? TTAAssetPickerViewController,
             let album = album(at: indexPath) else { return }
         pickerController.album = album
+        currentAlbumIndex = indexPath.item
         splitViewController.showDetailViewController(assetPickerController, sender: nil)
+    }
+}
+
+extension TTAAlbumPickerViewController: TTACachingImageManagerObserver {
+    func cachingImageManager(_ manager: TTACachingImageManager, photoLibraryDidChangeObserver: AnyObject) {
+        albums = TTAImagePickerManager.fetchAlbums(isLoading: false)
+        tableView.reloadData()
+        
+        _ = assetPickerController.viewControllers.map { [weak self] (vc) in
+            if let pickerVc = vc as? TTAAssetPickerViewController,
+                let `self` = self,
+                let album = self.album(at: IndexPath(item: self.currentAlbumIndex, section: 0)){
+                pickerVc.album = album
+            }
+        }
     }
 }

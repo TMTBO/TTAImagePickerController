@@ -5,25 +5,30 @@
 //  Created by TobyoTenma on 02/07/2017.
 //
 
-import UIKit
+import Photos
 
 protocol TTAPreviewToolBarDelegate: class {
     func previewToolBar(toolBar: TTAPreviewToolBar, didClickDone button: UIButton)
+    func previewToolBar(toolBar: TTAPreviewToolBar, didClickVideoPreview button: UIButton)
+    func previewToolBar(toolBar: TTAPreviewToolBar, didClickDelete button: UIButton)
 }
 
 class TTAPreviewToolBar: UIView {
     
     weak var delegate: TTAPreviewToolBarDelegate?
     
+    var allowDeleteImage = false
     var selectItemTintColor: UIColor? {
         didSet {
             countLabel.selectItemTintColor = selectItemTintColor
         }
     }
     
-    fileprivate var doneButton = UIButton(type: .system)
+    fileprivate let doneButton = UIButton(type: .system)
     fileprivate let countLabel = TTASelectCountLabel()
-    fileprivate var bgView = UIVisualEffectView(effect: UIBlurEffect(style: .dark))
+    fileprivate let previewVideoButton = UIButton(type: .system)
+    fileprivate let deleteButton = UIButton(type: .system)
+    fileprivate let bgView = UIVisualEffectView(effect: UIBlurEffect(style: .dark))
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -47,18 +52,38 @@ extension TTAPreviewToolBar {
         func _createViews() {
             addSubview(bgView)
             bgView.contentView.addSubview(doneButton)
+            bgView.contentView.addSubview(previewVideoButton)
             bgView.contentView.addSubview(countLabel)
+            bgView.contentView.addSubview(deleteButton)
         }
         
         func _configViews() {
             backgroundColor = .clear
             bgView.autoresizingMask = [.flexibleHeight, .flexibleWidth]
-            doneButton.addTarget(self, action: #selector(didClickDoneButton), for: .touchUpInside)
-            doneButton.setTitle(Bundle.localizedString(for: "Done"), for: .normal)
-            doneButton.setTitleColor(.lightGray, for: .disabled)
+            doneButton.addTarget(self,
+                                 action: #selector(didClickDoneButton),
+                                 for: .touchUpInside)
+            doneButton.setTitle(Bundle.localizedString(for: "Done"),
+                                for: .normal)
+            doneButton.setTitleColor(.lightGray,
+                                     for: .disabled)
             doneButton.contentHorizontalAlignment = .right
             doneButton.isEnabled = false
+            previewVideoButton.addTarget(self,
+                                         action: #selector(didClickVideoPreviewButton),
+                                         for: .touchUpInside)
+            previewVideoButton.setTitle(Bundle.localizedString(for: "Preview"),
+                                        for: .normal)
+            previewVideoButton.isHidden = true
             countLabel.isHidden = true
+            deleteButton.addTarget(self,
+                                   action: #selector(didClickDeleteButton),
+                                   for: .touchUpInside)
+            deleteButton.setTitleColor(.lightGray,
+                                       for: .disabled)
+            deleteButton.setTitle(UIFont.IconFont.trashMark.rawValue,
+                                  for: .normal)
+            deleteButton.titleLabel?.font = UIFont.iconfont(size: UIFont.IconFontSize.trashMark)
         }
         
         _createViews()
@@ -67,21 +92,41 @@ extension TTAPreviewToolBar {
     }
     
     func layoutViews() {
-        let doneButtonWidth = self.width()
-        let doneButtonX = bounds.width - rightMargin() - doneButtonWidth
-        doneButton.frame = CGRect(x: doneButtonX, y: 0, width: doneButtonWidth, height: type(of: self).height())
-        let countLabelWH: CGFloat = 26
-        countLabel.frame = CGRect(x: doneButtonX - countLabelWH, y: (bounds.height - countLabelWH) / 2, width: countLabelWH, height: countLabelWH)
         bgView.frame = bounds
+        let doneButtonWidth = width(doneButton)
+        let doneButtonX = bounds.width - rightMargin() - doneButtonWidth
+        let countLabelWH: CGFloat = 26
+        let deleteButtonW: CGFloat = allowDeleteImage ? 26 : 0
+        doneButton.frame = CGRect(
+            x: doneButtonX,
+            y: 0,
+            width: doneButtonWidth,
+            height: type(of: self).height())
+        countLabel.frame = CGRect(
+            x: doneButtonX - countLabelWH,
+            y: (bounds.height - countLabelWH) / 2,
+            width: countLabelWH,
+            height: countLabelWH)
+        deleteButton.frame = CGRect(
+            x: rightMargin(),
+            y: 0,
+            width: deleteButtonW,
+            height: type(of: self).height())
+        previewVideoButton.frame = CGRect(
+            x: deleteButton.frame.maxX + (allowDeleteImage ? margin() : 0),
+            y: 0,
+            width: width(previewVideoButton),
+            height: type(of: self).height())
     }
     
-    func width() -> CGFloat {
-        guard let text = doneButton.titleLabel?.text else { return 0 }
-        return (text as NSString).boundingRect(with: CGSize(width: CGFloat.greatestFiniteMagnitude,
-                                                            height: type(of: self).height()),
-                                               options: .usesLineFragmentOrigin,
-                                               attributes: [NSFontAttributeName: doneButton.titleLabel?.font ?? UIFont.systemFont(ofSize: 17)],
-                                               context: nil).size.width + 3
+    func width(_ button: UIButton) -> CGFloat {
+        guard let text = button.titleLabel?.text else { return 0 }
+        return (text as NSString).boundingRect(
+            with: CGSize(width: CGFloat.greatestFiniteMagnitude,
+                         height: type(of: self).height()),
+            options: .usesLineFragmentOrigin,
+            attributes: [NSFontAttributeName: button.titleLabel?.font ?? UIFont.systemFont(ofSize: 17)],
+            context: nil).size.width + 3
     }
     
     static func height() -> CGFloat {
@@ -92,6 +137,10 @@ extension TTAPreviewToolBar {
     func rightMargin() -> CGFloat {
         return 16
     }
+    
+    func margin() -> CGFloat {
+        return 5
+    }
 }
 
 // MARK: - Actions
@@ -99,6 +148,14 @@ extension TTAPreviewToolBar {
 extension TTAPreviewToolBar {
     func didClickDoneButton() {
         delegate?.previewToolBar(toolBar: self, didClickDone: doneButton)
+    }
+    
+    func didClickVideoPreviewButton() {
+        delegate?.previewToolBar(toolBar: self, didClickVideoPreview: previewVideoButton)
+    }
+    
+    func didClickDeleteButton() {
+        delegate?.previewToolBar(toolBar: self, didClickDelete: deleteButton)
     }
 }
 
@@ -113,5 +170,9 @@ extension TTAPreviewToolBar {
         }
         countLabel.config(with: count)
         doneButton.isEnabled = count > 0
+    }
+    
+    func showVideoPreviewOrNot(_ isShow: Bool) {
+        previewVideoButton.isHidden = !isShow
     }
 }

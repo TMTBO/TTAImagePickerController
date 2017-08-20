@@ -103,11 +103,12 @@ struct TTAAlbumInfo {
     let name: String
     let countString: String
     let isVideoAlbum: Bool
-    
+    let canShowCamera: Bool
     init(album: PHAssetCollection, assetCount: Int) {
         name = album.localizedTitle ?? ""
         countString = "\(assetCount)"
         isVideoAlbum = album.assetCollectionSubtype == .smartAlbumVideos || album.assetCollectionSubtype == .smartAlbumSlomoVideos
+        canShowCamera = ["Camera Roll", "All Photos", "相机胶卷", "所有照片"].contains(name)
     }
 } /* TTAAlbumInfo */
 

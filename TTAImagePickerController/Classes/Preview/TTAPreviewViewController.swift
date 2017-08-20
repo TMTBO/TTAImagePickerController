@@ -18,14 +18,20 @@ public class TTAPreviewViewController: UIViewController, TTAImagePickerControlle
     /// Only for preview selected assets from outer
     fileprivate weak var previewDelegate: TTAImagePickerControllerDelegate?
     
-    var selectItemTintColor: UIColor? = UIColor(red: 0, green: 122.0 / 255.0, blue: 1, alpha: 1)
+    var allowDeleteImage = false
+    var selectItemTintColor: UIColor?
     var tintColor: UIColor?
     
     internal var selected: [PHAsset]
     internal let maxPickerNum: Int
-    fileprivate(set) var album: TTAAlbum?
-    fileprivate let previewAssets: [PHAsset]
+    fileprivate var previewAssets: [PHAsset]
     fileprivate var currentIndex: Int
+    
+    internal var album: TTAAlbum? {
+        didSet {
+            collectionView.reloadData()
+        }
+    }
     
     fileprivate let collectionView = UICollectionView(frame: .zero, collectionViewLayout: TTAPreviewCollectionViewLayout())
     fileprivate let previewNavigationBar = TTAPreviewNavigationBar()
@@ -40,6 +46,7 @@ public class TTAPreviewViewController: UIViewController, TTAImagePickerControlle
         self.maxPickerNum = maxPickerNum
         self.currentIndex = index
         super.init(nibName: nil, bundle: nil)
+        navigationItem.title = Bundle.localizedString(for: "Preview")
     }
     
     public convenience init(selected: [TTAAsset], index: Int, delegate: TTAImagePickerControllerDelegate?) {
@@ -71,7 +78,7 @@ extension TTAPreviewViewController {
         super.viewDidLoad()
         setupUI()
         scroll(to: currentIndex)
-        updateNavigationBar()
+        configBars()
         updateCounter()
     }
     
@@ -135,6 +142,7 @@ fileprivate extension TTAPreviewViewController {
         previewToolBar.delegate = self
         previewToolBar.selectItemTintColor = selectItemTintColor
         previewToolBar.tintColor = tintColor
+        previewToolBar.allowDeleteImage = allowDeleteImage
         previewToolBar.autoresizingMask = [.flexibleHeight, .flexibleWidth]
         prepareCollectionView()
     }
@@ -161,15 +169,19 @@ fileprivate extension TTAPreviewViewController {
         UIApplication.shared.isStatusBarHidden = isHidden
     }
     
-    func updateNavigationBar() {
+    func configBars() {
         let isSelected: Bool
+        let isShowPreviewVideo: Bool
         if let currentAsset = asset(at: IndexPath(item: currentIndex, section: 0)) {
             isSelected = selected.contains(currentAsset)
+            isShowPreviewVideo = currentAsset.isVideo
             previewNavigationBar.updateImageInfo(with: currentAsset.creationDate)
         } else {
             isSelected = false
+            isShowPreviewVideo = false
         }
         previewNavigationBar.configNavigationBar(isSelected: isSelected)
+        previewToolBar.showVideoPreviewOrNot(isShowPreviewVideo)
     }
     
     func updateBars(isHidden: Bool) {
@@ -253,7 +265,7 @@ extension TTAPreviewViewController: UICollectionViewDelegate {
         let index: Int = Int(offsetWidth / (view.bounds.width + 30))
         if index < assetCount() && currentIndex != index {
             currentIndex = index
-            updateNavigationBar()
+            configBars()
         }
     }
 }
@@ -297,9 +309,44 @@ extension TTAPreviewViewController: TTAPreviewToolBarDelegate {
         if previewDelegate != nil {
             fetchImages(with: selected, completionHandler: { [weak self] (images) in
                 guard let `self` = self else { return }
-                self.previewDelegate?.imagePickerController(self, didFinishPicking: images, assets: self.selected.map { TTAAsset(asset: $0) })
+                self.previewDelegate?.imagePickerController(self,
+                                                            didFinishPicking: images,
+                                                            assets: self.selected.map { TTAAsset(asset: $0) })
                 self.dismiss(animated: true, completion: nil)
             })
+        }
+    }
+    
+    func previewToolBar(toolBar: TTAPreviewToolBar, didClickVideoPreview button: UIButton) {
+        guard let asset = asset(at: IndexPath(item: currentIndex, section: 0)) else { return }
+        let videoPreviewVc = TTAVideoPreviewViewController(asset: asset)
+        navigationController?.pushViewController(videoPreviewVc, animated: true)
+    }
+    
+    func previewToolBar(toolBar: TTAPreviewToolBar, didClickDelete button: UIButton) {
+        guard let asset = asset(at: IndexPath(item: currentIndex, section: 0)) else { return }
+        TTAImagePickerManager.delete(asset: asset) { [weak self] (isSuccess) in
+            #if DEBUG
+                print("Delete PHAssets \(isSuccess ? "Success" : "Failed")!")
+            #endif
+            guard isSuccess,
+                let `self` = self else { return }
+            if self.selected.contains(asset),
+                let index = self.selected.index(of: asset) {
+                self.selected.remove(at: index)
+                self.updateCounter()
+                if self.album == nil {
+                    self.previewAssets.remove(at: index)
+                    if self.assetCount() <= 0 {
+                        self.perform(#selector(self.previewNavigationBar(_:didClickBack:)),
+                                     with: self.previewNavigationBar,
+                                     with: nil)
+                        return
+                    }
+                }
+            }
+            self.currentIndex = self.currentIndex > 0 ? self.currentIndex - 1 : 0
+            self.configBars()
         }
     }
 }
@@ -318,7 +365,6 @@ extension TTAPreviewViewController: TTAPreviewCollectionViewCellDelegate {
 // MARK: - TTAOperateAssetProtocol
 
 extension TTAPreviewViewController: TTAOperateAssetProtocol {
-    
     func updateCounter() {
         previewToolBar.update(count: selected.count, with: maxPickerNum <= 1)
     }

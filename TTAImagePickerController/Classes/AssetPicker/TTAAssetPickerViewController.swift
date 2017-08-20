@@ -16,6 +16,9 @@ class TTAAssetPickerViewController: UIViewController {
     
     weak var delegate: TTAAssetPickerViewControllerDelegate?
     
+    var allowDeleteImage = false
+    var allowTakePicture = true
+    
     /// The max num image of the image picker can pick, default is 9
     var maxPickerNum = 9 {
         didSet {
@@ -24,34 +27,37 @@ class TTAAssetPickerViewController: UIViewController {
     }
     
     /// The tint color which item was selected, default is `UIColor(colorLiteralRed: 0, green: 122.0 / 255.0, blue: 1, alpha: 1)`
-    public var selectItemTintColor: UIColor?
+    var selectItemTintColor: UIColor?
     
     /// The asset that already seleted
-    public var selected: [PHAsset] = []
+    var selected: [PHAsset] = []
     
     var album: TTAAlbum! {
         willSet {
-            TTACachingImageManager.shared?.stopCachingImagesForAllAssets()
+            TTACachingImageManager.stopCachingImagesForAllAssets()
         }
         didSet {
             navigationItem.title = album.albumInfo.name
             collectionView.reloadData()
             scrollTo(assetCount() - 1)
+            imagePreviewViewController?.album = imagePreviewViewController?.album == nil ? nil : album
             startCaching()
         }
     }
     
     fileprivate let collectionView = UICollectionView(frame: .zero, collectionViewLayout: TTAAssetCollectionViewLayout())
+    fileprivate var deleteItem = UIBarButtonItem()
     fileprivate var previewItem = UIBarButtonItem()
     fileprivate var doneItem = UIBarButtonItem()
     fileprivate var countLabel = TTASelectCountLabel()
     fileprivate var canSelect = true
     
+    fileprivate var imagePreviewViewController: TTAPreviewViewController?
+    
     init(album: TTAAlbum, selectedAsset: [PHAsset]) {
         self.album = album
         self.selected = selectedAsset
         super.init(nibName: nil, bundle: nil)
-        TTACachingImageManager.prepareCachingManager()
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -127,6 +133,7 @@ fileprivate extension TTAAssetPickerViewController {
         collectionView.delegate = self
         collectionView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         collectionView.register(TTAAssetCollectionViewCell.self, forCellWithReuseIdentifier: "\(TTAAssetCollectionViewCell.self)")
+        collectionView.register(TTACameraCell.self, forCellWithReuseIdentifier: "\(TTACameraCell.self)")
     }
     
     func prepareCancelItem() {
@@ -138,6 +145,8 @@ fileprivate extension TTAAssetPickerViewController {
     func prepareToolBar() {
         previewItem = UIBarButtonItem(title: Bundle.localizedString(for: "Preview"), style: .plain, target: self, action: #selector(didClickPreviewItem))
         previewItem.isEnabled = false
+        deleteItem = UIBarButtonItem(barButtonSystemItem: .trash, target: self, action: #selector(didClickDeleteItem))
+        deleteItem.isEnabled = false
         doneItem = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(didClickDoneItem))
         doneItem.isEnabled = false
         let spaceItem = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
@@ -145,7 +154,11 @@ fileprivate extension TTAAssetPickerViewController {
         countLabel = TTASelectCountLabel(frame: CGRect(x: 0, y: 0, width: countLabelWH, height: countLabelWH))
         countLabel.selectItemTintColor = selectItemTintColor
         let countItem = UIBarButtonItem(customView: countLabel)
-        self.toolbarItems = [previewItem, spaceItem, countItem, doneItem]
+        var toolBarItems = [previewItem, spaceItem, countItem, doneItem]
+        if allowDeleteImage {
+            toolBarItems.insert(deleteItem, at: 0)
+        }
+        self.toolbarItems = toolBarItems
         updateCounter()
     }
     
@@ -201,16 +214,36 @@ fileprivate extension TTAAssetPickerViewController {
         if currentAsset.isVideo {
             previewVc = TTAVideoPreviewViewController(asset: currentAsset)
         } else {
-            let imagePreviewVc = TTAPreviewViewController(album: isPreview ? nil : album,
+            imagePreviewViewController = TTAPreviewViewController(album: isPreview ? nil : album,
                                                      selected: selected,
                                                      maxPickerNum: maxPickerNum,
                                                      index: index)
-            imagePreviewVc.delegate = self
-            imagePreviewVc.selectItemTintColor = selectItemTintColor
-            imagePreviewVc.tintColor = navigationController?.navigationBar.tintColor
-            previewVc = imagePreviewVc
+            guard let imagePreviewViewController = imagePreviewViewController else { return }
+            imagePreviewViewController.delegate = self
+            imagePreviewViewController.selectItemTintColor = selectItemTintColor
+            imagePreviewViewController.tintColor = navigationController?.navigationBar.tintColor
+            imagePreviewViewController.allowDeleteImage = allowDeleteImage
+            previewVc = imagePreviewViewController
         }
         navigationController?.pushViewController(previewVc, animated: true)
+    }
+    
+    func showCameraViewController() {
+        func permissionDenied() {
+            showPermissionView(with: .camera)
+        }
+        
+        func showCamera() {
+            guard UIImagePickerController.isSourceTypeAvailable(.camera) else { return }
+            let photoTaker = UIImagePickerController()
+            photoTaker.delegate = self
+            photoTaker.sourceType = .camera
+            present(photoTaker, animated: true, completion: nil)
+        }
+        
+        TTAImagePickerManager.checkCameraPermission { (isAuthorized) in
+            isAuthorized ? showCamera() : permissionDenied()
+        }
     }
 }
 
@@ -234,7 +267,7 @@ extension TTAAssetPickerViewController {
     
     func startCaching() {
         guard let layout = collectionView.collectionViewLayout as? UICollectionViewFlowLayout else { return }
-        TTACachingImageManager.shared?.startCachingImages(for: album.assets,
+        TTACachingImageManager.startCachingImages(for: album.assets,
                                                           targetSize: layout.itemSize,
                                                           contentMode: nil,
                                                           options: nil)
@@ -253,6 +286,18 @@ extension TTAAssetPickerViewController {
         showPreviewViewController(from: 0, isPreview: true)
     }
     
+    func didClickDeleteItem() {
+        TTAImagePickerManager.delete(assets: selected) { [weak self] (isSuccess) in
+            if isSuccess {
+                self?.selected.removeAll()
+                self?.updateCounter()
+            }
+            #if DEBUG
+                print("Delete PHAssets \(isSuccess ? "Success" : "Failed")!")
+            #endif
+        }
+    }
+    
     func didClickDoneItem() {
         delegate?.assetPickerController(self, didFinishPicking: selected)
     }
@@ -267,11 +312,15 @@ extension TTAAssetPickerViewController: UICollectionViewDataSource {
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return assetCount()
+        return assetCount() + (allowTakePicture && album.albumInfo.canShowCamera ? 1 : 0)
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "\(TTAAssetCollectionViewCell.self)", for: indexPath)
+        guard allowTakePicture && album.albumInfo.canShowCamera && indexPath.item == assetCount() else {
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "\(TTAAssetCollectionViewCell.self)", for: indexPath)
+            return cell
+        }
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "\(TTACameraCell.self)", for: indexPath)
         return cell
     }
 }
@@ -282,6 +331,10 @@ extension TTAAssetPickerViewController: UICollectionViewDelegate {
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         collectionView.deselectItem(at: indexPath, animated: true)
+        guard !allowTakePicture || indexPath.item < assetCount() else {
+            showCameraViewController()
+            return
+        }
         showPreviewViewController(from: indexPath.item, isPreview: false)
     }
     
@@ -334,6 +387,21 @@ extension TTAAssetPickerViewController: TTAOperateAssetProtocol {
     func updateCounter() {
         countLabel.config(with: selected.count)
         previewItem.isEnabled = selected.count > 0
+        deleteItem.isEnabled = selected.count > 0
         doneItem.isEnabled = selected.count > 0
+    }
+}
+
+// MARK: - UIImagePickerControllerDelegate, UINavigationControllerDelegate
+
+extension TTAAssetPickerViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
+        picker.dismiss(animated: true, completion: nil)
+        guard let image = info[UIImagePickerControllerOriginalImage] as? UIImage else { return }
+        TTAImagePickerManager.save(image: image) { (isSuccess) in
+            #if DEBUG
+                print("Take photo and Save \(isSuccess ? "Successed" : "Failed")!")
+            #endif
+        }
     }
 }
