@@ -25,6 +25,7 @@ class TTAPreviewCollectionViewCell: UICollectionViewCell {
     fileprivate let zoomView = TTAPreviewZoomView()
 //    fileprivate let videoView = TTAPreviewVideoView()
     fileprivate let progressView = TTAProgressView()
+    fileprivate let videoPlayIconLabel = UILabel()
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -58,6 +59,7 @@ fileprivate extension TTAPreviewCollectionViewCell {
 //            contentView.addSubview(videoView)
             contentView.addSubview(zoomView)
             contentView.addSubview(progressView)
+            contentView.addSubview(videoPlayIconLabel)
         }
         
         func configViews() {
@@ -67,6 +69,9 @@ fileprivate extension TTAPreviewCollectionViewCell {
             zoomView.tapDelegate = self
             zoomView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
             progressView.isHidden = true
+            videoPlayIconLabel.textColor = .white
+            videoPlayIconLabel.text = UIFont.IconFont.playMark.rawValue
+            videoPlayIconLabel.font = UIFont.iconfont(size: UIFont.IconFontSize.playMark)
         }
         
         createViews()
@@ -78,6 +83,10 @@ fileprivate extension TTAPreviewCollectionViewCell {
 //        videoView.frame = CGRect(x: 0, y: 0, width: bounds.width - TTAPreviewCollectionViewCell.cellMargin(), height: bounds.height)
         zoomView.frame = CGRect(x: 0, y: 0, width: bounds.width - TTAPreviewCollectionViewCell.cellMargin(), height: bounds.height)
         progressView.frame = CGRect(x: zoomView.bounds.width - TTAProgressView.rightMargin() - TTAProgressView.widthAndHeight(), y: zoomView.progressViewY(isToolBarHidden: isToolBarHidden), width: TTAProgressView.widthAndHeight(), height: TTAProgressView.widthAndHeight())
+        videoPlayIconLabel.frame = CGRect(x: (zoomView.bounds.width - UIFont.IconFontSize.playMark) / 2,
+                                          y: (zoomView.bounds.height - UIFont.IconFontSize.playMark) / 2,
+                                          width: UIFont.IconFontSize.playMark,
+                                          height: UIFont.IconFontSize.playMark)
     }
 }
 
@@ -120,9 +129,11 @@ extension TTAPreviewCollectionViewCell {
     }
     
     func configResult(_ reslut: TTAFetchResult) {
+        videoPlayIconLabel.isHidden = true
         if reslut.hasImage {
             configImage(with: reslut.image)
         } else if reslut.hasPlayerItem {
+            videoPlayIconLabel.isHidden = false
 //            configVideo(with: reslut.playerItem)
         }
     }

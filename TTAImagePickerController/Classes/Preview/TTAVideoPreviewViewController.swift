@@ -19,7 +19,7 @@ class TTAVideoPreviewViewController: UIViewController {
     
     deinit {
         #if DEBUG
-            print("TTAImagePickerController Video preview controller deinit")
+            print("TTAImagePickerController >>>>>> Video preview controller deinit")
         #endif
     }
 }
