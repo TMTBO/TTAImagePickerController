@@ -20,6 +20,7 @@ English | [中文](https://github.com/TMTBO/TTAImagePickerController/blob/master
 ## ScreenShot
 
 ![ScreenShot](https://github.com/TMTBO/TTAImagePickerController/blob/master/TTAImagePicker_all.png)
+![ScreenShot1](https://github.com/TMTBO/TTAImagePickerController/blob/master/TTAImagePicker_update1.png)
 
 ## Example
 
