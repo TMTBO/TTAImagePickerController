@@ -15,6 +15,7 @@ class ViewController: UIViewController {
     @IBOutlet weak var imagesCollectionView: UICollectionView!
     @IBOutlet weak var allowTakePickerSwitch: UISwitch!
     @IBOutlet weak var allowDeleteImageSwitch: UISwitch!
+    @IBOutlet weak var showLargeTitles: UISwitch!
     
     var selectedImages = [UIImage]()
     var selectedAssets = [TTAAsset]()
@@ -32,6 +33,8 @@ class ViewController: UIViewController {
         imagePicker.allowTakePicture = allowTakePickerSwitch.isOn
         // Set allow user delete images in the picker
         imagePicker.allowDeleteImage = allowDeleteImageSwitch.isOn
+        // Set support large titles for iOS 11
+        imagePicker.supportLargeTitles = showLargeTitles.isOn
         // Set the max pick number, default is 9
         imagePicker.maxPickerNum = Int(maxImageCountTextField.text ?? "9") ?? 9
         
