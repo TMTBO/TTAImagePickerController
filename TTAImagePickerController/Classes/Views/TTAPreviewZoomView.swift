@@ -39,14 +39,22 @@ extension TTAPreviewZoomView {
     }
     
     func progressViewY(isToolBarHidden: Bool) -> CGFloat {
+        var layoutMaxY = bounds.height
+        if #available(iOS 11.0, *) {
+            let rect = safeAreaLayoutGuide.layoutFrame
+            layoutMaxY = rect.maxY
+        }
+        let addition = bounds.height - layoutMaxY
+        let toolBarHeight: CGFloat = TTAPreviewToolBar.height(with: addition)
+        
         if imageView.image == nil {
-            return bounds.height - TTAProgressView.bottomMargin() - TTAProgressView.widthAndHeight() - (isToolBarHidden ? 0 : TTAPreviewToolBar.height())
+            return bounds.height - TTAProgressView.bottomMargin() - TTAProgressView.widthAndHeight() - (isToolBarHidden ? 0 : toolBarHeight)
         }
         let y: CGFloat
-        if imageView.frame.maxY < bounds.maxY - (isToolBarHidden ? 0 : TTAPreviewToolBar.height()) {
+        if imageView.frame.maxY < bounds.maxY - (isToolBarHidden ? 0 : toolBarHeight) {
             y = imageView.frame.maxY - TTAProgressView.bottomMargin() - TTAProgressView.widthAndHeight()
         } else {
-            y = bounds.height - TTAProgressView.bottomMargin() - TTAProgressView.widthAndHeight() - (isToolBarHidden ? 0 : TTAPreviewToolBar.height())
+            y = bounds.height - TTAProgressView.bottomMargin() - TTAProgressView.widthAndHeight() - (isToolBarHidden ? 0 : toolBarHeight)
         }
         return y
     }

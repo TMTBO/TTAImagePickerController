@@ -30,7 +30,11 @@ class TTAAssetPickerViewController: UIViewController {
     var selectItemTintColor: UIColor?
     
     /// The asset that already seleted
-    var selected: [PHAsset] = []
+    var selected: [PHAsset] = [] {
+        didSet {
+            selected = selected.filter { album.isContain($0) }
+        }
+    }
     
     var album: TTAAlbum! {
         willSet {
@@ -214,16 +218,21 @@ fileprivate extension TTAAssetPickerViewController {
         if currentAsset.isVideo {
             previewVc = TTAVideoPreviewViewController(asset: currentAsset)
         } else {
-            imagePreviewViewController = TTAPreviewViewController(album: isPreview ? nil : album,
-                                                     selected: selected,
-                                                     maxPickerNum: maxPickerNum,
-                                                     index: index)
-            guard let imagePreviewViewController = imagePreviewViewController else { return }
-            imagePreviewViewController.delegate = self
-            imagePreviewViewController.selectItemTintColor = selectItemTintColor
-            imagePreviewViewController.tintColor = navigationController?.navigationBar.tintColor
-            imagePreviewViewController.allowDeleteImage = allowDeleteImage
-            previewVc = imagePreviewViewController
+            let previewAlbum = isPreview ? nil : album
+            if let imagePreviewViewController = imagePreviewViewController {
+                imagePreviewViewController.album = previewAlbum
+                imagePreviewViewController.currentIndex = index
+            } else {
+                imagePreviewViewController = TTAPreviewViewController(album: previewAlbum,
+                                                                      selected: selected,
+                                                                      maxPickerNum: maxPickerNum,
+                                                                      index: index)
+                imagePreviewViewController?.delegate = self
+                imagePreviewViewController?.selectItemTintColor = selectItemTintColor
+                imagePreviewViewController?.tintColor = navigationController?.navigationBar.tintColor
+                imagePreviewViewController?.allowDeleteImage = allowDeleteImage
+            }
+            previewVc = imagePreviewViewController!
         }
         navigationController?.pushViewController(previewVc, animated: true)
     }

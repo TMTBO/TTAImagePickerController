@@ -17,8 +17,8 @@ class TTAPreviewToolBar: UIView {
     
     weak var delegate: TTAPreviewToolBarDelegate?
     
-    var allowDeleteImage = false
-    var selectItemTintColor: UIColor? {
+    public var allowDeleteImage = false
+    public var selectItemTintColor: UIColor? {
         didSet {
             countLabel.selectItemTintColor = selectItemTintColor
         }
@@ -49,7 +49,7 @@ class TTAPreviewToolBar: UIView {
 
 extension TTAPreviewToolBar {
     func setupUI() {
-        func _createViews() {
+        func createViews() {
             addSubview(bgView)
             bgView.contentView.addSubview(doneButton)
             bgView.contentView.addSubview(previewVideoButton)
@@ -57,7 +57,7 @@ extension TTAPreviewToolBar {
             bgView.contentView.addSubview(deleteButton)
         }
         
-        func _configViews() {
+        func configViews() {
             backgroundColor = .clear
             bgView.autoresizingMask = [.flexibleHeight, .flexibleWidth]
             doneButton.addTarget(self,
@@ -69,6 +69,7 @@ extension TTAPreviewToolBar {
                                      for: .disabled)
             doneButton.contentHorizontalAlignment = .right
             doneButton.isEnabled = false
+            doneButton.titleLabel?.font = UIFont.boldSystemFont(ofSize: 17)
             previewVideoButton.addTarget(self,
                                          action: #selector(didClickVideoPreviewButton),
                                          for: .touchUpInside)
@@ -76,6 +77,7 @@ extension TTAPreviewToolBar {
                                         for: .normal)
             previewVideoButton.isHidden = true
             countLabel.isHidden = true
+            countLabel.selectItemTintColor = doneButton.tintColor
             deleteButton.addTarget(self,
                                    action: #selector(didClickDeleteButton),
                                    for: .touchUpInside)
@@ -86,9 +88,8 @@ extension TTAPreviewToolBar {
             deleteButton.titleLabel?.font = UIFont.iconfont(size: UIFont.IconFontSize.trashMark)
         }
         
-        _createViews()
-        _configViews()
-        layoutViews()
+        createViews()
+        configViews()
     }
     
     func layoutViews() {
@@ -97,41 +98,42 @@ extension TTAPreviewToolBar {
         let doneButtonX = bounds.width - rightMargin() - doneButtonWidth
         let countLabelWH: CGFloat = 26
         let deleteButtonW: CGFloat = allowDeleteImage ? 26 : 0
+        let toolBarHeight: CGFloat = type(of: self).height(with: 0)
         doneButton.frame = CGRect(
             x: doneButtonX,
             y: 0,
             width: doneButtonWidth,
-            height: type(of: self).height())
+            height: toolBarHeight)
         countLabel.frame = CGRect(
             x: doneButtonX - countLabelWH,
-            y: (bounds.height - countLabelWH) / 2,
+            y: (toolBarHeight - countLabelWH) / 2,
             width: countLabelWH,
             height: countLabelWH)
         deleteButton.frame = CGRect(
             x: rightMargin(),
             y: 0,
             width: deleteButtonW,
-            height: type(of: self).height())
+            height: toolBarHeight)
         previewVideoButton.frame = CGRect(
             x: deleteButton.frame.maxX + (allowDeleteImage ? margin() : 0),
             y: 0,
             width: width(previewVideoButton),
-            height: type(of: self).height())
+            height: toolBarHeight)
     }
     
     func width(_ button: UIButton) -> CGFloat {
         guard let text = button.titleLabel?.text else { return 0 }
         return (text as NSString).boundingRect(
             with: CGSize(width: CGFloat.greatestFiniteMagnitude,
-                         height: type(of: self).height()),
+                         height: type(of: self).height(with: 0)),
             options: .usesLineFragmentOrigin,
             attributes: [NSFontAttributeName: button.titleLabel?.font ?? UIFont.systemFont(ofSize: 17)],
             context: nil).size.width + 3
     }
     
-    static func height() -> CGFloat {
+    static func height(with addition: CGFloat) -> CGFloat {
         let orientation = UIApplication.shared.statusBarOrientation
-        return orientation.isLandscape ? 32 : 44
+        return (orientation.isLandscape ? 32 : (addition > 0 ? 49 : 44)) + addition
     }
     
     func rightMargin() -> CGFloat {

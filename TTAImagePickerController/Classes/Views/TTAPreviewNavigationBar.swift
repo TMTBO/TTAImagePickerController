@@ -67,25 +67,39 @@ extension TTAPreviewNavigationBar {
             backButton.setTitle(UIFont.IconFont.backMark.rawValue, for: .normal)
             backButton.titleLabel?.font = UIFont.iconfont(size: UIFont.IconFontSize.backMark)
             backButton.setTitleColor(selectItemTintColor, for: .normal)
-            backButton.titleEdgeInsets = UIEdgeInsets(top: 0, left: 6, bottom: 0, right: 0)
-//            if #available(iOS 11.0, *) {
-//                backButton.contentHorizontalAlignment = .leading
-//            } else {
-                backButton.contentHorizontalAlignment = .left
-//            }
             
             selectButton.addTarget(self, action: #selector(didClickSelectButton(_:)), for: .touchUpInside)
         }
         
         _createViews()
         _configViews()
-        layoutViews()
     }
     
     func layoutViews() {
+        var layoutY: CGFloat = 20
+        var layoutHeight: CGFloat = bounds.height
+        var layoutMaxX: CGFloat = bounds.width
+        
+        if #available(iOS 11.0, *) {
+            let rect = safeAreaLayoutGuide.layoutFrame
+            layoutY = rect.minY
+            layoutHeight = rect.height
+            layoutMaxX = rect.maxX
+            if UIApplication.shared.isStatusBarHidden && UIApplication.shared.statusBarOrientation.isLandscape { // Adjust iPhoneX hidden status bar when Landscape
+                backButton.contentHorizontalAlignment = .trailing
+                backButton.titleEdgeInsets = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 30)
+            } else {
+                backButton.contentHorizontalAlignment = .leading
+                backButton.titleEdgeInsets = UIEdgeInsets(top: 0, left: 6, bottom: 0, right: 0)
+            }
+        } else {
+            backButton.contentHorizontalAlignment = .left
+            backButton.titleEdgeInsets = UIEdgeInsets(top: 0, left: 6, bottom: 0, right: 0)
+        }
+        
         bgView.frame = bounds
-        backButton.frame = CGRect(x: 0, y: 20, width: 100, height: bounds.height - 20)
-        selectButton.frame = CGRect(x: bounds.width - 26 - 10, y: (bounds.height - 20 - 26) / 2 + 20, width: 26, height: 26)
+        backButton.frame = CGRect(x: 0, y: layoutY, width: 100, height: layoutHeight)
+        selectButton.frame = CGRect(x: layoutMaxX - 26 - 10, y: layoutY + (layoutHeight - 26) / 2, width: 26, height: 26)
         timeLabel.frame = CGRect(x: backButton.frame.maxX + 10, y: backButton.frame.minY, width: bounds.width - 2 * (backButton.frame.width + 10), height: backButton.frame.height)
     }
     
@@ -128,8 +142,12 @@ extension TTAPreviewNavigationBar {
 // MARK: - Const
 
 extension TTAPreviewNavigationBar {
-    static func height() -> CGFloat {
+    static func height(with addition: CGFloat) -> CGFloat {
         let orientation = UIApplication.shared.statusBarOrientation
-        return orientation.isLandscape ? 52 : 64
+        if UIApplication.shared.isStatusBarHidden { // Adjust iPhoneX hidden status bar when Landscape
+            return orientation.isLandscape ? 32 : (44 + addition)
+        } else {
+            return orientation.isLandscape ? 52 : (44 + addition)
+        }
     }
 }

@@ -11,6 +11,7 @@ class TTASelectCountLabel: UILabel {
     
     var selectItemTintColor: UIColor? {
         didSet {
+            guard selectItemTintColor != nil else { return }
             backgroundColor = selectItemTintColor
         }
     }

@@ -28,6 +28,16 @@ public class TTAImagePickerController: UINavigationController, TTAImagePickerCon
         }
     }
     
+    /// Show Lagre titles
+    /// Only Support for iOS 11
+    open var supportLargeTitles: Bool = false {
+        didSet {
+            configPicker { (albumVc, _) in
+                albumVc?.supportLargeTitles = supportLargeTitles
+            }
+        }
+    }
+    
     /// The max num image of the image picker can pick, default is 9
     public var maxPickerNum = 9 {
         didSet {

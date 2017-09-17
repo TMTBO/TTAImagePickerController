@@ -16,7 +16,16 @@ class TTAAlbumPickerViewController: UIViewController {
     var maxPickerNum = 9
     
     /// The tint color which item was selected, default is `UIColor(colorLiteralRed: 0, green: 122.0 / 255.0, blue: 1, alpha: 1)`
-    public var selectItemTintColor: UIColor?
+    var selectItemTintColor: UIColor?
+    
+    var supportLargeTitles: Bool = false {
+        didSet {
+            if #available(iOS 11.0, *) {
+                navigationController?.navigationBar.prefersLargeTitles = supportLargeTitles
+                navigationItem.largeTitleDisplayMode = .automatic
+            }
+        }
+    }
     
     fileprivate var albums: [TTAAlbum]
     fileprivate var currentAlbumIndex = 0

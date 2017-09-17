@@ -25,7 +25,7 @@ public class TTAPreviewViewController: UIViewController, TTAImagePickerControlle
     internal var selected: [PHAsset]
     internal let maxPickerNum: Int
     fileprivate var previewAssets: [PHAsset]
-    fileprivate var currentIndex: Int
+    internal var currentIndex: Int
     
     internal var album: TTAAlbum? {
         didSet {
@@ -46,7 +46,6 @@ public class TTAPreviewViewController: UIViewController, TTAImagePickerControlle
         self.maxPickerNum = maxPickerNum
         self.currentIndex = index
         super.init(nibName: nil, bundle: nil)
-        navigationItem.title = Bundle.localizedString(for: "Preview")
     }
     
     public convenience init(selected: [TTAAsset], index: Int, delegate: TTAImagePickerControllerDelegate?) {
@@ -120,7 +119,6 @@ fileprivate extension TTAPreviewViewController {
     func setupUI() {
         createViews()
         configViews()
-        layoutViews()
         _ = updateBars(isHidden: isHiddenBars)
     }
     
@@ -132,7 +130,11 @@ fileprivate extension TTAPreviewViewController {
     }
     
     func configViews() {
-        automaticallyAdjustsScrollViewInsets = false
+        if #available(iOS 11.0, *) {
+            collectionView.contentInsetAdjustmentBehavior = .never
+        } else {
+            automaticallyAdjustsScrollViewInsets = false
+        }
         previewNavigationBar.delegate = self
         previewNavigationBar.selectItemTintColor = selectItemTintColor
         previewNavigationBar.tintColor = tintColor
@@ -148,9 +150,21 @@ fileprivate extension TTAPreviewViewController {
     }
     
     func layoutViews() {
+        var navigationBarHeight: CGFloat = 20
+        var layoutMaxY = view.bounds.height
+        if #available(iOS 11.0, *) {
+            let rect = view.safeAreaLayoutGuide.layoutFrame
+            navigationBarHeight = rect.minY
+            layoutMaxY = rect.maxY
+        }
+        let addition = view.bounds.height - layoutMaxY
+        
         collectionView.frame = CGRect(x: 0, y: 0, width: view.bounds.width + 30, height: view.bounds.height)
-        previewNavigationBar.frame = CGRect(x: 0, y: 0, width: view.bounds.width, height: TTAPreviewNavigationBar.height())
-        previewToolBar.frame = CGRect(x: 0, y: view.bounds.height - TTAPreviewToolBar.height(), width: view.bounds.width, height: TTAPreviewToolBar.height())
+        previewNavigationBar.frame = CGRect(x: 0, y: 0, width: view.bounds.width, height: TTAPreviewNavigationBar.height(with: navigationBarHeight))
+        previewToolBar.frame = CGRect(x: 0,
+                                      y: layoutMaxY - TTAPreviewToolBar.height(with: 0),
+                                      width: view.bounds.width,
+                                      height: TTAPreviewToolBar.height(with: addition))
         let layout = collectionView.collectionViewLayout as? TTAPreviewCollectionViewLayout
         layout?.itemSize = collectionView.bounds.size
     }
