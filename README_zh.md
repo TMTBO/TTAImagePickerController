@@ -50,6 +50,8 @@ imagePicker.pickerDelegate = self
 imagePicker.allowTakePicture = allowTakePickerSwitch.isOn
 // 设置是否允许用户在选择器的删除照片, 默认不允许
 imagePicker.allowDeleteImage = allowDeleteImageSwitch.isOn
+// 设置显示大标题,仅支持 iOS 11
+imagePicker.supportLargeTitles = showLargeTitles.isOn
 // 设置最大可选图片个数, 默认为 9 张
 imagePicker.maxPickerNum = Int(maxImageCountTextField.text ?? "9") ?? 9
         
@@ -89,6 +91,11 @@ extension ViewController: UICollectionViewDelegate {
 ```
 
 ## 最近添加
+
+* 20170917
+> 修复二次选择图片时删除图片后出现的问题
+> 添加 iOS 11 支持
+> 添加 iPhone 支持
 
 * 20170820
 > 添加拍照支持

@@ -51,6 +51,8 @@ imagePicker.pickerDelegate = self
 imagePicker.allowTakePicture = allowTakePickerSwitch.isOn
 // Set allow user delete images in the picker, default: false
 imagePicker.allowDeleteImage = allowDeleteImageSwitch.isOn
+// Set support large titles for iOS 11
+imagePicker.supportLargeTitles = showLargeTitles.isOn
 // Set the max pick number, default is 9
 imagePicker.maxPickerNum = Int(maxImageCountTextField.text ?? "9") ?? 9
         
@@ -90,6 +92,11 @@ extension ViewController: UICollectionViewDelegate {
 ```
 
 ## Recnet Add
+
+* 20170917
+> Fix reselected and delete image error
+> Add iOS 11 support
+> Add iPhone support
 
 * 20170820
 > Add Camera Support

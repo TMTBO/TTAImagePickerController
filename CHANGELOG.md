@@ -1,6 +1,18 @@
 #Change Log
 
 ---------
+## [0.4.0] / 20170917
+
+### Add
+
+* Add iOS 11 support
+* Add iPhone support
+
+### Fix
+
+* Fix reselected and delete image error
+
+---------
 ## [0.3.1] / 20170820
 
 ### Fix
