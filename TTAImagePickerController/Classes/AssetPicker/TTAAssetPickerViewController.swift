@@ -221,7 +221,9 @@ fileprivate extension TTAAssetPickerViewController {
             let previewAlbum = isPreview ? nil : album
             if let imagePreviewViewController = imagePreviewViewController {
                 imagePreviewViewController.album = previewAlbum
+                imagePreviewViewController.canScrollToCurrentIndex = true
                 imagePreviewViewController.currentIndex = index
+                imagePreviewViewController.canScrollToCurrentIndex = false
             } else {
                 imagePreviewViewController = TTAPreviewViewController(album: previewAlbum,
                                                                       selected: selected,

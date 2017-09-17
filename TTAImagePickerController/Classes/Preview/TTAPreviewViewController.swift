@@ -25,7 +25,14 @@ public class TTAPreviewViewController: UIViewController, TTAImagePickerControlle
     internal var selected: [PHAsset]
     internal let maxPickerNum: Int
     fileprivate var previewAssets: [PHAsset]
-    internal var currentIndex: Int
+    internal var currentIndex: Int {
+        didSet {
+            if canScrollToCurrentIndex {
+                scroll(to: currentIndex)
+            }
+        }
+    }
+    internal var canScrollToCurrentIndex: Bool = false
     
     internal var album: TTAAlbum? {
         didSet {
