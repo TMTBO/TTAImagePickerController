@@ -5,7 +5,7 @@
 //  Created by TobyoTenma on 18/06/2017.
 //
 
-import Foundation
+import UIKit
 
 extension CGSize {
     func toPixel() -> CGSize {
