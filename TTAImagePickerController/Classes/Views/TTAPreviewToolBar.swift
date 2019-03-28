@@ -127,7 +127,7 @@ extension TTAPreviewToolBar {
             with: CGSize(width: CGFloat.greatestFiniteMagnitude,
                          height: type(of: self).height(with: 0)),
             options: .usesLineFragmentOrigin,
-            attributes: [NSFontAttributeName: button.titleLabel?.font ?? UIFont.systemFont(ofSize: 17)],
+            attributes: [NSAttributedString.Key.font: button.titleLabel?.font ?? UIFont.systemFont(ofSize: 17)],
             context: nil).size.width + 3
     }
     
@@ -148,15 +148,15 @@ extension TTAPreviewToolBar {
 // MARK: - Actions
 
 extension TTAPreviewToolBar {
-    func didClickDoneButton() {
+    @objc func didClickDoneButton() {
         delegate?.previewToolBar(toolBar: self, didClickDone: doneButton)
     }
     
-    func didClickVideoPreviewButton() {
+    @objc func didClickVideoPreviewButton() {
         delegate?.previewToolBar(toolBar: self, didClickVideoPreview: previewVideoButton)
     }
     
-    func didClickDeleteButton() {
+    @objc func didClickDeleteButton() {
         delegate?.previewToolBar(toolBar: self, didClickDelete: deleteButton)
     }
 }

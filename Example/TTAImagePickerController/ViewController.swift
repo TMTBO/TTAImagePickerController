@@ -90,7 +90,7 @@ extension ViewController: UICollectionViewDataSource {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "\(UICollectionViewCell.self)", for: indexPath)
         cell.layer.contents = selectedImages[indexPath.item].cgImage
         cell.layer.contentsScale = UIScreen.main.scale
-        cell.layer.contentsGravity = "resizeAspectFill"
+        cell.layer.contentsGravity = CALayerContentsGravity(rawValue: "resizeAspectFill")
         return cell
     }
 }

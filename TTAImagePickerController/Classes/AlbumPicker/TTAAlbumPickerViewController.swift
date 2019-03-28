@@ -130,7 +130,7 @@ extension TTAAlbumPickerViewController {
 
 extension TTAAlbumPickerViewController {
     
-    func didClickCancelItem() {
+    @objc func didClickCancelItem() {
         dismiss(animated: true, completion: nil)
     }
     

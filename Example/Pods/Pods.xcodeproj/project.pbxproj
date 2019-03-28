@@ -7,161 +7,166 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		02551A97B3CB066717134AA441E4C3DA /* TTAImagePickerControllerProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DB21A02648D41883B7521D824F57477 /* TTAImagePickerControllerProtocol.swift */; };
-		0A303DC0E1E8220DBD73B4DB5ECF0227 /* UICollectionView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 596C5ABEAA956FF7EAF1C391CD7D79AC /* UICollectionView+Extension.swift */; };
-		10EC2F5675E1FCA4EA928666F10A3C7C /* TTAAlbumPickerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99EB4BBC94E7E06810123C97CE5ECC32 /* TTAAlbumPickerViewController.swift */; };
-		138F136742FA2689056AC54554C4C3AE /* TTAImagePickerController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59D2D8E9B7A41A5EE02C8B6E59767991 /* TTAImagePickerController.swift */; };
-		203AD74A21D3382E11211562FC83CD4D /* zh.lproj in Resources */ = {isa = PBXBuildFile; fileRef = CAA38861D9041E3EC64B1577AC4F52E2 /* zh.lproj */; };
-		203C135A555054910E446DD9C8EE793B /* Photos.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 287B68BC2EEA3F77CCAD5AFCDBB24813 /* Photos.framework */; };
-		2EB4D63CA82A09CDFCD1AC312DD2721C /* TTAPreviewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CB84D70AA43B7A5895DD60A38BCAA39 /* TTAPreviewViewController.swift */; };
-		31B2AC8FCCB491C3F0AF7406F0889F0E /* TTAPreviewVideoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1CFAF4C7E565B5B87F4A4AEDEE28DF6 /* TTAPreviewVideoView.swift */; };
-		408EF4BAE2AB2F35CEC18D3DFA0542C4 /* TTAAlbum.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86E4DED9A1374DC423E3F77D76B8C6B1 /* TTAAlbum.swift */; };
-		46667489D032595143410D03F73706BF /* ImageIO.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D4FF0DBB0750B0076035BCF503B14DD9 /* ImageIO.framework */; };
-		466A7E1A41A928357B2A71B09766B0D6 /* TTAPreviewNavigationBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = A6A8F17621BCF1663A0B94AC8AEA458D /* TTAPreviewNavigationBar.swift */; };
-		481C7B46C55B0774A42E76D9D0A02D58 /* iconfont.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 7CFD0821BA18482559A1868C5454DEE4 /* iconfont.ttf */; };
-		4B82AD2A36FD10BDD000AE154E312E04 /* TTAHUD.swift in Sources */ = {isa = PBXBuildFile; fileRef = D14005E458A9C6F7482A3E30CD278814 /* TTAHUD.swift */; };
-		532CF442E9A58F7276AF8A7C184661FB /* TTAProgressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D777DE34D36FA9CA5BA3C46E6DEE4E3 /* TTAProgressView.swift */; };
-		53B2E496C3B8ED6A6206BF60A89676DC /* TTAAssetCollectionViewLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 242DE1FD8F578C475A8D7168418A87EC /* TTAAssetCollectionViewLayout.swift */; };
-		589691F165C00D48CE8C7DB6397C55A4 /* TTAPreviewToolBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50DDE737147C9ABC877771176E18495A /* TTAPreviewToolBar.swift */; };
-		5B545D814C8111D069703C4377D6E065 /* TTAVideoProgressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25363E939A559DFC8B71A2BB436466AB /* TTAVideoProgressView.swift */; };
-		5C43395F228A4AE24CE9C78682F95746 /* TTASelectButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8942678C84AA67C341353FF2F0DECBE1 /* TTASelectButton.swift */; };
-		5F009C4E8FCDE1B93FFED64C57A365BE /* UIView+Animations.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8653B4E16D16DBFC42F167C17FFC8185 /* UIView+Animations.swift */; };
-		5F9D25A77501C26B2662DA342CC01D69 /* TTAPermissionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B5A4AECE196AC02317C3179AC7B9959 /* TTAPermissionView.swift */; };
-		63A757E8D19FF6A54EDC53E8749FE343 /* TTAPreviewCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDC89EC379541B3DEA7B4BA888DF7871 /* TTAPreviewCollectionViewCell.swift */; };
-		66DD4E9CF8047BABE2386E248F9D6296 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A13355D8A6AA81D51F5131C39013308B /* Foundation.framework */; };
-		6D2123B0122D46CB5605F3CFDF7E2BC6 /* Data+ImageContentType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 626F88603C556B4A46CAAED7CE0A625E /* Data+ImageContentType.swift */; };
-		6E3E9C7E2AA6DACC116C9342F27C272F /* TTAImagePickerManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B497C7C2B013B85924267768C528BE9 /* TTAImagePickerManager.swift */; };
-		7146FD701FBDDF93DB388A737EA87187 /* TTACameraCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBDF954EFDD7E5DFB93AF60A8419C45A /* TTACameraCell.swift */; };
-		7CBDB24C2774F603A36D943CA954A1D3 /* Pods-TTAImagePickerController_Example-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = 790F93FF0462602C4331E2327C355A7D /* Pods-TTAImagePickerController_Example-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		7DB922FC5961F31B49FF33C0AF041AD2 /* UIImage+IconFont.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FD8C89A7308EA51029FB8B56E089E38 /* UIImage+IconFont.swift */; };
-		7DE3AFBB309CD26218B6A6039B1A8867 /* TTAPreviewZoomView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6D6A740A540FEB133423F4927445DE5 /* TTAPreviewZoomView.swift */; };
-		8AAE9761C492A9C3F180A25BD2994D04 /* Bundle+TTAImagePickerController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E510DBC6F8F1FB3FEC8253F6D8CC137C /* Bundle+TTAImagePickerController.swift */; };
-		8D2C2F61B9B85006512021A8729F25D7 /* TTAImagePickerController-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E248EF394CF38B602E1BBCF853F02CF /* TTAImagePickerController-dummy.m */; };
-		940E001FBCA25069439B48C5323C58B5 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A13355D8A6AA81D51F5131C39013308B /* Foundation.framework */; };
-		AECB8AAD6A680AFCF496E82BD2EBEA9C /* TTAAssetPickerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F9069A54FCC27F5FFEAD810D1C76049D /* TTAAssetPickerViewController.swift */; };
-		B4CD05848D6DE876AC6F794730238390 /* TTAImagePickerController.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 514C57CA32A704DA8B66A90F4A9FBCB4 /* TTAImagePickerController.bundle */; };
-		B7E9628A785004D5400BC9C4F31AB489 /* Pods-TTAImagePickerController_Example-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 407961545A23614987010F25EC31662E /* Pods-TTAImagePickerController_Example-dummy.m */; };
-		B94007A61BAB64544C33E8089131E1DB /* UIFont+IconFont.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD2FA744F2FA525C58DC383EA64554B9 /* UIFont+IconFont.swift */; };
-		BC2F1E5263977BD9ABE83B43BED10F07 /* CGSize+Pixel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAA9C9CE8B8134E2A4309AD4D63EFDCE /* CGSize+Pixel.swift */; };
-		BDAFC0F7C9FD22582307545630B697CB /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6F0CE0D9C30DE96FDC8C07BBFD847280 /* UIKit.framework */; };
-		BE1BF75AEDB0A47872DED6E5A464E454 /* en.lproj in Resources */ = {isa = PBXBuildFile; fileRef = 876B8E06B474EA9A627B705326D0D605 /* en.lproj */; };
-		CBA3644DBD1CEE2B718311ED11BF4E70 /* TTASelectCountLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00D1A152F736450044D0367874775961 /* TTASelectCountLabel.swift */; };
-		D72D14B55B62A5A740F1F9590ED3CE97 /* UIView+CornerRadios.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EE094CD4C2E716C1380B5855C0227DE /* UIView+CornerRadios.swift */; };
-		D9A32D4A2FD25F35B7190F65041695C4 /* TTAAlbumTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F8E0DBAC62D9A3421FB1824315E0D6A /* TTAAlbumTableViewCell.swift */; };
-		E7E21F15741EE2CF3314462D27CA25D5 /* UIImage+GIF.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57EBFC2BF4F65FFEB06F528952A91A26 /* UIImage+GIF.swift */; };
-		F28A40FCE3B22347B16E47AB4A471D81 /* TTAAssetCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 568DEE15C81A8DD050583E592E2CE70D /* TTAAssetCollectionViewCell.swift */; };
-		F2D305095821B9F264C6FC81629982DF /* TTAPreviewCollectionViewLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1496D352223E93DB00F47A1E7E25AA6A /* TTAPreviewCollectionViewLayout.swift */; };
-		F4700C7F511BEC6E710CDF28C932AAE1 /* TTAAssetComponentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D51820212DEC710F005E5D50B15D5D3B /* TTAAssetComponentView.swift */; };
-		F4E2AD4EE386F653AEB71ED1B32A4AFA /* TTAVideoPreviewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C94E23C1D36AE91D85FF9E913745681 /* TTAVideoPreviewViewController.swift */; };
-		F8E263172D3CF22BB796C44EDC558CA2 /* TTAImagePickerController-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = 25C07D2C71DCFC90120E8687A893F1C2 /* TTAImagePickerController-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		FDF48B802190F7BCC65DF3FFD52E8753 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A77E3880381FEA8BB9DCBE3397DADDBA /* AVFoundation.framework */; };
+		090FB6D0E58D0ADD125ED99F92A233DE /* TTASelectButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D7D13E3E6E2CB1C427C70CC795153EA /* TTASelectButton.swift */; };
+		0D1DBF9DA63D54E12B9792D6E8A0A4FC /* Data+ImageContentType.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD3F401AF9CF21463A92D23B252DC257 /* Data+ImageContentType.swift */; };
+		10E6CA6831AFE6723A016AB5637F4C86 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EF972828A2247488E8613CE2D522C776 /* UIKit.framework */; };
+		11081E6A0EC03AF37DAA2A5C40096A23 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 10CC6FD580A23941EB6FADD9C10C371C /* Foundation.framework */; };
+		28235DE9672B48A05D9E87EADA82627C /* TTAAssetCollectionViewLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1DC8D6C9F21E1FF80EF7BE0854569BD /* TTAAssetCollectionViewLayout.swift */; };
+		32236AB57CBC742E342CE31935837173 /* UIView+Animations.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3DE7B6DEFE3DBC512C4DBA5E8EEB949 /* UIView+Animations.swift */; };
+		33D3E9DC21B3F997419E75AAB4F83626 /* TTAImagePickerController-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = 8AEC137ABF39CE87CEE4AC841FAE41D0 /* TTAImagePickerController-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		37DB01E2524606523234E2894286FD73 /* TTAPreviewVideoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB33AEE482DC5AF455E991381B9F55D4 /* TTAPreviewVideoView.swift */; };
+		39D57FD03A2758213AC0B2AD92F67BB5 /* ImageIO.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F7B02EF4AAC541C4C0E182666ADDDC96 /* ImageIO.framework */; };
+		3DCD91D7C1AC3471AF64F500920F9BD8 /* TTAImagePickerControllerProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11F2C96E8FCF8295D8687FFA97E948E9 /* TTAImagePickerControllerProtocol.swift */; };
+		3E8A89DF4EF31F0DFFD7C7C196904713 /* UIImage+IconFont.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C043F9624E21BB4BD8A6F6FF10920E3 /* UIImage+IconFont.swift */; };
+		40B9F9808D5FAA42D03C0B0998BEFEC2 /* TTAImagePickerController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E5DD7BED4C8156FC781CA9CF32CDDC7 /* TTAImagePickerController.swift */; };
+		42D04B874C3091F8744998D94E70B02D /* TTAPreviewToolBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = B45D621E96C0610E2416594E551D634F /* TTAPreviewToolBar.swift */; };
+		42D89B620EEFCF548B7C233B51A1B3FB /* TTAHUD.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09CE40EBDB34A05C4D495D21B5C52B6B /* TTAHUD.swift */; };
+		42DF4695C392C68DE0D1F92F73ADF49D /* TTAPreviewNavigationBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44AF50FDFA256EA2BE394555EC3BE291 /* TTAPreviewNavigationBar.swift */; };
+		436BF6F7B8DDB584E2CD789E3F4AA72B /* TTAPreviewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B835327D0063419767AACB75EE0829DA /* TTAPreviewViewController.swift */; };
+		45A53FE48DDB5ABC3C6E344BE5B81896 /* TTASelectCountLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F47770B1295A98E780F14978709D1CAF /* TTASelectCountLabel.swift */; };
+		48F758F3690B4DF8BD05EDA757770252 /* CGSize+Pixel.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD1A5BB73269947EF963151173336D18 /* CGSize+Pixel.swift */; };
+		4D319ADA01A4D53A4A8600FA8BE5F8BF /* TTAPreviewCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74C72FD6E179ABF6A736618832CD3829 /* TTAPreviewCollectionViewCell.swift */; };
+		510691BB1C6523DD8529DB2FFA2891D4 /* TTAAssetPickerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F429F9F040D2D99320562FEC1C8901D /* TTAAssetPickerViewController.swift */; };
+		5605238FD97B434ED074226D28C56D92 /* Photos.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 940460A83F84D920ABF46A7C88C8E7D3 /* Photos.framework */; };
+		5B21911133F862E1099E536178450A67 /* TTAAssetCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37FD0C93446A861915C13E1917674A46 /* TTAAssetCollectionViewCell.swift */; };
+		627E33FC95568DEA4273E70FB1ECD4A3 /* UIImage+GIF.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B095427110554CEB8B951603E71BAD3 /* UIImage+GIF.swift */; };
+		65FB1458FD66E17568117470FA3F0F18 /* TTAProgressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76728E1B9CE71A79850A8F1DBCD259BC /* TTAProgressView.swift */; };
+		666A1E19C8AD542626D4799C1C5C2C71 /* en.lproj in Resources */ = {isa = PBXBuildFile; fileRef = 354670FE0948AF6F1C077E981A740838 /* en.lproj */; };
+		6FE32A99064FBB12DA7ED97A5618CE4E /* zh.lproj in Resources */ = {isa = PBXBuildFile; fileRef = AE647AF2DDC6E0EC40C3CE9CFEE45EE6 /* zh.lproj */; };
+		70AE636614AB9B4F185547B0BC99B004 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 10CC6FD580A23941EB6FADD9C10C371C /* Foundation.framework */; };
+		70C032CF44C4AC59409D838BF6AC310B /* TTAVideoProgressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7D82E566EA28A7DA29099CAD712B1D5 /* TTAVideoProgressView.swift */; };
+		7782114BADFAE82FD195336F206EFEAD /* TTACameraCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71A606D1342E5D5A43C31936340F5D74 /* TTACameraCell.swift */; };
+		88966C9A418E9B90892E06939BD1E9A6 /* iconfont.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 4679F057FB8A2B94032956A8B238E4B7 /* iconfont.ttf */; };
+		8B3F4A0B8EB1015B09C932248F39D54A /* Bundle+TTAImagePickerController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C6147E069C3C51832F37814E95F1A8F /* Bundle+TTAImagePickerController.swift */; };
+		91075B38BF96BD727388C8AC5328B91D /* TTAAlbum.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CFE8057B439B4EB22454EBA18503B40 /* TTAAlbum.swift */; };
+		972924CB072BFF51162D5F81BF546D0B /* UICollectionView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75F363A9EF74BACF8F6DC7951AE7A430 /* UICollectionView+Extension.swift */; };
+		9D3AF381D56E6AE40F8ED57989E267C1 /* TTAPreviewZoomView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E0148CBB1F0099DCF151AA9DAB7DD3E /* TTAPreviewZoomView.swift */; };
+		9F041CE8D5BA08A9D488D119BD26C6B0 /* Pods-TTAImagePickerController_Example-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = 2D201A922FDBD42F2221DD2B5ABE6281 /* Pods-TTAImagePickerController_Example-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		9F31E6AFA150EDD3B90BB54EB89FA020 /* TTAAlbumTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D646810F092F86DA7940E842FD266397 /* TTAAlbumTableViewCell.swift */; };
+		A71BC96C904345EED642F673797844EC /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 089CAD468FB108C605FF9BFE65E69361 /* AVFoundation.framework */; };
+		ABFBF5DBA36BDC003F2FBB5C6CA855FE /* TTAAssetComponentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F641063049F231141AC0AEF010F051AB /* TTAAssetComponentView.swift */; };
+		B0E3B79C2F0098296F9C6AA9EEBC0481 /* TTAImagePickerManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01D92F458067D65CFD29846820693B0C /* TTAImagePickerManager.swift */; };
+		B4816B97B9CE6D8FAE192B54075FA078 /* TTAPermissionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54DD6DD8502BAB59FA784ED96945A576 /* TTAPermissionView.swift */; };
+		BB0154120AE8C6CDC82C0606D1E7C162 /* UIView+CornerRadios.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3324E53F6D2ACF573220A60390E63530 /* UIView+CornerRadios.swift */; };
+		BE6EF82205D834DD133CD4D24F094059 /* TTAAlbumPickerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C23F467B11109AAE522FE3BEDCF99FA /* TTAAlbumPickerViewController.swift */; };
+		C6A8DA9BC918D7636E7E2FB323C9082C /* TTAImagePickerController-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 91A2FF0F0FCCA83B243929F3E3130DA6 /* TTAImagePickerController-dummy.m */; };
+		C91977913F447F5CA3BF71AAC0C53851 /* TTAImagePickerController.bundle in Resources */ = {isa = PBXBuildFile; fileRef = DBE411A878F44BD1DDBD82892F985FF6 /* TTAImagePickerController.bundle */; };
+		DCE396BF2FCDB5ABF697AF92468C3B7A /* TTAVideoPreviewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F84C92905FD2A27019802D998D5FF77A /* TTAVideoPreviewViewController.swift */; };
+		E927FB6C389DE2C6FA394D0C5B3BFA22 /* Pods-TTAImagePickerController_Example-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BD5EBF3EC853D373E223CA1592A61FA /* Pods-TTAImagePickerController_Example-dummy.m */; };
+		F7FE5CF809E0CC7AE4FDC8EEC6DD33FE /* UIFont+IconFont.swift in Sources */ = {isa = PBXBuildFile; fileRef = 671B8266C5E1385382C486B91C5A53F3 /* UIFont+IconFont.swift */; };
+		FA3B8A581982F118B42A2F777B857E67 /* TTAPreviewCollectionViewLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB81716CAAFFA2833B61839BB9AE1DF9 /* TTAPreviewCollectionViewLayout.swift */; };
+		FEDF1D8330A79D6E472B479AC2A0034A /* AssetsLibrary.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 633B28BAA4EF1A6020C04E901D6D7A13 /* AssetsLibrary.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		3829AD9CA2DE72F2DCEB69448E3608EB /* PBXContainerItemProxy */ = {
+		380A324DC13B937FF4E4E03F03CB3409 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
-			containerPortal = D41D8CD98F00B204E9800998ECF8427E /* Project object */;
+			containerPortal = BFDFE7DC352907FC980B868725387E98 /* Project object */;
 			proxyType = 1;
-			remoteGlobalIDString = B1277348644AC53DC91B6652D0FBCB86;
+			remoteGlobalIDString = 19F0DA74AF24F2EDE31866452226D58F;
 			remoteInfo = "TTAImagePickerController-TTAImagePickerController";
 		};
-		48F60296BD2402F6BC5A0768257CDA05 /* PBXContainerItemProxy */ = {
+		58F0774D9F9461ACB79848ADEDC5EAE3 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
-			containerPortal = D41D8CD98F00B204E9800998ECF8427E /* Project object */;
+			containerPortal = BFDFE7DC352907FC980B868725387E98 /* Project object */;
 			proxyType = 1;
-			remoteGlobalIDString = A410E63B0285CDEA9B2902A12824A78E;
+			remoteGlobalIDString = 94A23763F53111B4D5F0D62A58F85BFC;
 			remoteInfo = TTAImagePickerController;
 		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		00D1A152F736450044D0367874775961 /* TTASelectCountLabel.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = TTASelectCountLabel.swift; sourceTree = "<group>"; };
-		0EE094CD4C2E716C1380B5855C0227DE /* UIView+CornerRadios.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = "UIView+CornerRadios.swift"; sourceTree = "<group>"; };
-		1496D352223E93DB00F47A1E7E25AA6A /* TTAPreviewCollectionViewLayout.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = TTAPreviewCollectionViewLayout.swift; sourceTree = "<group>"; };
-		1DD917A3B15C4D8006A95B9F04B0D560 /* TTAImagePickerController.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = TTAImagePickerController.framework; path = TTAImagePickerController.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		242DE1FD8F578C475A8D7168418A87EC /* TTAAssetCollectionViewLayout.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = TTAAssetCollectionViewLayout.swift; sourceTree = "<group>"; };
-		25363E939A559DFC8B71A2BB436466AB /* TTAVideoProgressView.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = TTAVideoProgressView.swift; sourceTree = "<group>"; };
-		25C07D2C71DCFC90120E8687A893F1C2 /* TTAImagePickerController-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "TTAImagePickerController-umbrella.h"; sourceTree = "<group>"; };
-		27C73BA777C4FF8A483B357D10DEB037 /* Pods-TTAImagePickerController_Example-frameworks.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-TTAImagePickerController_Example-frameworks.sh"; sourceTree = "<group>"; };
-		287B68BC2EEA3F77CCAD5AFCDBB24813 /* Photos.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Photos.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS10.3.sdk/System/Library/Frameworks/Photos.framework; sourceTree = DEVELOPER_DIR; };
-		3B497C7C2B013B85924267768C528BE9 /* TTAImagePickerManager.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = TTAImagePickerManager.swift; sourceTree = "<group>"; };
-		3F8E0DBAC62D9A3421FB1824315E0D6A /* TTAAlbumTableViewCell.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = TTAAlbumTableViewCell.swift; sourceTree = "<group>"; };
-		407961545A23614987010F25EC31662E /* Pods-TTAImagePickerController_Example-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Pods-TTAImagePickerController_Example-dummy.m"; sourceTree = "<group>"; };
-		4CB84D70AA43B7A5895DD60A38BCAA39 /* TTAPreviewViewController.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = TTAPreviewViewController.swift; sourceTree = "<group>"; };
-		50B334066880C85DC8B81910463E819D /* Pods-TTAImagePickerController_Example-acknowledgements.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-TTAImagePickerController_Example-acknowledgements.plist"; sourceTree = "<group>"; };
-		50DDE737147C9ABC877771176E18495A /* TTAPreviewToolBar.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = TTAPreviewToolBar.swift; sourceTree = "<group>"; };
-		514C57CA32A704DA8B66A90F4A9FBCB4 /* TTAImagePickerController.bundle */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; name = TTAImagePickerController.bundle; path = TTAImagePickerController.bundle; sourceTree = BUILT_PRODUCTS_DIR; };
-		568DEE15C81A8DD050583E592E2CE70D /* TTAAssetCollectionViewCell.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = TTAAssetCollectionViewCell.swift; sourceTree = "<group>"; };
-		57EBFC2BF4F65FFEB06F528952A91A26 /* UIImage+GIF.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = "UIImage+GIF.swift"; sourceTree = "<group>"; };
-		596C5ABEAA956FF7EAF1C391CD7D79AC /* UICollectionView+Extension.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = "UICollectionView+Extension.swift"; sourceTree = "<group>"; };
-		59D2D8E9B7A41A5EE02C8B6E59767991 /* TTAImagePickerController.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = TTAImagePickerController.swift; sourceTree = "<group>"; };
-		626F88603C556B4A46CAAED7CE0A625E /* Data+ImageContentType.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = "Data+ImageContentType.swift"; sourceTree = "<group>"; };
-		68BFF69AE65C785672223A75314D3807 /* TTAImagePickerController.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; path = TTAImagePickerController.modulemap; sourceTree = "<group>"; };
-		6B5A4AECE196AC02317C3179AC7B9959 /* TTAPermissionView.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = TTAPermissionView.swift; sourceTree = "<group>"; };
-		6DB21A02648D41883B7521D824F57477 /* TTAImagePickerControllerProtocol.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = TTAImagePickerControllerProtocol.swift; sourceTree = "<group>"; };
-		6E248EF394CF38B602E1BBCF853F02CF /* TTAImagePickerController-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "TTAImagePickerController-dummy.m"; sourceTree = "<group>"; };
-		6F0CE0D9C30DE96FDC8C07BBFD847280 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS10.3.sdk/System/Library/Frameworks/UIKit.framework; sourceTree = DEVELOPER_DIR; };
-		73B50A90D7C893672EC445325D1E3527 /* Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		78D79FD27B94272FE1AB61FBFE24F2C9 /* Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		790F93FF0462602C4331E2327C355A7D /* Pods-TTAImagePickerController_Example-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Pods-TTAImagePickerController_Example-umbrella.h"; sourceTree = "<group>"; };
-		7C94E23C1D36AE91D85FF9E913745681 /* TTAVideoPreviewViewController.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = TTAVideoPreviewViewController.swift; sourceTree = "<group>"; };
-		7CFD0821BA18482559A1868C5454DEE4 /* iconfont.ttf */ = {isa = PBXFileReference; includeInIndex = 1; path = iconfont.ttf; sourceTree = "<group>"; };
-		8653B4E16D16DBFC42F167C17FFC8185 /* UIView+Animations.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = "UIView+Animations.swift"; sourceTree = "<group>"; };
-		86E4DED9A1374DC423E3F77D76B8C6B1 /* TTAAlbum.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = TTAAlbum.swift; sourceTree = "<group>"; };
-		876B8E06B474EA9A627B705326D0D605 /* en.lproj */ = {isa = PBXFileReference; includeInIndex = 1; path = en.lproj; sourceTree = "<group>"; };
-		8942678C84AA67C341353FF2F0DECBE1 /* TTASelectButton.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = TTASelectButton.swift; sourceTree = "<group>"; };
-		8D777DE34D36FA9CA5BA3C46E6DEE4E3 /* TTAProgressView.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = TTAProgressView.swift; sourceTree = "<group>"; };
-		8FD8C89A7308EA51029FB8B56E089E38 /* UIImage+IconFont.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = "UIImage+IconFont.swift"; sourceTree = "<group>"; };
-		93A4A3777CF96A4AAC1D13BA6DCCEA73 /* Podfile */ = {isa = PBXFileReference; explicitFileType = text.script.ruby; includeInIndex = 1; lastKnownFileType = text; name = Podfile; path = ../Podfile; sourceTree = SOURCE_ROOT; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
-		99EB4BBC94E7E06810123C97CE5ECC32 /* TTAAlbumPickerViewController.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = TTAAlbumPickerViewController.swift; sourceTree = "<group>"; };
-		9E51C9F1BA6CAA7B8A11845F18A741D4 /* ResourceBundle-TTAImagePickerController-Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "ResourceBundle-TTAImagePickerController-Info.plist"; sourceTree = "<group>"; };
-		9E9D9197931EA7F0C05AD15E92FB4020 /* TTAImagePickerController.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = TTAImagePickerController.xcconfig; sourceTree = "<group>"; };
-		9FA8C6B4D9C190E4C06CDCED6246FB4D /* Pods-TTAImagePickerController_Example-acknowledgements.markdown */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = "Pods-TTAImagePickerController_Example-acknowledgements.markdown"; sourceTree = "<group>"; };
-		A094F9A798356033BF76C854272BD195 /* Pods-TTAImagePickerController_Example.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-TTAImagePickerController_Example.release.xcconfig"; sourceTree = "<group>"; };
-		A13355D8A6AA81D51F5131C39013308B /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS10.3.sdk/System/Library/Frameworks/Foundation.framework; sourceTree = DEVELOPER_DIR; };
-		A6A8F17621BCF1663A0B94AC8AEA458D /* TTAPreviewNavigationBar.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = TTAPreviewNavigationBar.swift; sourceTree = "<group>"; };
-		A77E3880381FEA8BB9DCBE3397DADDBA /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS10.3.sdk/System/Library/Frameworks/AVFoundation.framework; sourceTree = DEVELOPER_DIR; };
-		A900DDAB6D9CFA955C82F9FF52E0166A /* Pods-TTAImagePickerController_Example.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; path = "Pods-TTAImagePickerController_Example.modulemap"; sourceTree = "<group>"; };
-		B95A4DDC66DA0F946FCDF3742E488E7A /* TTAImagePickerController-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "TTAImagePickerController-prefix.pch"; sourceTree = "<group>"; };
-		C1CFAF4C7E565B5B87F4A4AEDEE28DF6 /* TTAPreviewVideoView.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = TTAPreviewVideoView.swift; sourceTree = "<group>"; };
-		C6D6A740A540FEB133423F4927445DE5 /* TTAPreviewZoomView.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = TTAPreviewZoomView.swift; sourceTree = "<group>"; };
-		C8163B7073F124E64BE9006EA79CBD72 /* Pods-TTAImagePickerController_Example-resources.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-TTAImagePickerController_Example-resources.sh"; sourceTree = "<group>"; };
-		CAA38861D9041E3EC64B1577AC4F52E2 /* zh.lproj */ = {isa = PBXFileReference; includeInIndex = 1; path = zh.lproj; sourceTree = "<group>"; };
-		CAA9C9CE8B8134E2A4309AD4D63EFDCE /* CGSize+Pixel.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = "CGSize+Pixel.swift"; sourceTree = "<group>"; };
-		CD2FA744F2FA525C58DC383EA64554B9 /* UIFont+IconFont.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = "UIFont+IconFont.swift"; sourceTree = "<group>"; };
-		D14005E458A9C6F7482A3E30CD278814 /* TTAHUD.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = TTAHUD.swift; sourceTree = "<group>"; };
-		D4FF0DBB0750B0076035BCF503B14DD9 /* ImageIO.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ImageIO.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS10.3.sdk/System/Library/Frameworks/ImageIO.framework; sourceTree = DEVELOPER_DIR; };
-		D51820212DEC710F005E5D50B15D5D3B /* TTAAssetComponentView.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = TTAAssetComponentView.swift; sourceTree = "<group>"; };
-		DBDF954EFDD7E5DFB93AF60A8419C45A /* TTACameraCell.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = TTACameraCell.swift; sourceTree = "<group>"; };
-		DEC3480FE93ABAD53D169D21DF9C2E93 /* Pods_TTAImagePickerController_Example.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = Pods_TTAImagePickerController_Example.framework; path = "Pods-TTAImagePickerController_Example.framework"; sourceTree = BUILT_PRODUCTS_DIR; };
-		E510DBC6F8F1FB3FEC8253F6D8CC137C /* Bundle+TTAImagePickerController.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = "Bundle+TTAImagePickerController.swift"; sourceTree = "<group>"; };
-		F4F39D37F371D0291650D3067ABDA8DE /* Pods-TTAImagePickerController_Example.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-TTAImagePickerController_Example.debug.xcconfig"; sourceTree = "<group>"; };
-		F9069A54FCC27F5FFEAD810D1C76049D /* TTAAssetPickerViewController.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = TTAAssetPickerViewController.swift; sourceTree = "<group>"; };
-		FDC89EC379541B3DEA7B4BA888DF7871 /* TTAPreviewCollectionViewCell.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = TTAPreviewCollectionViewCell.swift; sourceTree = "<group>"; };
+		01D92F458067D65CFD29846820693B0C /* TTAImagePickerManager.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = TTAImagePickerManager.swift; path = TTAImagePickerController/Classes/TTAImagePickerManager.swift; sourceTree = "<group>"; };
+		089CAD468FB108C605FF9BFE65E69361 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS12.0.sdk/System/Library/Frameworks/AVFoundation.framework; sourceTree = DEVELOPER_DIR; };
+		09CE40EBDB34A05C4D495D21B5C52B6B /* TTAHUD.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = TTAHUD.swift; sourceTree = "<group>"; };
+		0E831BEB85C14FB80D90E925AE348EB7 /* LICENSE */ = {isa = PBXFileReference; includeInIndex = 1; path = LICENSE; sourceTree = "<group>"; };
+		10CC6FD580A23941EB6FADD9C10C371C /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS12.0.sdk/System/Library/Frameworks/Foundation.framework; sourceTree = DEVELOPER_DIR; };
+		11F2C96E8FCF8295D8687FFA97E948E9 /* TTAImagePickerControllerProtocol.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = TTAImagePickerControllerProtocol.swift; path = TTAImagePickerController/Classes/TTAImagePickerControllerProtocol.swift; sourceTree = "<group>"; };
+		1BD5EBF3EC853D373E223CA1592A61FA /* Pods-TTAImagePickerController_Example-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Pods-TTAImagePickerController_Example-dummy.m"; sourceTree = "<group>"; };
+		1F89AA30F3070FE9C99FBE51B3B2EB91 /* Pods-TTAImagePickerController_Example-acknowledgements.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-TTAImagePickerController_Example-acknowledgements.plist"; sourceTree = "<group>"; };
+		21910713B3EC232072AF55B6B4EDD285 /* Pods-TTAImagePickerController_Example.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.module; path = "Pods-TTAImagePickerController_Example.modulemap"; sourceTree = "<group>"; };
+		2D201A922FDBD42F2221DD2B5ABE6281 /* Pods-TTAImagePickerController_Example-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Pods-TTAImagePickerController_Example-umbrella.h"; sourceTree = "<group>"; };
+		3324E53F6D2ACF573220A60390E63530 /* UIView+CornerRadios.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = "UIView+CornerRadios.swift"; sourceTree = "<group>"; };
+		346D3C8F51113EC7C49096A6CCE4C4A3 /* Pods-TTAImagePickerController_Example.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-TTAImagePickerController_Example.debug.xcconfig"; sourceTree = "<group>"; };
+		354670FE0948AF6F1C077E981A740838 /* en.lproj */ = {isa = PBXFileReference; includeInIndex = 1; name = en.lproj; path = TTAImagePickerController/Resources/en.lproj; sourceTree = "<group>"; };
+		35C8979ACC711B16AE78CBCAFD9A7E5E /* TTAImagePickerController-Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "TTAImagePickerController-Info.plist"; sourceTree = "<group>"; };
+		37FD0C93446A861915C13E1917674A46 /* TTAAssetCollectionViewCell.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = TTAAssetCollectionViewCell.swift; sourceTree = "<group>"; };
+		3AE40676AD32E188515BF5234C1A9535 /* README.md */ = {isa = PBXFileReference; includeInIndex = 1; path = README.md; sourceTree = "<group>"; };
+		44AF50FDFA256EA2BE394555EC3BE291 /* TTAPreviewNavigationBar.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = TTAPreviewNavigationBar.swift; sourceTree = "<group>"; };
+		4679F057FB8A2B94032956A8B238E4B7 /* iconfont.ttf */ = {isa = PBXFileReference; includeInIndex = 1; name = iconfont.ttf; path = TTAImagePickerController/Resources/iconfont.ttf; sourceTree = "<group>"; };
+		4C23F467B11109AAE522FE3BEDCF99FA /* TTAAlbumPickerViewController.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = TTAAlbumPickerViewController.swift; sourceTree = "<group>"; };
+		54DD6DD8502BAB59FA784ED96945A576 /* TTAPermissionView.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = TTAPermissionView.swift; sourceTree = "<group>"; };
+		5C6147E069C3C51832F37814E95F1A8F /* Bundle+TTAImagePickerController.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = "Bundle+TTAImagePickerController.swift"; sourceTree = "<group>"; };
+		5D7D13E3E6E2CB1C427C70CC795153EA /* TTASelectButton.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = TTASelectButton.swift; sourceTree = "<group>"; };
+		5E0148CBB1F0099DCF151AA9DAB7DD3E /* TTAPreviewZoomView.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = TTAPreviewZoomView.swift; sourceTree = "<group>"; };
+		633B28BAA4EF1A6020C04E901D6D7A13 /* AssetsLibrary.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AssetsLibrary.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS12.0.sdk/System/Library/Frameworks/AssetsLibrary.framework; sourceTree = DEVELOPER_DIR; };
+		6453553A2893127E3AB03678BCBABC47 /* ResourceBundle-TTAImagePickerController-TTAImagePickerController-Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "ResourceBundle-TTAImagePickerController-TTAImagePickerController-Info.plist"; sourceTree = "<group>"; };
+		671B8266C5E1385382C486B91C5A53F3 /* UIFont+IconFont.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = "UIFont+IconFont.swift"; sourceTree = "<group>"; };
+		6F429F9F040D2D99320562FEC1C8901D /* TTAAssetPickerViewController.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = TTAAssetPickerViewController.swift; sourceTree = "<group>"; };
+		71A606D1342E5D5A43C31936340F5D74 /* TTACameraCell.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = TTACameraCell.swift; sourceTree = "<group>"; };
+		71E5506ECE54DD163F38D710953C9CFA /* TTAImagePickerController.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = TTAImagePickerController.framework; path = TTAImagePickerController.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		72C5BB26463DC8799EF24C2DA5A01A61 /* Pods-TTAImagePickerController_Example-frameworks.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-TTAImagePickerController_Example-frameworks.sh"; sourceTree = "<group>"; };
+		74C72FD6E179ABF6A736618832CD3829 /* TTAPreviewCollectionViewCell.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = TTAPreviewCollectionViewCell.swift; sourceTree = "<group>"; };
+		75F363A9EF74BACF8F6DC7951AE7A430 /* UICollectionView+Extension.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = "UICollectionView+Extension.swift"; sourceTree = "<group>"; };
+		76728E1B9CE71A79850A8F1DBCD259BC /* TTAProgressView.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = TTAProgressView.swift; sourceTree = "<group>"; };
+		7CFE8057B439B4EB22454EBA18503B40 /* TTAAlbum.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = TTAAlbum.swift; sourceTree = "<group>"; };
+		7E5DD7BED4C8156FC781CA9CF32CDDC7 /* TTAImagePickerController.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = TTAImagePickerController.swift; path = TTAImagePickerController/Classes/TTAImagePickerController.swift; sourceTree = "<group>"; };
+		8AEC137ABF39CE87CEE4AC841FAE41D0 /* TTAImagePickerController-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "TTAImagePickerController-umbrella.h"; sourceTree = "<group>"; };
+		8B095427110554CEB8B951603E71BAD3 /* UIImage+GIF.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = "UIImage+GIF.swift"; sourceTree = "<group>"; };
+		91A2FF0F0FCCA83B243929F3E3130DA6 /* TTAImagePickerController-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "TTAImagePickerController-dummy.m"; sourceTree = "<group>"; };
+		940460A83F84D920ABF46A7C88C8E7D3 /* Photos.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Photos.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS12.0.sdk/System/Library/Frameworks/Photos.framework; sourceTree = DEVELOPER_DIR; };
+		9C043F9624E21BB4BD8A6F6FF10920E3 /* UIImage+IconFont.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = "UIImage+IconFont.swift"; sourceTree = "<group>"; };
+		9D940727FF8FB9C785EB98E56350EF41 /* Podfile */ = {isa = PBXFileReference; explicitFileType = text.script.ruby; includeInIndex = 1; indentWidth = 2; lastKnownFileType = text; name = Podfile; path = ../Podfile; sourceTree = SOURCE_ROOT; tabWidth = 2; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
+		A1DC8D6C9F21E1FF80EF7BE0854569BD /* TTAAssetCollectionViewLayout.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = TTAAssetCollectionViewLayout.swift; sourceTree = "<group>"; };
+		A7D82E566EA28A7DA29099CAD712B1D5 /* TTAVideoProgressView.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = TTAVideoProgressView.swift; sourceTree = "<group>"; };
+		AD364B226BDA98CEECE263A209FE542E /* Pods-TTAImagePickerController_Example-acknowledgements.markdown */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = "Pods-TTAImagePickerController_Example-acknowledgements.markdown"; sourceTree = "<group>"; };
+		AE647AF2DDC6E0EC40C3CE9CFEE45EE6 /* zh.lproj */ = {isa = PBXFileReference; includeInIndex = 1; name = zh.lproj; path = TTAImagePickerController/Resources/zh.lproj; sourceTree = "<group>"; };
+		B45D621E96C0610E2416594E551D634F /* TTAPreviewToolBar.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = TTAPreviewToolBar.swift; sourceTree = "<group>"; };
+		B835327D0063419767AACB75EE0829DA /* TTAPreviewViewController.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = TTAPreviewViewController.swift; sourceTree = "<group>"; };
+		BB2C6E3EE786DC1EC943FF07C40CA84C /* Pods-TTAImagePickerController_Example.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-TTAImagePickerController_Example.release.xcconfig"; sourceTree = "<group>"; };
+		BB33AEE482DC5AF455E991381B9F55D4 /* TTAPreviewVideoView.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = TTAPreviewVideoView.swift; sourceTree = "<group>"; };
+		BCE5884CA0FD28F4927C46E95941242C /* Pods_TTAImagePickerController_Example.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = Pods_TTAImagePickerController_Example.framework; path = "Pods-TTAImagePickerController_Example.framework"; sourceTree = BUILT_PRODUCTS_DIR; };
+		CCCE36B17FA6D28F6D10E56D3969CAC0 /* Pods-TTAImagePickerController_Example-Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-TTAImagePickerController_Example-Info.plist"; sourceTree = "<group>"; };
+		CD3F401AF9CF21463A92D23B252DC257 /* Data+ImageContentType.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = "Data+ImageContentType.swift"; sourceTree = "<group>"; };
+		D646810F092F86DA7940E842FD266397 /* TTAAlbumTableViewCell.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = TTAAlbumTableViewCell.swift; sourceTree = "<group>"; };
+		D64D731C05E1AEC617D4AE305B160D61 /* TTAImagePickerController.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.module; path = TTAImagePickerController.modulemap; sourceTree = "<group>"; };
+		DB81716CAAFFA2833B61839BB9AE1DF9 /* TTAPreviewCollectionViewLayout.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = TTAPreviewCollectionViewLayout.swift; sourceTree = "<group>"; };
+		DBBE361FB06E53305A454221068BD362 /* TTAImagePickerController.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = TTAImagePickerController.xcconfig; sourceTree = "<group>"; };
+		DBE411A878F44BD1DDBD82892F985FF6 /* TTAImagePickerController.bundle */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; name = TTAImagePickerController.bundle; path = "TTAImagePickerController-TTAImagePickerController.bundle"; sourceTree = BUILT_PRODUCTS_DIR; };
+		DD1A5BB73269947EF963151173336D18 /* CGSize+Pixel.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = "CGSize+Pixel.swift"; sourceTree = "<group>"; };
+		E1745EC5C4D35D83ADC6940F2A3078F6 /* TTAImagePickerController.podspec */ = {isa = PBXFileReference; explicitFileType = text.script.ruby; includeInIndex = 1; indentWidth = 2; lastKnownFileType = text; path = TTAImagePickerController.podspec; sourceTree = "<group>"; tabWidth = 2; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
+		EF972828A2247488E8613CE2D522C776 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS12.0.sdk/System/Library/Frameworks/UIKit.framework; sourceTree = DEVELOPER_DIR; };
+		F0609C0F285582B44C337147FE176EAD /* TTAImagePickerController-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "TTAImagePickerController-prefix.pch"; sourceTree = "<group>"; };
+		F3DE7B6DEFE3DBC512C4DBA5E8EEB949 /* UIView+Animations.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = "UIView+Animations.swift"; sourceTree = "<group>"; };
+		F47770B1295A98E780F14978709D1CAF /* TTASelectCountLabel.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = TTASelectCountLabel.swift; sourceTree = "<group>"; };
+		F641063049F231141AC0AEF010F051AB /* TTAAssetComponentView.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = TTAAssetComponentView.swift; sourceTree = "<group>"; };
+		F7B02EF4AAC541C4C0E182666ADDDC96 /* ImageIO.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ImageIO.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS12.0.sdk/System/Library/Frameworks/ImageIO.framework; sourceTree = DEVELOPER_DIR; };
+		F84C92905FD2A27019802D998D5FF77A /* TTAVideoPreviewViewController.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = TTAVideoPreviewViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
-		BA2992DEF66B178D3E3CD5CE144A4D02 /* Frameworks */ = {
+		45A1C29C95012FF9417A7A10AF3F4D0E /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				FDF48B802190F7BCC65DF3FFD52E8753 /* AVFoundation.framework in Frameworks */,
-				940E001FBCA25069439B48C5323C58B5 /* Foundation.framework in Frameworks */,
-				46667489D032595143410D03F73706BF /* ImageIO.framework in Frameworks */,
-				203C135A555054910E446DD9C8EE793B /* Photos.framework in Frameworks */,
-				BDAFC0F7C9FD22582307545630B697CB /* UIKit.framework in Frameworks */,
+				70AE636614AB9B4F185547B0BC99B004 /* Foundation.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		D0B0D17CC8885AD4A435384859F375E0 /* Frameworks */ = {
+		58ED7B0C8CE37193708081EF2436BE53 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				66DD4E9CF8047BABE2386E248F9D6296 /* Foundation.framework in Frameworks */,
+				FEDF1D8330A79D6E472B479AC2A0034A /* AssetsLibrary.framework in Frameworks */,
+				A71BC96C904345EED642F673797844EC /* AVFoundation.framework in Frameworks */,
+				11081E6A0EC03AF37DAA2A5C40096A23 /* Foundation.framework in Frameworks */,
+				39D57FD03A2758213AC0B2AD92F67BB5 /* ImageIO.framework in Frameworks */,
+				5605238FD97B434ED074226D28C56D92 /* Photos.framework in Frameworks */,
+				10E6CA6831AFE6723A016AB5637F4C86 /* UIKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		F5D96C2163878DBF9C342C5D4B53887B /* Frameworks */ = {
+		FE1EFB18BE7792A4E0B8A21EC0C309E2 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -171,288 +176,263 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		0739F90D32CCC147E16CA622763A2D63 /* TTAImagePickerController */ = {
+		28CA2A19B37D28BD05A7C00D88B85BED /* AssetPicker */ = {
 			isa = PBXGroup;
 			children = (
-				9FD871784E4885F9BA697AD0C95B5EE1 /* Resources */,
-				489EDA27B8276827094F26C5B51F17DF /* Support Files */,
-				B2DC137C33A57E75E0AF9C84F9310CAB /* TTAImagePickerController */,
-			);
-			name = TTAImagePickerController;
-			path = ../..;
-			sourceTree = "<group>";
-		};
-		166CD64F915E262173F78C101F6309F9 /* AssetPicker */ = {
-			isa = PBXGroup;
-			children = (
-				242DE1FD8F578C475A8D7168418A87EC /* TTAAssetCollectionViewLayout.swift */,
-				F9069A54FCC27F5FFEAD810D1C76049D /* TTAAssetPickerViewController.swift */,
+				A1DC8D6C9F21E1FF80EF7BE0854569BD /* TTAAssetCollectionViewLayout.swift */,
+				6F429F9F040D2D99320562FEC1C8901D /* TTAAssetPickerViewController.swift */,
 			);
 			name = AssetPicker;
-			path = AssetPicker;
+			path = TTAImagePickerController/Classes/AssetPicker;
 			sourceTree = "<group>";
 		};
-		20B56609144CE204DFA8221F742B2D76 /* Frameworks */ = {
+		292CC9764E85BDAC931E5F6169EC0783 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				AB092CA51BFC0202D15F0D02EF3338E3 /* iOS */,
+				354670FE0948AF6F1C077E981A740838 /* en.lproj */,
+				4679F057FB8A2B94032956A8B238E4B7 /* iconfont.ttf */,
+				AE647AF2DDC6E0EC40C3CE9CFEE45EE6 /* zh.lproj */,
 			);
-			name = Frameworks;
+			name = Resources;
 			sourceTree = "<group>";
 		};
-		250FB2CDDCC4826D3348C90E6E9DBEDF /* Targets Support Files */ = {
+		33D81C08A429047D25D2044C6FBAA672 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				343EE0A8BDD84FFDC659B80609DAAE4A /* Pods-TTAImagePickerController_Example */,
+				BCE5884CA0FD28F4927C46E95941242C /* Pods_TTAImagePickerController_Example.framework */,
+				DBE411A878F44BD1DDBD82892F985FF6 /* TTAImagePickerController.bundle */,
+				71E5506ECE54DD163F38D710953C9CFA /* TTAImagePickerController.framework */,
 			);
-			name = "Targets Support Files";
+			name = Products;
 			sourceTree = "<group>";
 		};
-		343EE0A8BDD84FFDC659B80609DAAE4A /* Pods-TTAImagePickerController_Example */ = {
+		426DF094E07DDF195D0DD2B4F645E17C /* iOS */ = {
 			isa = PBXGroup;
 			children = (
-				73B50A90D7C893672EC445325D1E3527 /* Info.plist */,
-				A900DDAB6D9CFA955C82F9FF52E0166A /* Pods-TTAImagePickerController_Example.modulemap */,
-				9FA8C6B4D9C190E4C06CDCED6246FB4D /* Pods-TTAImagePickerController_Example-acknowledgements.markdown */,
-				50B334066880C85DC8B81910463E819D /* Pods-TTAImagePickerController_Example-acknowledgements.plist */,
-				407961545A23614987010F25EC31662E /* Pods-TTAImagePickerController_Example-dummy.m */,
-				27C73BA777C4FF8A483B357D10DEB037 /* Pods-TTAImagePickerController_Example-frameworks.sh */,
-				C8163B7073F124E64BE9006EA79CBD72 /* Pods-TTAImagePickerController_Example-resources.sh */,
-				790F93FF0462602C4331E2327C355A7D /* Pods-TTAImagePickerController_Example-umbrella.h */,
-				F4F39D37F371D0291650D3067ABDA8DE /* Pods-TTAImagePickerController_Example.debug.xcconfig */,
-				A094F9A798356033BF76C854272BD195 /* Pods-TTAImagePickerController_Example.release.xcconfig */,
+				633B28BAA4EF1A6020C04E901D6D7A13 /* AssetsLibrary.framework */,
+				089CAD468FB108C605FF9BFE65E69361 /* AVFoundation.framework */,
+				10CC6FD580A23941EB6FADD9C10C371C /* Foundation.framework */,
+				F7B02EF4AAC541C4C0E182666ADDDC96 /* ImageIO.framework */,
+				940460A83F84D920ABF46A7C88C8E7D3 /* Photos.framework */,
+				EF972828A2247488E8613CE2D522C776 /* UIKit.framework */,
+			);
+			name = iOS;
+			sourceTree = "<group>";
+		};
+		491F20D7A0310CEB26B3AD1DA081C469 /* AlbumPicker */ = {
+			isa = PBXGroup;
+			children = (
+				4C23F467B11109AAE522FE3BEDCF99FA /* TTAAlbumPickerViewController.swift */,
+			);
+			name = AlbumPicker;
+			path = TTAImagePickerController/Classes/AlbumPicker;
+			sourceTree = "<group>";
+		};
+		66DDEF0D2D4B299EA8B2B728713E2DAA /* Development Pods */ = {
+			isa = PBXGroup;
+			children = (
+				BD7680EE1A3461992C239094847379C8 /* TTAImagePickerController */,
+			);
+			name = "Development Pods";
+			sourceTree = "<group>";
+		};
+		8F007847328B7CA901B6A077A8D8CDD8 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				7CFE8057B439B4EB22454EBA18503B40 /* TTAAlbum.swift */,
+			);
+			name = Models;
+			path = TTAImagePickerController/Classes/Models;
+			sourceTree = "<group>";
+		};
+		9B9EB95D726B5E1B48539F5EE10341BD /* Pods-TTAImagePickerController_Example */ = {
+			isa = PBXGroup;
+			children = (
+				21910713B3EC232072AF55B6B4EDD285 /* Pods-TTAImagePickerController_Example.modulemap */,
+				AD364B226BDA98CEECE263A209FE542E /* Pods-TTAImagePickerController_Example-acknowledgements.markdown */,
+				1F89AA30F3070FE9C99FBE51B3B2EB91 /* Pods-TTAImagePickerController_Example-acknowledgements.plist */,
+				1BD5EBF3EC853D373E223CA1592A61FA /* Pods-TTAImagePickerController_Example-dummy.m */,
+				72C5BB26463DC8799EF24C2DA5A01A61 /* Pods-TTAImagePickerController_Example-frameworks.sh */,
+				CCCE36B17FA6D28F6D10E56D3969CAC0 /* Pods-TTAImagePickerController_Example-Info.plist */,
+				2D201A922FDBD42F2221DD2B5ABE6281 /* Pods-TTAImagePickerController_Example-umbrella.h */,
+				346D3C8F51113EC7C49096A6CCE4C4A3 /* Pods-TTAImagePickerController_Example.debug.xcconfig */,
+				BB2C6E3EE786DC1EC943FF07C40CA84C /* Pods-TTAImagePickerController_Example.release.xcconfig */,
 			);
 			name = "Pods-TTAImagePickerController_Example";
 			path = "Target Support Files/Pods-TTAImagePickerController_Example";
 			sourceTree = "<group>";
 		};
-		489EDA27B8276827094F26C5B51F17DF /* Support Files */ = {
+		A23BD0F249EE2FBE140AABC0A7AC2F6A /* Targets Support Files */ = {
 			isa = PBXGroup;
 			children = (
-				78D79FD27B94272FE1AB61FBFE24F2C9 /* Info.plist */,
-				9E51C9F1BA6CAA7B8A11845F18A741D4 /* ResourceBundle-TTAImagePickerController-Info.plist */,
-				68BFF69AE65C785672223A75314D3807 /* TTAImagePickerController.modulemap */,
-				9E9D9197931EA7F0C05AD15E92FB4020 /* TTAImagePickerController.xcconfig */,
-				6E248EF394CF38B602E1BBCF853F02CF /* TTAImagePickerController-dummy.m */,
-				B95A4DDC66DA0F946FCDF3742E488E7A /* TTAImagePickerController-prefix.pch */,
-				25C07D2C71DCFC90120E8687A893F1C2 /* TTAImagePickerController-umbrella.h */,
+				9B9EB95D726B5E1B48539F5EE10341BD /* Pods-TTAImagePickerController_Example */,
+			);
+			name = "Targets Support Files";
+			sourceTree = "<group>";
+		};
+		BD7680EE1A3461992C239094847379C8 /* TTAImagePickerController */ = {
+			isa = PBXGroup;
+			children = (
+				7E5DD7BED4C8156FC781CA9CF32CDDC7 /* TTAImagePickerController.swift */,
+				11F2C96E8FCF8295D8687FFA97E948E9 /* TTAImagePickerControllerProtocol.swift */,
+				01D92F458067D65CFD29846820693B0C /* TTAImagePickerManager.swift */,
+				491F20D7A0310CEB26B3AD1DA081C469 /* AlbumPicker */,
+				28CA2A19B37D28BD05A7C00D88B85BED /* AssetPicker */,
+				8F007847328B7CA901B6A077A8D8CDD8 /* Models */,
+				D88AEF187135BE523493149B3AF43CCF /* Pod */,
+				D02984B6943B16D97E5461A69AA9D669 /* Preview */,
+				292CC9764E85BDAC931E5F6169EC0783 /* Resources */,
+				C9520514FDA274BED45D382615FD8EB7 /* Support Files */,
+				DA3A6AC516B1956B1438742B89C20047 /* Utils */,
+				D27201BDF5D85BC413788A8871035BC1 /* Views */,
+			);
+			name = TTAImagePickerController;
+			path = ../..;
+			sourceTree = "<group>";
+		};
+		C9520514FDA274BED45D382615FD8EB7 /* Support Files */ = {
+			isa = PBXGroup;
+			children = (
+				6453553A2893127E3AB03678BCBABC47 /* ResourceBundle-TTAImagePickerController-TTAImagePickerController-Info.plist */,
+				D64D731C05E1AEC617D4AE305B160D61 /* TTAImagePickerController.modulemap */,
+				DBBE361FB06E53305A454221068BD362 /* TTAImagePickerController.xcconfig */,
+				91A2FF0F0FCCA83B243929F3E3130DA6 /* TTAImagePickerController-dummy.m */,
+				35C8979ACC711B16AE78CBCAFD9A7E5E /* TTAImagePickerController-Info.plist */,
+				F0609C0F285582B44C337147FE176EAD /* TTAImagePickerController-prefix.pch */,
+				8AEC137ABF39CE87CEE4AC841FAE41D0 /* TTAImagePickerController-umbrella.h */,
 			);
 			name = "Support Files";
 			path = "Example/Pods/Target Support Files/TTAImagePickerController";
 			sourceTree = "<group>";
 		};
-		4E5DBC35B0C04D77FC7F85922C28DC9B /* Preview */ = {
+		CF1408CF629C7361332E53B88F7BD30C = {
 			isa = PBXGroup;
 			children = (
-				1496D352223E93DB00F47A1E7E25AA6A /* TTAPreviewCollectionViewLayout.swift */,
-				4CB84D70AA43B7A5895DD60A38BCAA39 /* TTAPreviewViewController.swift */,
-				7C94E23C1D36AE91D85FF9E913745681 /* TTAVideoPreviewViewController.swift */,
+				9D940727FF8FB9C785EB98E56350EF41 /* Podfile */,
+				66DDEF0D2D4B299EA8B2B728713E2DAA /* Development Pods */,
+				D68CA58901FBF589D75F5E40F1EAF5BA /* Frameworks */,
+				33D81C08A429047D25D2044C6FBAA672 /* Products */,
+				A23BD0F249EE2FBE140AABC0A7AC2F6A /* Targets Support Files */,
+			);
+			sourceTree = "<group>";
+		};
+		D02984B6943B16D97E5461A69AA9D669 /* Preview */ = {
+			isa = PBXGroup;
+			children = (
+				DB81716CAAFFA2833B61839BB9AE1DF9 /* TTAPreviewCollectionViewLayout.swift */,
+				B835327D0063419767AACB75EE0829DA /* TTAPreviewViewController.swift */,
+				F84C92905FD2A27019802D998D5FF77A /* TTAVideoPreviewViewController.swift */,
 			);
 			name = Preview;
-			path = Preview;
+			path = TTAImagePickerController/Classes/Preview;
 			sourceTree = "<group>";
 		};
-		4FBBFDA5E6B7CA95BAFD6A49B0756FD8 /* Resources */ = {
+		D27201BDF5D85BC413788A8871035BC1 /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				876B8E06B474EA9A627B705326D0D605 /* en.lproj */,
-				7CFD0821BA18482559A1868C5454DEE4 /* iconfont.ttf */,
-				CAA38861D9041E3EC64B1577AC4F52E2 /* zh.lproj */,
-			);
-			name = Resources;
-			path = Resources;
-			sourceTree = "<group>";
-		};
-		79FA8389F09D0EF1897F1EFA8001AD54 /* TTAImagePickerController */ = {
-			isa = PBXGroup;
-			children = (
-				4FBBFDA5E6B7CA95BAFD6A49B0756FD8 /* Resources */,
-			);
-			name = TTAImagePickerController;
-			path = TTAImagePickerController;
-			sourceTree = "<group>";
-		};
-		7DB346D0F39D3F0E887471402A8071AB = {
-			isa = PBXGroup;
-			children = (
-				93A4A3777CF96A4AAC1D13BA6DCCEA73 /* Podfile */,
-				ADA16DBA2F47DF2DD7BE2DF97694AD3F /* Development Pods */,
-				20B56609144CE204DFA8221F742B2D76 /* Frameworks */,
-				827009E515468196E8F1D3549AB5CEA0 /* Products */,
-				250FB2CDDCC4826D3348C90E6E9DBEDF /* Targets Support Files */,
-			);
-			sourceTree = "<group>";
-		};
-		827009E515468196E8F1D3549AB5CEA0 /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				DEC3480FE93ABAD53D169D21DF9C2E93 /* Pods_TTAImagePickerController_Example.framework */,
-				514C57CA32A704DA8B66A90F4A9FBCB4 /* TTAImagePickerController.bundle */,
-				1DD917A3B15C4D8006A95B9F04B0D560 /* TTAImagePickerController.framework */,
-			);
-			name = Products;
-			sourceTree = "<group>";
-		};
-		84B6D40A010373AB282282BF45265149 /* AlbumPicker */ = {
-			isa = PBXGroup;
-			children = (
-				99EB4BBC94E7E06810123C97CE5ECC32 /* TTAAlbumPickerViewController.swift */,
-			);
-			name = AlbumPicker;
-			path = AlbumPicker;
-			sourceTree = "<group>";
-		};
-		9FD871784E4885F9BA697AD0C95B5EE1 /* Resources */ = {
-			isa = PBXGroup;
-			children = (
-				79FA8389F09D0EF1897F1EFA8001AD54 /* TTAImagePickerController */,
-			);
-			name = Resources;
-			sourceTree = "<group>";
-		};
-		A48297173006194C65F86982AE314945 /* Utils */ = {
-			isa = PBXGroup;
-			children = (
-				E510DBC6F8F1FB3FEC8253F6D8CC137C /* Bundle+TTAImagePickerController.swift */,
-				CAA9C9CE8B8134E2A4309AD4D63EFDCE /* CGSize+Pixel.swift */,
-				626F88603C556B4A46CAAED7CE0A625E /* Data+ImageContentType.swift */,
-				596C5ABEAA956FF7EAF1C391CD7D79AC /* UICollectionView+Extension.swift */,
-				CD2FA744F2FA525C58DC383EA64554B9 /* UIFont+IconFont.swift */,
-				57EBFC2BF4F65FFEB06F528952A91A26 /* UIImage+GIF.swift */,
-				8FD8C89A7308EA51029FB8B56E089E38 /* UIImage+IconFont.swift */,
-				8653B4E16D16DBFC42F167C17FFC8185 /* UIView+Animations.swift */,
-				0EE094CD4C2E716C1380B5855C0227DE /* UIView+CornerRadios.swift */,
-			);
-			name = Utils;
-			path = Utils;
-			sourceTree = "<group>";
-		};
-		AB092CA51BFC0202D15F0D02EF3338E3 /* iOS */ = {
-			isa = PBXGroup;
-			children = (
-				A77E3880381FEA8BB9DCBE3397DADDBA /* AVFoundation.framework */,
-				A13355D8A6AA81D51F5131C39013308B /* Foundation.framework */,
-				D4FF0DBB0750B0076035BCF503B14DD9 /* ImageIO.framework */,
-				287B68BC2EEA3F77CCAD5AFCDBB24813 /* Photos.framework */,
-				6F0CE0D9C30DE96FDC8C07BBFD847280 /* UIKit.framework */,
-			);
-			name = iOS;
-			sourceTree = "<group>";
-		};
-		ADA16DBA2F47DF2DD7BE2DF97694AD3F /* Development Pods */ = {
-			isa = PBXGroup;
-			children = (
-				0739F90D32CCC147E16CA622763A2D63 /* TTAImagePickerController */,
-			);
-			name = "Development Pods";
-			sourceTree = "<group>";
-		};
-		B2DC137C33A57E75E0AF9C84F9310CAB /* TTAImagePickerController */ = {
-			isa = PBXGroup;
-			children = (
-				F491A96BA1B46749997D7ADE7CE9DAF1 /* Classes */,
-			);
-			name = TTAImagePickerController;
-			path = TTAImagePickerController;
-			sourceTree = "<group>";
-		};
-		E7F5E8DD97639B4BA1F41E5FD51519B3 /* Views */ = {
-			isa = PBXGroup;
-			children = (
-				3F8E0DBAC62D9A3421FB1824315E0D6A /* TTAAlbumTableViewCell.swift */,
-				568DEE15C81A8DD050583E592E2CE70D /* TTAAssetCollectionViewCell.swift */,
-				D51820212DEC710F005E5D50B15D5D3B /* TTAAssetComponentView.swift */,
-				DBDF954EFDD7E5DFB93AF60A8419C45A /* TTACameraCell.swift */,
-				D14005E458A9C6F7482A3E30CD278814 /* TTAHUD.swift */,
-				6B5A4AECE196AC02317C3179AC7B9959 /* TTAPermissionView.swift */,
-				FDC89EC379541B3DEA7B4BA888DF7871 /* TTAPreviewCollectionViewCell.swift */,
-				A6A8F17621BCF1663A0B94AC8AEA458D /* TTAPreviewNavigationBar.swift */,
-				50DDE737147C9ABC877771176E18495A /* TTAPreviewToolBar.swift */,
-				C1CFAF4C7E565B5B87F4A4AEDEE28DF6 /* TTAPreviewVideoView.swift */,
-				C6D6A740A540FEB133423F4927445DE5 /* TTAPreviewZoomView.swift */,
-				8D777DE34D36FA9CA5BA3C46E6DEE4E3 /* TTAProgressView.swift */,
-				8942678C84AA67C341353FF2F0DECBE1 /* TTASelectButton.swift */,
-				00D1A152F736450044D0367874775961 /* TTASelectCountLabel.swift */,
-				25363E939A559DFC8B71A2BB436466AB /* TTAVideoProgressView.swift */,
+				D646810F092F86DA7940E842FD266397 /* TTAAlbumTableViewCell.swift */,
+				37FD0C93446A861915C13E1917674A46 /* TTAAssetCollectionViewCell.swift */,
+				F641063049F231141AC0AEF010F051AB /* TTAAssetComponentView.swift */,
+				71A606D1342E5D5A43C31936340F5D74 /* TTACameraCell.swift */,
+				09CE40EBDB34A05C4D495D21B5C52B6B /* TTAHUD.swift */,
+				54DD6DD8502BAB59FA784ED96945A576 /* TTAPermissionView.swift */,
+				74C72FD6E179ABF6A736618832CD3829 /* TTAPreviewCollectionViewCell.swift */,
+				44AF50FDFA256EA2BE394555EC3BE291 /* TTAPreviewNavigationBar.swift */,
+				B45D621E96C0610E2416594E551D634F /* TTAPreviewToolBar.swift */,
+				BB33AEE482DC5AF455E991381B9F55D4 /* TTAPreviewVideoView.swift */,
+				5E0148CBB1F0099DCF151AA9DAB7DD3E /* TTAPreviewZoomView.swift */,
+				76728E1B9CE71A79850A8F1DBCD259BC /* TTAProgressView.swift */,
+				5D7D13E3E6E2CB1C427C70CC795153EA /* TTASelectButton.swift */,
+				F47770B1295A98E780F14978709D1CAF /* TTASelectCountLabel.swift */,
+				A7D82E566EA28A7DA29099CAD712B1D5 /* TTAVideoProgressView.swift */,
 			);
 			name = Views;
-			path = Views;
+			path = TTAImagePickerController/Classes/Views;
 			sourceTree = "<group>";
 		};
-		ECEEAEB50651A9D8ACE7B80E08AA466A /* Models */ = {
+		D68CA58901FBF589D75F5E40F1EAF5BA /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				86E4DED9A1374DC423E3F77D76B8C6B1 /* TTAAlbum.swift */,
+				426DF094E07DDF195D0DD2B4F645E17C /* iOS */,
 			);
-			name = Models;
-			path = Models;
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
-		F491A96BA1B46749997D7ADE7CE9DAF1 /* Classes */ = {
+		D88AEF187135BE523493149B3AF43CCF /* Pod */ = {
 			isa = PBXGroup;
 			children = (
-				59D2D8E9B7A41A5EE02C8B6E59767991 /* TTAImagePickerController.swift */,
-				6DB21A02648D41883B7521D824F57477 /* TTAImagePickerControllerProtocol.swift */,
-				3B497C7C2B013B85924267768C528BE9 /* TTAImagePickerManager.swift */,
-				84B6D40A010373AB282282BF45265149 /* AlbumPicker */,
-				166CD64F915E262173F78C101F6309F9 /* AssetPicker */,
-				ECEEAEB50651A9D8ACE7B80E08AA466A /* Models */,
-				4E5DBC35B0C04D77FC7F85922C28DC9B /* Preview */,
-				A48297173006194C65F86982AE314945 /* Utils */,
-				E7F5E8DD97639B4BA1F41E5FD51519B3 /* Views */,
+				0E831BEB85C14FB80D90E925AE348EB7 /* LICENSE */,
+				3AE40676AD32E188515BF5234C1A9535 /* README.md */,
+				E1745EC5C4D35D83ADC6940F2A3078F6 /* TTAImagePickerController.podspec */,
 			);
-			name = Classes;
-			path = Classes;
+			name = Pod;
+			sourceTree = "<group>";
+		};
+		DA3A6AC516B1956B1438742B89C20047 /* Utils */ = {
+			isa = PBXGroup;
+			children = (
+				5C6147E069C3C51832F37814E95F1A8F /* Bundle+TTAImagePickerController.swift */,
+				DD1A5BB73269947EF963151173336D18 /* CGSize+Pixel.swift */,
+				CD3F401AF9CF21463A92D23B252DC257 /* Data+ImageContentType.swift */,
+				75F363A9EF74BACF8F6DC7951AE7A430 /* UICollectionView+Extension.swift */,
+				671B8266C5E1385382C486B91C5A53F3 /* UIFont+IconFont.swift */,
+				8B095427110554CEB8B951603E71BAD3 /* UIImage+GIF.swift */,
+				9C043F9624E21BB4BD8A6F6FF10920E3 /* UIImage+IconFont.swift */,
+				F3DE7B6DEFE3DBC512C4DBA5E8EEB949 /* UIView+Animations.swift */,
+				3324E53F6D2ACF573220A60390E63530 /* UIView+CornerRadios.swift */,
+			);
+			name = Utils;
+			path = TTAImagePickerController/Classes/Utils;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
-		1CBDA15AA40D3D69F200F14013895FCC /* Headers */ = {
+		C9023F2737616ECB87545687C1F83D6B /* Headers */ = {
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				7CBDB24C2774F603A36D943CA954A1D3 /* Pods-TTAImagePickerController_Example-umbrella.h in Headers */,
+				9F041CE8D5BA08A9D488D119BD26C6B0 /* Pods-TTAImagePickerController_Example-umbrella.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		E11C9F1F8ACFD1EC879C4EB6B5B7FCB1 /* Headers */ = {
+		D51A4F5C6362BFDDF0F29821A69A5CD3 /* Headers */ = {
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				F8E263172D3CF22BB796C44EDC558CA2 /* TTAImagePickerController-umbrella.h in Headers */,
+				33D3E9DC21B3F997419E75AAB4F83626 /* TTAImagePickerController-umbrella.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
-		A410E63B0285CDEA9B2902A12824A78E /* TTAImagePickerController */ = {
+		06D8555CA5EB2393755AD776A856A5FA /* Pods-TTAImagePickerController_Example */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = E8C247C60573F560720A683C9CB69521 /* Build configuration list for PBXNativeTarget "TTAImagePickerController" */;
+			buildConfigurationList = 6BB14A12F138878400CD9B75A4D69E51 /* Build configuration list for PBXNativeTarget "Pods-TTAImagePickerController_Example" */;
 			buildPhases = (
-				69B3D913B8F67FBAFCE9EB92F97EA76D /* Sources */,
-				BA2992DEF66B178D3E3CD5CE144A4D02 /* Frameworks */,
-				8F1B1C67DF6DD9B70790F7CD92FB2EB6 /* Resources */,
-				E11C9F1F8ACFD1EC879C4EB6B5B7FCB1 /* Headers */,
+				C9023F2737616ECB87545687C1F83D6B /* Headers */,
+				2438F1442290A9600B14BD941A6433B6 /* Sources */,
+				45A1C29C95012FF9417A7A10AF3F4D0E /* Frameworks */,
+				58CDC4AE0B61C619B24B57CDDFEED1F2 /* Resources */,
 			);
 			buildRules = (
 			);
 			dependencies = (
-				9636F8AD57EA9342CE5640AF779BE5DF /* PBXTargetDependency */,
+				4176DD647914511FA732AF68E4D038E8 /* PBXTargetDependency */,
 			);
-			name = TTAImagePickerController;
-			productName = TTAImagePickerController;
-			productReference = 1DD917A3B15C4D8006A95B9F04B0D560 /* TTAImagePickerController.framework */;
+			name = "Pods-TTAImagePickerController_Example";
+			productName = "Pods-TTAImagePickerController_Example";
+			productReference = BCE5884CA0FD28F4927C46E95941242C /* Pods_TTAImagePickerController_Example.framework */;
 			productType = "com.apple.product-type.framework";
 		};
-		B1277348644AC53DC91B6652D0FBCB86 /* TTAImagePickerController-TTAImagePickerController */ = {
+		19F0DA74AF24F2EDE31866452226D58F /* TTAImagePickerController-TTAImagePickerController */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = CAC224E137DC9EEB6681AE583D74F8ED /* Build configuration list for PBXNativeTarget "TTAImagePickerController-TTAImagePickerController" */;
+			buildConfigurationList = 5B886950453AC79754FF033FC297A658 /* Build configuration list for PBXNativeTarget "TTAImagePickerController-TTAImagePickerController" */;
 			buildPhases = (
-				4DA4FDB46FDD020F2584E9EF0B84C4F3 /* Sources */,
-				F5D96C2163878DBF9C342C5D4B53887B /* Frameworks */,
-				E34BAA83F9FA7FCE1CD874D76EC9D7F6 /* Resources */,
+				636AD5D7EF6F89D484C9D1AA900098CF /* Sources */,
+				FE1EFB18BE7792A4E0B8A21EC0C309E2 /* Frameworks */,
+				6B90BF00E4CD5164D81A8F584257015C /* Resources */,
 			);
 			buildRules = (
 			);
@@ -460,464 +440,486 @@
 			);
 			name = "TTAImagePickerController-TTAImagePickerController";
 			productName = "TTAImagePickerController-TTAImagePickerController";
-			productReference = 514C57CA32A704DA8B66A90F4A9FBCB4 /* TTAImagePickerController.bundle */;
+			productReference = DBE411A878F44BD1DDBD82892F985FF6 /* TTAImagePickerController.bundle */;
 			productType = "com.apple.product-type.bundle";
 		};
-		F59468920F5E272CA5E74BB33F1EF08E /* Pods-TTAImagePickerController_Example */ = {
+		94A23763F53111B4D5F0D62A58F85BFC /* TTAImagePickerController */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = F1CA3A7876DD1897303B43EDA119ADF8 /* Build configuration list for PBXNativeTarget "Pods-TTAImagePickerController_Example" */;
+			buildConfigurationList = B5A02A29C38F3E65D528B6DF404CC7B4 /* Build configuration list for PBXNativeTarget "TTAImagePickerController" */;
 			buildPhases = (
-				F7B0F3294DA30F86F4F0415DD2142DBB /* Sources */,
-				D0B0D17CC8885AD4A435384859F375E0 /* Frameworks */,
-				1CBDA15AA40D3D69F200F14013895FCC /* Headers */,
+				D51A4F5C6362BFDDF0F29821A69A5CD3 /* Headers */,
+				50943416A65D0A1B34B8C9AE57AC32EF /* Sources */,
+				58ED7B0C8CE37193708081EF2436BE53 /* Frameworks */,
+				EEA170A9AE9E17855AF5CA55AD8DA428 /* Resources */,
 			);
 			buildRules = (
 			);
 			dependencies = (
-				E69611B69A92DC6EAE52620F7127F9BE /* PBXTargetDependency */,
+				9B0BE8D116EBBFDF4712FF804ABB67E5 /* PBXTargetDependency */,
 			);
-			name = "Pods-TTAImagePickerController_Example";
-			productName = "Pods-TTAImagePickerController_Example";
-			productReference = DEC3480FE93ABAD53D169D21DF9C2E93 /* Pods_TTAImagePickerController_Example.framework */;
+			name = TTAImagePickerController;
+			productName = TTAImagePickerController;
+			productReference = 71E5506ECE54DD163F38D710953C9CFA /* TTAImagePickerController.framework */;
 			productType = "com.apple.product-type.framework";
 		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
-		D41D8CD98F00B204E9800998ECF8427E /* Project object */ = {
+		BFDFE7DC352907FC980B868725387E98 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastSwiftUpdateCheck = 0830;
-				LastUpgradeCheck = 0700;
+				LastSwiftUpdateCheck = 0930;
+				LastUpgradeCheck = 0930;
 			};
-			buildConfigurationList = 2D8E8EC45A3A1A1D94AE762CB5028504 /* Build configuration list for PBXProject "Pods" */;
-			compatibilityVersion = "Xcode 3.2";
+			buildConfigurationList = 4821239608C13582E20E6DA73FD5F1F9 /* Build configuration list for PBXProject "Pods" */;
+			compatibilityVersion = "Xcode 8.0";
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
 			knownRegions = (
 				en,
 			);
-			mainGroup = 7DB346D0F39D3F0E887471402A8071AB;
-			productRefGroup = 827009E515468196E8F1D3549AB5CEA0 /* Products */;
+			mainGroup = CF1408CF629C7361332E53B88F7BD30C;
+			productRefGroup = 33D81C08A429047D25D2044C6FBAA672 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				F59468920F5E272CA5E74BB33F1EF08E /* Pods-TTAImagePickerController_Example */,
-				A410E63B0285CDEA9B2902A12824A78E /* TTAImagePickerController */,
-				B1277348644AC53DC91B6652D0FBCB86 /* TTAImagePickerController-TTAImagePickerController */,
+				06D8555CA5EB2393755AD776A856A5FA /* Pods-TTAImagePickerController_Example */,
+				94A23763F53111B4D5F0D62A58F85BFC /* TTAImagePickerController */,
+				19F0DA74AF24F2EDE31866452226D58F /* TTAImagePickerController-TTAImagePickerController */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
-		8F1B1C67DF6DD9B70790F7CD92FB2EB6 /* Resources */ = {
+		58CDC4AE0B61C619B24B57CDDFEED1F2 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				B4CD05848D6DE876AC6F794730238390 /* TTAImagePickerController.bundle in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		E34BAA83F9FA7FCE1CD874D76EC9D7F6 /* Resources */ = {
+		6B90BF00E4CD5164D81A8F584257015C /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				BE1BF75AEDB0A47872DED6E5A464E454 /* en.lproj in Resources */,
-				481C7B46C55B0774A42E76D9D0A02D58 /* iconfont.ttf in Resources */,
-				203AD74A21D3382E11211562FC83CD4D /* zh.lproj in Resources */,
+				666A1E19C8AD542626D4799C1C5C2C71 /* en.lproj in Resources */,
+				88966C9A418E9B90892E06939BD1E9A6 /* iconfont.ttf in Resources */,
+				6FE32A99064FBB12DA7ED97A5618CE4E /* zh.lproj in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		EEA170A9AE9E17855AF5CA55AD8DA428 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C91977913F447F5CA3BF71AAC0C53851 /* TTAImagePickerController.bundle in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
-		4DA4FDB46FDD020F2584E9EF0B84C4F3 /* Sources */ = {
+		2438F1442290A9600B14BD941A6433B6 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E927FB6C389DE2C6FA394D0C5B3BFA22 /* Pods-TTAImagePickerController_Example-dummy.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		69B3D913B8F67FBAFCE9EB92F97EA76D /* Sources */ = {
+		50943416A65D0A1B34B8C9AE57AC32EF /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				8AAE9761C492A9C3F180A25BD2994D04 /* Bundle+TTAImagePickerController.swift in Sources */,
-				BC2F1E5263977BD9ABE83B43BED10F07 /* CGSize+Pixel.swift in Sources */,
-				6D2123B0122D46CB5605F3CFDF7E2BC6 /* Data+ImageContentType.swift in Sources */,
-				408EF4BAE2AB2F35CEC18D3DFA0542C4 /* TTAAlbum.swift in Sources */,
-				10EC2F5675E1FCA4EA928666F10A3C7C /* TTAAlbumPickerViewController.swift in Sources */,
-				D9A32D4A2FD25F35B7190F65041695C4 /* TTAAlbumTableViewCell.swift in Sources */,
-				F28A40FCE3B22347B16E47AB4A471D81 /* TTAAssetCollectionViewCell.swift in Sources */,
-				53B2E496C3B8ED6A6206BF60A89676DC /* TTAAssetCollectionViewLayout.swift in Sources */,
-				F4700C7F511BEC6E710CDF28C932AAE1 /* TTAAssetComponentView.swift in Sources */,
-				AECB8AAD6A680AFCF496E82BD2EBEA9C /* TTAAssetPickerViewController.swift in Sources */,
-				7146FD701FBDDF93DB388A737EA87187 /* TTACameraCell.swift in Sources */,
-				4B82AD2A36FD10BDD000AE154E312E04 /* TTAHUD.swift in Sources */,
-				8D2C2F61B9B85006512021A8729F25D7 /* TTAImagePickerController-dummy.m in Sources */,
-				138F136742FA2689056AC54554C4C3AE /* TTAImagePickerController.swift in Sources */,
-				02551A97B3CB066717134AA441E4C3DA /* TTAImagePickerControllerProtocol.swift in Sources */,
-				6E3E9C7E2AA6DACC116C9342F27C272F /* TTAImagePickerManager.swift in Sources */,
-				5F9D25A77501C26B2662DA342CC01D69 /* TTAPermissionView.swift in Sources */,
-				63A757E8D19FF6A54EDC53E8749FE343 /* TTAPreviewCollectionViewCell.swift in Sources */,
-				F2D305095821B9F264C6FC81629982DF /* TTAPreviewCollectionViewLayout.swift in Sources */,
-				466A7E1A41A928357B2A71B09766B0D6 /* TTAPreviewNavigationBar.swift in Sources */,
-				589691F165C00D48CE8C7DB6397C55A4 /* TTAPreviewToolBar.swift in Sources */,
-				31B2AC8FCCB491C3F0AF7406F0889F0E /* TTAPreviewVideoView.swift in Sources */,
-				2EB4D63CA82A09CDFCD1AC312DD2721C /* TTAPreviewViewController.swift in Sources */,
-				7DE3AFBB309CD26218B6A6039B1A8867 /* TTAPreviewZoomView.swift in Sources */,
-				532CF442E9A58F7276AF8A7C184661FB /* TTAProgressView.swift in Sources */,
-				5C43395F228A4AE24CE9C78682F95746 /* TTASelectButton.swift in Sources */,
-				CBA3644DBD1CEE2B718311ED11BF4E70 /* TTASelectCountLabel.swift in Sources */,
-				F4E2AD4EE386F653AEB71ED1B32A4AFA /* TTAVideoPreviewViewController.swift in Sources */,
-				5B545D814C8111D069703C4377D6E065 /* TTAVideoProgressView.swift in Sources */,
-				0A303DC0E1E8220DBD73B4DB5ECF0227 /* UICollectionView+Extension.swift in Sources */,
-				B94007A61BAB64544C33E8089131E1DB /* UIFont+IconFont.swift in Sources */,
-				E7E21F15741EE2CF3314462D27CA25D5 /* UIImage+GIF.swift in Sources */,
-				7DB922FC5961F31B49FF33C0AF041AD2 /* UIImage+IconFont.swift in Sources */,
-				5F009C4E8FCDE1B93FFED64C57A365BE /* UIView+Animations.swift in Sources */,
-				D72D14B55B62A5A740F1F9590ED3CE97 /* UIView+CornerRadios.swift in Sources */,
+				8B3F4A0B8EB1015B09C932248F39D54A /* Bundle+TTAImagePickerController.swift in Sources */,
+				48F758F3690B4DF8BD05EDA757770252 /* CGSize+Pixel.swift in Sources */,
+				0D1DBF9DA63D54E12B9792D6E8A0A4FC /* Data+ImageContentType.swift in Sources */,
+				91075B38BF96BD727388C8AC5328B91D /* TTAAlbum.swift in Sources */,
+				BE6EF82205D834DD133CD4D24F094059 /* TTAAlbumPickerViewController.swift in Sources */,
+				9F31E6AFA150EDD3B90BB54EB89FA020 /* TTAAlbumTableViewCell.swift in Sources */,
+				5B21911133F862E1099E536178450A67 /* TTAAssetCollectionViewCell.swift in Sources */,
+				28235DE9672B48A05D9E87EADA82627C /* TTAAssetCollectionViewLayout.swift in Sources */,
+				ABFBF5DBA36BDC003F2FBB5C6CA855FE /* TTAAssetComponentView.swift in Sources */,
+				510691BB1C6523DD8529DB2FFA2891D4 /* TTAAssetPickerViewController.swift in Sources */,
+				7782114BADFAE82FD195336F206EFEAD /* TTACameraCell.swift in Sources */,
+				42D89B620EEFCF548B7C233B51A1B3FB /* TTAHUD.swift in Sources */,
+				C6A8DA9BC918D7636E7E2FB323C9082C /* TTAImagePickerController-dummy.m in Sources */,
+				40B9F9808D5FAA42D03C0B0998BEFEC2 /* TTAImagePickerController.swift in Sources */,
+				3DCD91D7C1AC3471AF64F500920F9BD8 /* TTAImagePickerControllerProtocol.swift in Sources */,
+				B0E3B79C2F0098296F9C6AA9EEBC0481 /* TTAImagePickerManager.swift in Sources */,
+				B4816B97B9CE6D8FAE192B54075FA078 /* TTAPermissionView.swift in Sources */,
+				4D319ADA01A4D53A4A8600FA8BE5F8BF /* TTAPreviewCollectionViewCell.swift in Sources */,
+				FA3B8A581982F118B42A2F777B857E67 /* TTAPreviewCollectionViewLayout.swift in Sources */,
+				42DF4695C392C68DE0D1F92F73ADF49D /* TTAPreviewNavigationBar.swift in Sources */,
+				42D04B874C3091F8744998D94E70B02D /* TTAPreviewToolBar.swift in Sources */,
+				37DB01E2524606523234E2894286FD73 /* TTAPreviewVideoView.swift in Sources */,
+				436BF6F7B8DDB584E2CD789E3F4AA72B /* TTAPreviewViewController.swift in Sources */,
+				9D3AF381D56E6AE40F8ED57989E267C1 /* TTAPreviewZoomView.swift in Sources */,
+				65FB1458FD66E17568117470FA3F0F18 /* TTAProgressView.swift in Sources */,
+				090FB6D0E58D0ADD125ED99F92A233DE /* TTASelectButton.swift in Sources */,
+				45A53FE48DDB5ABC3C6E344BE5B81896 /* TTASelectCountLabel.swift in Sources */,
+				DCE396BF2FCDB5ABF697AF92468C3B7A /* TTAVideoPreviewViewController.swift in Sources */,
+				70C032CF44C4AC59409D838BF6AC310B /* TTAVideoProgressView.swift in Sources */,
+				972924CB072BFF51162D5F81BF546D0B /* UICollectionView+Extension.swift in Sources */,
+				F7FE5CF809E0CC7AE4FDC8EEC6DD33FE /* UIFont+IconFont.swift in Sources */,
+				627E33FC95568DEA4273E70FB1ECD4A3 /* UIImage+GIF.swift in Sources */,
+				3E8A89DF4EF31F0DFFD7C7C196904713 /* UIImage+IconFont.swift in Sources */,
+				32236AB57CBC742E342CE31935837173 /* UIView+Animations.swift in Sources */,
+				BB0154120AE8C6CDC82C0606D1E7C162 /* UIView+CornerRadios.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		F7B0F3294DA30F86F4F0415DD2142DBB /* Sources */ = {
+		636AD5D7EF6F89D484C9D1AA900098CF /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				B7E9628A785004D5400BC9C4F31AB489 /* Pods-TTAImagePickerController_Example-dummy.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		9636F8AD57EA9342CE5640AF779BE5DF /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = "TTAImagePickerController-TTAImagePickerController";
-			target = B1277348644AC53DC91B6652D0FBCB86 /* TTAImagePickerController-TTAImagePickerController */;
-			targetProxy = 3829AD9CA2DE72F2DCEB69448E3608EB /* PBXContainerItemProxy */;
-		};
-		E69611B69A92DC6EAE52620F7127F9BE /* PBXTargetDependency */ = {
+		4176DD647914511FA732AF68E4D038E8 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			name = TTAImagePickerController;
-			target = A410E63B0285CDEA9B2902A12824A78E /* TTAImagePickerController */;
-			targetProxy = 48F60296BD2402F6BC5A0768257CDA05 /* PBXContainerItemProxy */;
+			target = 94A23763F53111B4D5F0D62A58F85BFC /* TTAImagePickerController */;
+			targetProxy = 58F0774D9F9461ACB79848ADEDC5EAE3 /* PBXContainerItemProxy */;
+		};
+		9B0BE8D116EBBFDF4712FF804ABB67E5 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = "TTAImagePickerController-TTAImagePickerController";
+			target = 19F0DA74AF24F2EDE31866452226D58F /* TTAImagePickerController-TTAImagePickerController */;
+			targetProxy = 380A324DC13B937FF4E4E03F03CB3409 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
-		0DF0CABC3E19A5FBF46B70F1E211D36F /* Release */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 9E9D9197931EA7F0C05AD15E92FB4020 /* TTAImagePickerController.xcconfig */;
-			buildSettings = {
-				CONFIGURATION_BUILD_DIR = "$(BUILD_DIR)/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)/TTAImagePickerController";
-				ENABLE_STRICT_OBJC_MSGSEND = YES;
-				GCC_NO_COMMON_BLOCKS = YES;
-				INFOPLIST_FILE = "Target Support Files/TTAImagePickerController/ResourceBundle-TTAImagePickerController-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
-				PRODUCT_NAME = TTAImagePickerController;
-				SDKROOT = iphoneos;
-				SKIP_INSTALL = YES;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				WRAPPER_EXTENSION = bundle;
-			};
-			name = Release;
-		};
-		109B52157808E58B3BD95DC562418CFD /* Release */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = A094F9A798356033BF76C854272BD195 /* Pods-TTAImagePickerController_Example.release.xcconfig */;
-			buildSettings = {
-				CODE_SIGN_IDENTITY = "";
-				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
-				CURRENT_PROJECT_VERSION = 1;
-				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				DEFINES_MODULE = YES;
-				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 1;
-				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				ENABLE_STRICT_OBJC_MSGSEND = YES;
-				GCC_NO_COMMON_BLOCKS = YES;
-				INFOPLIST_FILE = "Target Support Files/Pods-TTAImagePickerController_Example/Info.plist";
-				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 8.3;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				MACH_O_TYPE = staticlib;
-				MODULEMAP_FILE = "Target Support Files/Pods-TTAImagePickerController_Example/Pods-TTAImagePickerController_Example.modulemap";
-				MTL_ENABLE_DEBUG_INFO = NO;
-				OTHER_LDFLAGS = "";
-				OTHER_LIBTOOLFLAGS = "";
-				PODS_ROOT = "$(SRCROOT)";
-				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.${PRODUCT_NAME:rfc1034identifier}";
-				PRODUCT_NAME = Pods_TTAImagePickerController_Example;
-				SDKROOT = iphoneos;
-				SKIP_INSTALL = YES;
-				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
-				SWIFT_VERSION = 3.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				VERSIONING_SYSTEM = "apple-generic";
-				VERSION_INFO_PREFIX = "";
-			};
-			name = Release;
-		};
-		153B00CDADB49772460A4842F1C769DF /* Debug */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 9E9D9197931EA7F0C05AD15E92FB4020 /* TTAImagePickerController.xcconfig */;
-			buildSettings = {
-				CODE_SIGN_IDENTITY = "";
-				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
-				CURRENT_PROJECT_VERSION = 1;
-				DEBUG_INFORMATION_FORMAT = dwarf;
-				DEFINES_MODULE = YES;
-				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 1;
-				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				ENABLE_STRICT_OBJC_MSGSEND = YES;
-				GCC_NO_COMMON_BLOCKS = YES;
-				GCC_PREFIX_HEADER = "Target Support Files/TTAImagePickerController/TTAImagePickerController-prefix.pch";
-				INFOPLIST_FILE = "Target Support Files/TTAImagePickerController/Info.plist";
-				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				MODULEMAP_FILE = "Target Support Files/TTAImagePickerController/TTAImagePickerController.modulemap";
-				MTL_ENABLE_DEBUG_INFO = YES;
-				PRODUCT_NAME = TTAImagePickerController;
-				SDKROOT = iphoneos;
-				SKIP_INSTALL = YES;
-				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
-				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
-				SWIFT_VERSION = 3.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				VERSIONING_SYSTEM = "apple-generic";
-				VERSION_INFO_PREFIX = "";
-			};
-			name = Debug;
-		};
-		1DCA6F6D03401D02D55F48D634B89E01 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 9E9D9197931EA7F0C05AD15E92FB4020 /* TTAImagePickerController.xcconfig */;
-			buildSettings = {
-				CONFIGURATION_BUILD_DIR = "$(BUILD_DIR)/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)/TTAImagePickerController";
-				ENABLE_STRICT_OBJC_MSGSEND = YES;
-				GCC_NO_COMMON_BLOCKS = YES;
-				INFOPLIST_FILE = "Target Support Files/TTAImagePickerController/ResourceBundle-TTAImagePickerController-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
-				PRODUCT_NAME = TTAImagePickerController;
-				SDKROOT = iphoneos;
-				SKIP_INSTALL = YES;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				WRAPPER_EXTENSION = bundle;
-			};
-			name = Debug;
-		};
-		345CC476DF4A7516DBD2220CF5035FF3 /* Debug */ = {
+		07B3DBAD4E15EC23FB08F6B8B4C9D9F2 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ANALYZER_NONNULL = YES;
-				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES;
-				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
 				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
-				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
-				CLANG_WARN_OBJC_ROOT_CLASS = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				CODE_SIGNING_REQUIRED = NO;
 				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
-				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"POD_CONFIGURATION_DEBUG=1",
 					"DEBUG=1",
 					"$(inherited)",
 				);
-				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
-				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
 				GCC_WARN_UNDECLARED_SELECTOR = YES;
-				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.3;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
-				PROVISIONING_PROFILE_SPECIFIER = NO_SIGNING/;
+				PRODUCT_NAME = "$(TARGET_NAME)";
 				STRIP_INSTALLED_PRODUCT = NO;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 4.2;
 				SYMROOT = "${SRCROOT}/../build";
 			};
 			name = Debug;
 		};
-		717E77604BFBB04BEAF56608A1CB2EDE /* Release */ = {
+		22C0E086D37C41259E7BDCC5792AC094 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = DBBE361FB06E53305A454221068BD362 /* TTAImagePickerController.xcconfig */;
 			buildSettings = {
-				ALWAYS_SEARCH_USER_PATHS = NO;
-				CLANG_ANALYZER_NONNULL = YES;
-				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES;
-				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
-				CLANG_CXX_LIBRARY = "libc++";
-				CLANG_ENABLE_MODULES = YES;
-				CLANG_ENABLE_OBJC_ARC = YES;
-				CLANG_WARN_BOOL_CONVERSION = YES;
-				CLANG_WARN_CONSTANT_CONVERSION = YES;
-				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES;
-				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
-				CLANG_WARN_EMPTY_BODY = YES;
-				CLANG_WARN_ENUM_CONVERSION = YES;
-				CLANG_WARN_INFINITE_RECURSION = YES;
-				CLANG_WARN_INT_CONVERSION = YES;
-				CLANG_WARN_OBJC_ROOT_CLASS = YES;
-				CLANG_WARN_SUSPICIOUS_MOVE = YES;
-				CLANG_WARN_UNREACHABLE_CODE = YES;
-				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				CODE_SIGNING_REQUIRED = NO;
-				COPY_PHASE_STRIP = YES;
-				ENABLE_NS_ASSERTIONS = NO;
-				GCC_C_LANGUAGE_STANDARD = gnu99;
-				GCC_PREPROCESSOR_DEFINITIONS = (
-					"POD_CONFIGURATION_RELEASE=1",
-					"$(inherited)",
-				);
-				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
-				GCC_WARN_ABOUT_RETURN_TYPE = YES;
-				GCC_WARN_UNDECLARED_SELECTOR = YES;
-				GCC_WARN_UNINITIALIZED_AUTOS = YES;
-				GCC_WARN_UNUSED_FUNCTION = YES;
-				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.3;
-				PROVISIONING_PROFILE_SPECIFIER = NO_SIGNING/;
-				STRIP_INSTALLED_PRODUCT = NO;
-				SYMROOT = "${SRCROOT}/../build";
-				VALIDATE_PRODUCT = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CONFIGURATION_BUILD_DIR = "$(BUILD_DIR)/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)/TTAImagePickerController";
+				INFOPLIST_FILE = "Target Support Files/TTAImagePickerController/ResourceBundle-TTAImagePickerController-TTAImagePickerController-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				PRODUCT_NAME = TTAImagePickerController;
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				WRAPPER_EXTENSION = bundle;
+			};
+			name = Debug;
+		};
+		3681F78D8234C4CD69552325B473BCFA /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = DBBE361FB06E53305A454221068BD362 /* TTAImagePickerController.xcconfig */;
+			buildSettings = {
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CONFIGURATION_BUILD_DIR = "$(BUILD_DIR)/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)/TTAImagePickerController";
+				INFOPLIST_FILE = "Target Support Files/TTAImagePickerController/ResourceBundle-TTAImagePickerController-TTAImagePickerController-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				PRODUCT_NAME = TTAImagePickerController;
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				WRAPPER_EXTENSION = bundle;
 			};
 			name = Release;
 		};
-		C91BB0C1FB87EBDF09B46CADC39E49DF /* Debug */ = {
+		7B58DE279AD7D861FDA8F2774E194497 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = F4F39D37F371D0291650D3067ABDA8DE /* Pods-TTAImagePickerController_Example.debug.xcconfig */;
+			baseConfigurationReference = DBBE361FB06E53305A454221068BD362 /* TTAImagePickerController.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "";
 				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
 				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
 				CURRENT_PROJECT_VERSION = 1;
-				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEFINES_MODULE = YES;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				ENABLE_STRICT_OBJC_MSGSEND = YES;
-				GCC_NO_COMMON_BLOCKS = YES;
-				INFOPLIST_FILE = "Target Support Files/Pods-TTAImagePickerController_Example/Info.plist";
+				GCC_PREFIX_HEADER = "Target Support Files/TTAImagePickerController/TTAImagePickerController-prefix.pch";
+				INFOPLIST_FILE = "Target Support Files/TTAImagePickerController/TTAImagePickerController-Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MODULEMAP_FILE = "Target Support Files/TTAImagePickerController/TTAImagePickerController.modulemap";
+				PRODUCT_MODULE_NAME = TTAImagePickerController;
+				PRODUCT_NAME = TTAImagePickerController;
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Release;
+		};
+		87786319BA65445355295E99F6E753CC /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = DBBE361FB06E53305A454221068BD362 /* TTAImagePickerController.xcconfig */;
+			buildSettings = {
+				CODE_SIGN_IDENTITY = "";
+				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				GCC_PREFIX_HEADER = "Target Support Files/TTAImagePickerController/TTAImagePickerController-prefix.pch";
+				INFOPLIST_FILE = "Target Support Files/TTAImagePickerController/TTAImagePickerController-Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MODULEMAP_FILE = "Target Support Files/TTAImagePickerController/TTAImagePickerController.modulemap";
+				PRODUCT_MODULE_NAME = TTAImagePickerController;
+				PRODUCT_NAME = TTAImagePickerController;
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Debug;
+		};
+		E50B7589FDEE01CCFD0F081AC019D9A0 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = BB2C6E3EE786DC1EC943FF07C40CA84C /* Pods-TTAImagePickerController_Example.release.xcconfig */;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = NO;
+				CODE_SIGN_IDENTITY = "";
+				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				INFOPLIST_FILE = "Target Support Files/Pods-TTAImagePickerController_Example/Pods-TTAImagePickerController_Example-Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.3;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				MACH_O_TYPE = staticlib;
 				MODULEMAP_FILE = "Target Support Files/Pods-TTAImagePickerController_Example/Pods-TTAImagePickerController_Example.modulemap";
-				MTL_ENABLE_DEBUG_INFO = YES;
 				OTHER_LDFLAGS = "";
 				OTHER_LIBTOOLFLAGS = "";
 				PODS_ROOT = "$(SRCROOT)";
 				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.${PRODUCT_NAME:rfc1034identifier}";
-				PRODUCT_NAME = Pods_TTAImagePickerController_Example;
+				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
-				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
-				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
-				SWIFT_VERSION = 3.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Release;
+		};
+		F87FEE9D9240414ACBC7CAAD6DB38947 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 346D3C8F51113EC7C49096A6CCE4C4A3 /* Pods-TTAImagePickerController_Example.debug.xcconfig */;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = NO;
+				CODE_SIGN_IDENTITY = "";
+				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				INFOPLIST_FILE = "Target Support Files/Pods-TTAImagePickerController_Example/Pods-TTAImagePickerController_Example-Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.3;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MACH_O_TYPE = staticlib;
+				MODULEMAP_FILE = "Target Support Files/Pods-TTAImagePickerController_Example/Pods-TTAImagePickerController_Example.modulemap";
+				OTHER_LDFLAGS = "";
+				OTHER_LIBTOOLFLAGS = "";
+				PODS_ROOT = "$(SRCROOT)";
+				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.${PRODUCT_NAME:rfc1034identifier}";
+				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
 			};
 			name = Debug;
 		};
-		ED24D914F9299C6A375F17862AEA14EF /* Release */ = {
+		FF54A72E467D2FE6A514F52E26280B06 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 9E9D9197931EA7F0C05AD15E92FB4020 /* TTAImagePickerController.xcconfig */;
 			buildSettings = {
-				CODE_SIGN_IDENTITY = "";
-				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
-				CURRENT_PROJECT_VERSION = 1;
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				DEFINES_MODULE = YES;
-				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 1;
-				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_NO_COMMON_BLOCKS = YES;
-				GCC_PREFIX_HEADER = "Target Support Files/TTAImagePickerController/TTAImagePickerController-prefix.pch";
-				INFOPLIST_FILE = "Target Support Files/TTAImagePickerController/Info.plist";
-				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				MODULEMAP_FILE = "Target Support Files/TTAImagePickerController/TTAImagePickerController.modulemap";
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"POD_CONFIGURATION_RELEASE=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.3;
 				MTL_ENABLE_DEBUG_INFO = NO;
-				PRODUCT_NAME = TTAImagePickerController;
-				SDKROOT = iphoneos;
-				SKIP_INSTALL = YES;
-				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
-				SWIFT_VERSION = 3.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				VERSIONING_SYSTEM = "apple-generic";
-				VERSION_INFO_PREFIX = "";
+				MTL_FAST_MATH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				STRIP_INSTALLED_PRODUCT = NO;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				SWIFT_VERSION = 4.2;
+				SYMROOT = "${SRCROOT}/../build";
 			};
 			name = Release;
 		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		2D8E8EC45A3A1A1D94AE762CB5028504 /* Build configuration list for PBXProject "Pods" */ = {
+		4821239608C13582E20E6DA73FD5F1F9 /* Build configuration list for PBXProject "Pods" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				345CC476DF4A7516DBD2220CF5035FF3 /* Debug */,
-				717E77604BFBB04BEAF56608A1CB2EDE /* Release */,
+				07B3DBAD4E15EC23FB08F6B8B4C9D9F2 /* Debug */,
+				FF54A72E467D2FE6A514F52E26280B06 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		CAC224E137DC9EEB6681AE583D74F8ED /* Build configuration list for PBXNativeTarget "TTAImagePickerController-TTAImagePickerController" */ = {
+		5B886950453AC79754FF033FC297A658 /* Build configuration list for PBXNativeTarget "TTAImagePickerController-TTAImagePickerController" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				1DCA6F6D03401D02D55F48D634B89E01 /* Debug */,
-				0DF0CABC3E19A5FBF46B70F1E211D36F /* Release */,
+				22C0E086D37C41259E7BDCC5792AC094 /* Debug */,
+				3681F78D8234C4CD69552325B473BCFA /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		E8C247C60573F560720A683C9CB69521 /* Build configuration list for PBXNativeTarget "TTAImagePickerController" */ = {
+		6BB14A12F138878400CD9B75A4D69E51 /* Build configuration list for PBXNativeTarget "Pods-TTAImagePickerController_Example" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				153B00CDADB49772460A4842F1C769DF /* Debug */,
-				ED24D914F9299C6A375F17862AEA14EF /* Release */,
+				F87FEE9D9240414ACBC7CAAD6DB38947 /* Debug */,
+				E50B7589FDEE01CCFD0F081AC019D9A0 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		F1CA3A7876DD1897303B43EDA119ADF8 /* Build configuration list for PBXNativeTarget "Pods-TTAImagePickerController_Example" */ = {
+		B5A02A29C38F3E65D528B6DF404CC7B4 /* Build configuration list for PBXNativeTarget "TTAImagePickerController" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				C91BB0C1FB87EBDF09B46CADC39E49DF /* Debug */,
-				109B52157808E58B3BD95DC562418CFD /* Release */,
+				87786319BA65445355295E99F6E753CC /* Debug */,
+				7B58DE279AD7D861FDA8F2774E194497 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
-	rootObject = D41D8CD98F00B204E9800998ECF8427E /* Project object */;
+	rootObject = BFDFE7DC352907FC980B868725387E98 /* Project object */;
 }

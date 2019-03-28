@@ -24,8 +24,8 @@ extension UIFont {
     
     static func registerFont(with url: URL, fontName: String) {
         assert(FileManager.default.fileExists(atPath: url.path), "Font file doesn't exist")
-        guard let fontDataProider = CGDataProvider(url: url as CFURL) else { return }
-        let newFont = CGFont(fontDataProider)
+        guard let fontDataProider = CGDataProvider(url: url as CFURL),
+            let newFont = CGFont(fontDataProider)else { return } 
         CTFontManagerRegisterGraphicsFont(newFont, nil)
         iconfontName = fontName
     }

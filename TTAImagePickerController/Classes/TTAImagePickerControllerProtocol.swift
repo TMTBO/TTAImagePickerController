@@ -59,7 +59,7 @@ extension TTAOperateAssetProtocol {
         if isSelected {
             selected.append(asset)
         } else {
-            guard let index = selected.index(of: asset) else { return }
+            guard let index = selected.firstIndex(of: asset) else { return }
             selected.remove(at: index)
         }
         updateCounter()

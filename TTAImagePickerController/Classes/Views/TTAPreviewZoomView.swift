@@ -134,11 +134,11 @@ fileprivate extension TTAPreviewZoomView {
 
 extension TTAPreviewZoomView {
     
-    func tapGestureAction(tap: UITapGestureRecognizer) {
+    @objc func tapGestureAction(tap: UITapGestureRecognizer) {
         tapDelegate?.tappedPreviewContentView(self)
     }
     
-    func doubleTapGestureAction(doubleTap: UITapGestureRecognizer) {
+    @objc func doubleTapGestureAction(doubleTap: UITapGestureRecognizer) {
         guard doubleTap.state == .ended else { return }
         UIView.setAnimationCurve(.easeInOut)
         UIView.setAnimationDuration(0.25)

@@ -126,11 +126,11 @@ extension TTAPreviewNavigationBar {
 // MARK: - Actions
 
 extension TTAPreviewNavigationBar {
-    func didClickBackButton(_ button: UIButton) {
+    @objc func didClickBackButton(_ button: UIButton) {
         delegate?.previewNavigationBar(self, didClickBack: button)
     }
     
-    func didClickSelectButton(_ button: TTASelectButton) {
+    @objc func didClickSelectButton(_ button: TTASelectButton) {
         guard let (canOperate, asset) = delegate?.canOperate(),
             canOperate == true,
             let operateAsset = asset else { return }

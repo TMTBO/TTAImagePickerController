@@ -102,7 +102,7 @@ extension TTAVideoProgressView {
 // MARK: - Actions
 
 extension TTAVideoProgressView {
-    func didSliderChangedValue() {
+    @objc func didSliderChangedValue() {
         delegate?.videoProgressView(self, seekTo: Double(sliderView.value))
     }
 }

@@ -20,7 +20,7 @@ class TTAPreviewVideoView: UIControl {
     override init(frame: CGRect) {
         super.init(frame: .zero)
         setupUI()
-        try? AVAudioSession.sharedInstance().setCategory(AVAudioSessionCategoryPlayback)
+        try? AVAudioSession.sharedInstance().setCategory(AVAudioSession.Category.playback)
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -95,7 +95,7 @@ fileprivate extension TTAPreviewVideoView {
 // MARK: - Actions
 
 extension TTAPreviewVideoView {
-    func didClickPlayPauseButton() {
+    @objc func didClickPlayPauseButton() {
         playPauseButton.isSelected = !playPauseButton.isSelected
         if playPauseButton.isSelected {
             playVideo()
@@ -105,7 +105,7 @@ extension TTAPreviewVideoView {
         tapDelegate?.tappedPreviewContentView(self)
     }
     
-    func didTap(tap: UITapGestureRecognizer) {
+    @objc func didTap(tap: UITapGestureRecognizer) {
         guard tap.state == .ended else { return }
         tapDelegate?.tappedPreviewContentView(self)
         guard playPauseButton.alpha < 1 else { return }
@@ -113,9 +113,9 @@ extension TTAPreviewVideoView {
         perform(#selector(hiddenPlayPauseButton), with: nil, afterDelay: animationDelay())
     }
     
-    func didVideoPlayToEnd() {
+    @objc func didVideoPlayToEnd() {
         didClickPlayPauseButton()
-        player.seek(to: kCMTimeZero)
+        player.seek(to: CMTime.zero)
     }
     
     func playVideo() {
@@ -138,7 +138,7 @@ extension TTAPreviewVideoView {
 // MARK: - Private Methods
 
 extension TTAPreviewVideoView {
-    func hiddenPlayPauseButton() {
+    @objc func hiddenPlayPauseButton() {
         guard playPauseButton.isSelected else { return }
         UIView.animate(withDuration: animationDuration(),
                        delay: animationDelay(),

@@ -289,15 +289,15 @@ extension TTAAssetPickerViewController {
 // MARK: - Actions
 
 extension TTAAssetPickerViewController {
-    func didClickCancelItem() {
+    @objc func didClickCancelItem() {
         dismiss(animated: true, completion: nil)
     }
     
-    func didClickPreviewItem() {
+    @objc func didClickPreviewItem() {
         showPreviewViewController(from: 0, isPreview: true)
     }
     
-    func didClickDeleteItem() {
+    @objc func didClickDeleteItem() {
         TTAImagePickerManager.delete(assets: selected) { [weak self] (isSuccess) in
             if isSuccess {
                 self?.selected.removeAll()
@@ -309,7 +309,7 @@ extension TTAAssetPickerViewController {
         }
     }
     
-    func didClickDoneItem() {
+    @objc func didClickDoneItem() {
         delegate?.assetPickerController(self, didFinishPicking: selected)
     }
 }
@@ -406,9 +406,9 @@ extension TTAAssetPickerViewController: TTAOperateAssetProtocol {
 // MARK: - UIImagePickerControllerDelegate, UINavigationControllerDelegate
 
 extension TTAAssetPickerViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
-    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
+    private func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
         picker.dismiss(animated: true, completion: nil)
-        guard let image = info[UIImagePickerControllerOriginalImage] as? UIImage else { return }
+        guard let image = info[UIImagePickerController.InfoKey.originalImage.rawValue] as? UIImage else { return }
         TTAImagePickerManager.save(image: image) { (isSuccess) in
             #if DEBUG
                 print("Take photo and Save \(isSuccess ? "Successed" : "Failed")!")

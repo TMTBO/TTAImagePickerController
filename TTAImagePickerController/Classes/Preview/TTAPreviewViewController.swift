@@ -301,7 +301,7 @@ extension TTAPreviewViewController: TTAPreviewNavigationBarDelegate {
         return (canOperateAsset(operateAsset), operateAsset)
     }
     
-    func previewNavigationBar(_ navigationBar: TTAPreviewNavigationBar, didClickBack button: UIButton) {
+    @objc func previewNavigationBar(_ navigationBar: TTAPreviewNavigationBar, didClickBack button: UIButton) {
         delegate?.previewViewController(self, backToAssetPickerControllerWith: currentIndex, selectedAsset: selected)
         guard let navigationController = navigationController else {
             dismiss(animated: true, completion: nil)
@@ -353,7 +353,7 @@ extension TTAPreviewViewController: TTAPreviewToolBarDelegate {
             guard isSuccess,
                 let `self` = self else { return }
             if self.selected.contains(asset),
-                let index = self.selected.index(of: asset) {
+                let index = self.selected.firstIndex(of: asset) {
                 self.selected.remove(at: index)
                 self.updateCounter()
                 if self.album == nil {

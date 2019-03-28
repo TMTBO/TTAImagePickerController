@@ -151,7 +151,7 @@ extension TTAAssetCollectionViewCell {
 // MARK: - Actions
 
 extension TTAAssetCollectionViewCell {
-    func didClickSelectButton(_ button: TTASelectButton) {
+    @objc func didClickSelectButton(_ button: TTASelectButton) {
         guard let (canOperate, asset) = delegate?.canOperateCell(cell: self),
             canOperate == true, let operateAsset = asset else { return }
         button.selectState = button.selectState == .selected ? .default : .selected

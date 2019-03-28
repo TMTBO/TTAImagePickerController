@@ -69,13 +69,13 @@ public class TTAImagePickerController: UINavigationController, TTAImagePickerCon
     public var tintColor: UIColor = UIColor(red: 0, green: 122.0 / 255.0, blue: 1, alpha: 1) {
         didSet {
             navigationBar.tintColor = tintColor
-            navigationBar.titleTextAttributes = [NSForegroundColorAttributeName: tintColor]
+            navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: tintColor]
             guard let splitController = splitController else { return }
             _ = splitController.viewControllers.map { (viewController) in
                 guard let viewController = viewController as? UINavigationController else { return }
                 viewController.toolbar.tintColor = tintColor
                 viewController.navigationBar.tintColor = tintColor
-                viewController.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName: tintColor]
+                viewController.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: tintColor]
             }
         }
     }
@@ -105,7 +105,7 @@ public class TTAImagePickerController: UINavigationController, TTAImagePickerCon
         updateSelectedAsset()
         
         guard let splitController = splitController else { return }
-        addChildViewController(splitController)
+        addChild(splitController)
         rootVc.view.addSubview(splitController.view)
         splitController.view.backgroundColor = .clear
         splitController.preferredDisplayMode = .allVisible
@@ -194,7 +194,7 @@ extension TTAImagePickerController {
 // MARK: - Actions
 
 extension TTAImagePickerController {
-    func didClickCancelItem() {
+    @objc func didClickCancelItem() {
         dismiss(animated: true, completion: nil)
     }
 }

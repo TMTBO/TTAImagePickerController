@@ -22,7 +22,7 @@ class TTAAlbumTableViewCell: UITableViewCell {
     
     fileprivate let const = AlbumTableViewCellConst()
     
-    override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
+    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: .subtitle, reuseIdentifier: reuseIdentifier)
         configViews()
         layoutViews()

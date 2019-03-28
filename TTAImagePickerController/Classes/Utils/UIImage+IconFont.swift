@@ -14,10 +14,10 @@ extension UIImage {
         
         let style = NSMutableParagraphStyle()
         style.alignment = .center
-        let attributes = [NSFontAttributeName: font,
-                          NSForegroundColorAttributeName: tintColor,
-                          NSBackgroundColorAttributeName: backgroundColor,
-                          NSParagraphStyleAttributeName: style]
+        let attributes = [NSAttributedString.Key.font: font,
+                          NSAttributedString.Key.foregroundColor: tintColor,
+                          NSAttributedString.Key.backgroundColor: backgroundColor,
+                          NSAttributedString.Key.paragraphStyle: style]
         
         let attString = NSAttributedString(string: iconfont.rawValue, attributes: attributes)
         
@@ -38,10 +38,10 @@ extension UIImage {
         
         let style = NSMutableParagraphStyle()
         style.alignment = .center
-        let attributes = [NSFontAttributeName: font,
-                          NSForegroundColorAttributeName: tintColor,
-                          NSBackgroundColorAttributeName: backgroundColor,
-                          NSParagraphStyleAttributeName: style]
+        let attributes = [NSAttributedString.Key.font: font,
+                          NSAttributedString.Key.foregroundColor: tintColor,
+                          NSAttributedString.Key.backgroundColor: backgroundColor,
+                          NSAttributedString.Key.paragraphStyle: style]
         
         let attString = NSAttributedString(string: iconfont.rawValue, attributes: attributes)
         

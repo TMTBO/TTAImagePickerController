@@ -1,5 +1,5 @@
 PODS:
-  - TTAImagePickerController (0.2.0)
+  - TTAImagePickerController (0.4.0)
 
 DEPENDENCIES:
   - TTAImagePickerController (from `../`)
@@ -9,8 +9,8 @@ EXTERNAL SOURCES:
     :path: "../"
 
 SPEC CHECKSUMS:
-  TTAImagePickerController: 66c2d35b0eba2c33ea955add6ab28c06f6161190
+  TTAImagePickerController: 0bf22b904a88119ea009400b4f88b4c91adb1c7c
 
 PODFILE CHECKSUM: 4826815e9b1134dbb4427912a3b6c90151104bac
 
-COCOAPODS: 1.2.1
+COCOAPODS: 1.6.1

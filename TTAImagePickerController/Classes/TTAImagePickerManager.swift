@@ -70,18 +70,18 @@ extension TTAImagePickerManager {
     
     static func checkCameraPermission(_ resultHandler: @escaping (_ isAuthorized: Bool) -> Swift.Void) {
         func hasCameraPermission() -> Bool {
-            return AVCaptureDevice.authorizationStatus(forMediaType: AVMediaTypeVideo) == .authorized
+            return AVCaptureDevice.authorizationStatus(for: AVMediaType.video) == .authorized
         }
         
         func needToRequestCameraPermission() -> Bool {
-            return AVCaptureDevice.authorizationStatus(forMediaType: AVMediaTypeVideo) == .notDetermined
+            return AVCaptureDevice.authorizationStatus(for: AVMediaType.video) == .notDetermined
         }
         
         func requestPermission(_ resultHandler: @escaping (_ isAuthorized: Bool) -> Swift.Void) {
             #if arch(i386) || arch(x86_64)
                 TTAHUD.showTip(Bundle.localizedString(for: "PHONE SIMULATOR NOT Support Camera"))
             #else
-                AVCaptureDevice.requestAccess(forMediaType: AVMediaTypeVideo) { (_) in
+            AVCaptureDevice.requestAccess(for: AVMediaType.video) { (_) in
                     DispatchQueue.main.async {
                         self.checkCameraPermission(resultHandler)
                     }
@@ -342,8 +342,8 @@ extension TTAImagePickerManager {
         session.shouldOptimizeForNetworkUse = true
         
         let supportTypes = session.supportedFileTypes
-        if supportTypes.contains(AVFileTypeMPEG4) {
-            session.outputFileType = AVFileTypeMPEG4
+        if supportTypes.contains(AVFileType.mp4) {
+            session.outputFileType = AVFileType.mp4
         } else if supportTypes.count == 0 {
             #if DEBUG
                 print(Bundle.localizedString(for: "NO supported file types"))
@@ -528,28 +528,28 @@ extension TTAImagePickerManager {
         let mixedTransform: CGAffineTransform
         videoComposition.frameDuration = CMTime(seconds: 1, preferredTimescale: 30)
         
-        let tracks = asset.tracks(withMediaType: AVMediaTypeVideo)
+        let tracks = asset.tracks(withMediaType: AVMediaType.video)
         guard let videoTrack = tracks.first else { return videoComposition }
         
         let roateInstruction = AVMutableVideoCompositionInstruction()
-        roateInstruction.timeRange = CMTimeRange(start: kCMTimeZero, duration: asset.duration)
+        roateInstruction.timeRange = CMTimeRange(start: CMTime.zero, duration: asset.duration)
         let roateLayerInstruction = AVMutableVideoCompositionLayerInstruction(assetTrack: videoTrack)
         
         if degrees == 90 {
             translateToCenter = CGAffineTransform(translationX: videoTrack.naturalSize.height, y: 0)
             mixedTransform = translateToCenter.rotated(by: CGFloat.pi / 2)
             videoComposition.renderSize = CGSize(width: videoTrack.naturalSize.height, height: videoTrack.naturalSize.width)
-            roateLayerInstruction.setTransform(mixedTransform, at: kCMTimeZero)
+            roateLayerInstruction.setTransform(mixedTransform, at: CMTime.zero)
         } else if degrees == 180 {
             translateToCenter = CGAffineTransform(translationX: videoTrack.naturalSize.width, y: videoTrack.naturalSize.height)
             mixedTransform = translateToCenter.rotated(by: CGFloat.pi)
             videoComposition.renderSize = CGSize(width: videoTrack.naturalSize.width, height: videoTrack.naturalSize.height)
-            roateLayerInstruction.setTransform(mixedTransform, at: kCMTimeZero)
+            roateLayerInstruction.setTransform(mixedTransform, at: CMTime.zero)
         } else if degrees == 270 {
             translateToCenter = CGAffineTransform(translationX: 0, y: videoTrack.naturalSize.width)
             mixedTransform = translateToCenter.rotated(by: CGFloat.pi * 3 / 2)
             videoComposition.renderSize = CGSize(width: videoTrack.naturalSize.height, height: videoTrack.naturalSize.width)
-            roateLayerInstruction.setTransform(mixedTransform, at: kCMTimeZero)
+            roateLayerInstruction.setTransform(mixedTransform, at: CMTime.zero)
         }
         roateInstruction.layerInstructions = [roateLayerInstruction]
         videoComposition.instructions = [roateInstruction]
@@ -558,7 +558,7 @@ extension TTAImagePickerManager {
     
     static func degressFromVideoFile(with asset: AVAsset) -> Int {
         var degress = 0
-        let tracks = asset.tracks(withMediaType: AVMediaTypeVideo)
+        let tracks = asset.tracks(withMediaType: AVMediaType.video)
         guard tracks.count > 0,
             let videoTrack = tracks.first else { return degress}
         let t = videoTrack.preferredTransform

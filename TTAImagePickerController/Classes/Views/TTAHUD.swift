@@ -17,14 +17,14 @@ class TTAHUD: UIView {
     }
     
     let visualView = UIVisualEffectView(effect: UIBlurEffect(style: .dark))
-    fileprivate let indicator = UIActivityIndicatorView(activityIndicatorStyle: .whiteLarge)
+    fileprivate let indicator = UIActivityIndicatorView(style: .whiteLarge)
     fileprivate let progressView = UIProgressView(progressViewStyle: .default)
     fileprivate let tipLabel = UILabel()
     
     fileprivate var type = TTAHUDType.indicator
     
     init(with type: TTAHUDType) {
-        super.init(frame: CGRect(x: type(of: self).x(), y: type(of: self).y(), width: type(of: self).widthAndHeight(), height: type(of: self).widthAndHeight()))
+        super.init(frame: CGRect(x: TTAHUD.x(), y: TTAHUD.y(), width: TTAHUD.widthAndHeight(), height: TTAHUD.widthAndHeight()))
         self.type = type
         prepareUI(with: type)
     }
@@ -181,7 +181,7 @@ extension TTAHUD {
         return UIScreen.main.bounds.width - 8 * margin()
     }
     func maxHeight() -> CGFloat {
-        return type(of: self).widthAndHeight()
+        return TTAHUD.widthAndHeight()
     }
     static func widthAndHeight() -> CGFloat {
         return min(UIScreen.main.bounds.width / 3, 150)

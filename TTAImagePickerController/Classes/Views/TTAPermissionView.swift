@@ -19,7 +19,7 @@ class TTAPermissionView: UIView {
     }
     fileprivate let iconLabel = UILabel()
     fileprivate let tipLabel = UILabel()
-    fileprivate let goSettingButton = UIButton(type: UIButtonType.system)
+    fileprivate let goSettingButton = UIButton(type: UIButton.ButtonType.system)
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -103,8 +103,8 @@ extension TTAPermissionView {
 // MARK: - Actions
 
 extension TTAPermissionView {
-    func didClickGoSetting() {
-        UIApplication.shared.openURL(URL(string: UIApplicationOpenSettingsURLString)!)
+    @objc func didClickGoSetting() {
+        UIApplication.shared.openURL(URL(string: UIApplication.openSettingsURLString)!)
     }
 }
 
@@ -121,7 +121,7 @@ extension TTAPermissionView {
         return 10
     }
     func tipHeight() -> CGFloat {
-        return (tipLabel.text as NSString?)?.boundingRect(with: CGSize(width: tipLabel.frame.width, height: CGFloat.greatestFiniteMagnitude), options: .usesLineFragmentOrigin, attributes: [NSFontAttributeName: tipLabel.font], context: nil).height ?? 50
+        return (tipLabel.text as NSString?)?.boundingRect(with: CGSize(width: tipLabel.frame.width, height: CGFloat.greatestFiniteMagnitude), options: .usesLineFragmentOrigin, attributes: [NSAttributedString.Key.font: tipLabel.font!], context: nil).height ?? 50
     }
     func sideMargin() -> CGFloat {
         return 16
@@ -140,7 +140,7 @@ extension TTAPermissionView {
 extension UIViewController {
     func showPermissionView(with type: TTAPermissionView.TTAPermissionViewType) {
         let permissionView = TTAPermissionView(type: type)
-        permissionView.frame = view.bounds.offsetBy(dx: 0, dy: type(of: self) is UINavigationController.Type ? 64 : 0)
+        permissionView.frame = view.bounds.offsetBy(dx: 0, dy: ((self as? UINavigationController) != nil) ? 64 : 0)
         view.addSubview(permissionView)
     }
 }
