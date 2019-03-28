@@ -29,7 +29,7 @@ To run the example project, clone the repo, and run `pod install` from the `Exam
 ## Requirements
 
 * iOS > 8.0
-* swift >= 3.0
+* swift >= 5.0
 
 ## Installation
 
@@ -93,6 +93,10 @@ extension ViewController: UICollectionViewDelegate {
 ```
 
 ## Recnet Add
+
+* 20190328
+
+> added: add swift5.0 support
 
 * 20170917
 > Fix reselected and delete image error
